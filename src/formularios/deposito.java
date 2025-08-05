@@ -59,6 +59,11 @@ public class deposito extends javax.swing.JDialog {
         jPanel2.setOpaque(false);
 
         btnagregar.setText("Agregar");
+        btnagregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnagregarActionPerformed(evt);
+            }
+        });
 
         btnmodificar.setText("Modificar");
         btnmodificar.addActionListener(new java.awt.event.ActionListener() {
@@ -256,6 +261,7 @@ public class deposito extends javax.swing.JDialog {
         
     }
     
+    /* Metodo para realizar consulta de los codigos existentes y devolver el siguiente codigo de producto a utilizar */
     private void generar_codigo(){
         
         try {
@@ -268,6 +274,9 @@ public class deposito extends javax.swing.JDialog {
         }
         
     }
+    
+    /* Metodo para validar duplicidad de la descripcion con los productos ya cargados en la BDD */
+    
     
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
         // TODO add your handling code here:
@@ -282,6 +291,16 @@ public class deposito extends javax.swing.JDialog {
         }
         
     }//GEN-LAST:event_buttonNice1ActionPerformed
+
+    private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
+        
+        operacion = "agregar";
+        desa_botones(1);
+        generar_codigo();
+        txtdescripcion.setEnabled(true);
+        txtdescripcion.requestFocus();
+        
+    }//GEN-LAST:event_btnagregarActionPerformed
 
     /**
      * @param args the command line arguments

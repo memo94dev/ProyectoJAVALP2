@@ -22,7 +22,7 @@ public class conectDB {
     ResultSet resultado; // Variable que recibe los resultados de las sentencias sq
 
     // Variables para conexión
-    String host = "jdbc:postgres://localhost/";
+    String host = "jdbc:postgresql://localhost/";
     String bd = "proyecto";
     String user = "postgres";
     String pass = "123456";
