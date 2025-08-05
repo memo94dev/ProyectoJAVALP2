@@ -275,8 +275,25 @@ public class deposito extends javax.swing.JDialog {
         
     }
     
-    /* Metodo para validar duplicidad de la descripcion con los productos ya cargados en la BDD */
-    
+    /* Metodo para validar duplicidad de la descripcion con los depositos ya cargados en la BDD */
+    private void validar_descripcion(){
+        
+        try {
+            String descripcion = txtdescripcion.getText().toUpperCase();
+            rs = con.Listar("SELECT * FROM deposito WHERE descrip = '" + descripcion + "'");
+            boolean encontro = rs.next();
+            if (encontro == true){
+                JOptionPane.showMessageDialog(this, "La descripción del deposito " + descripcion 
+                        + "ya se encuentra registrada.");
+                txtdescripcion.setEnabled(true);
+            }else{
+                btnguardar.setEnabled(true);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
     
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
         // TODO add your handling code here:
