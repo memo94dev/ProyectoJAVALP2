@@ -1,6 +1,9 @@
 package formularios;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_OPTION;
 import prg.conectDB;
@@ -222,6 +225,7 @@ public class deposito extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /* Metodo para inhabilitar el boton guardar y las entradas de texto al iniciar la pantalla */
     private void desa_inicio(){
         
         btnguardar.setEnabled(false);
@@ -230,6 +234,7 @@ public class deposito extends javax.swing.JDialog {
         
     }
     
+    /* Metodo para inhabilitar botones y habilitar botones */
     private void desa_botones(int a){
         
         switch(a){
@@ -251,13 +256,26 @@ public class deposito extends javax.swing.JDialog {
         
     }
     
+    private void generar_codigo(){
+        
+        try {
+            String sql = "SELECT COALESCE (MAX(cod_deposito),0)+1 AS cod FROM deposito;"; // Creamos la consulta SQL.
+            rs = con.Listar(sql); // Utilizamos el metodo listar.
+            rs.next(); // Llamar a los siguientes resultados.
+            txtcodigo.setText(rs.getString("cod")); // Enviar el resultado en el campo de codigo de nuestro formulario.
+        } catch (SQLException ex) {
+            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnmodificarActionPerformed
 
     private void buttonNice1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNice1ActionPerformed
         
-        int mensaje = JOptionPane.showConfirmDialog(this,"Desea salir?","Atención",JOptionPane.YES_NO_OPTION);
+        int mensaje = JOptionPane.showConfirmDialog(this,"Desea salir?","Atención",JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
         if (mensaje == JOptionPane.YES_OPTION){
             //System.exit(WIDTH); // Para cerrar totalmente el sistema.
             dispose(); // Para cerrar ventanas de opciones o formularios sin parar el sistema.
