@@ -1,5 +1,6 @@
 package formularios;
 
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -129,6 +130,11 @@ public class deposito extends javax.swing.JDialog {
 
         txtdescripcion.setDescripcion("Ingrese la descripción");
         txtdescripcion.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtdescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtdescripcionKeyPressed(evt);
+            }
+        });
 
         txtcodigo.setDescripcion("Cód.");
         txtcodigo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -283,11 +289,12 @@ public class deposito extends javax.swing.JDialog {
             rs = con.Listar("SELECT * FROM deposito WHERE descrip = '" + descripcion + "'");
             boolean encontro = rs.next();
             if (encontro == true){
-                JOptionPane.showMessageDialog(this, "La descripción del deposito " + descripcion 
-                        + "ya se encuentra registrada.");
+                JOptionPane.showMessageDialog(this, "La descripción del deposito '" + descripcion 
+                        + "' ya se encuentra registrada.");
                 txtdescripcion.setEnabled(true);
             }else{
                 btnguardar.setEnabled(true);
+                btnguardar.requestFocus();
             }
         } catch (SQLException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
@@ -318,6 +325,25 @@ public class deposito extends javax.swing.JDialog {
         txtdescripcion.requestFocus();
         
     }//GEN-LAST:event_btnagregarActionPerformed
+
+    private void txtdescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdescripcionKeyPressed
+        String descripcion = txtdescripcion.getText().trim();
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER){
+            
+            if(descripcion.equals("") || descripcion.equals(" ")){
+                JOptionPane.showMessageDialog(this, "Ingrese algun valor");
+                txtdescripcion.requestFocus();
+            }else{
+                if("agregar".equals(operacion)){
+                    validar_descripcion();
+                }else{
+                    btnguardar.setEnabled(true);
+                    btnguardar.requestFocus();
+                }
+            }
+            
+        }
+    }//GEN-LAST:event_txtdescripcionKeyPressed
 
     /**
      * @param args the command line arguments
