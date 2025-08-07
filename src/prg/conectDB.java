@@ -27,6 +27,11 @@ public class conectDB {
     String user = "postgres";
     String pass = "123456";
     
+    // Variables publicas sql
+    public Connection conexion = null;
+    public Statement sentencia;
+    public ResultSet resultados;
+    
     public Connection conectar(){
         try {
             Class.forName("org.postgresql.Driver");

@@ -13,7 +13,8 @@ public class deposito extends javax.swing.JDialog {
     
     conectDB con; // Traer la clase de conexion
     ResultSet rs; // Resultados de SQL definidos en conecDB
-    String operacion = ""; 
+    javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
+    String operacion = ""; // Bandera para definir la accion que se va a realizar (insert, update, delete)
 
     public deposito(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -47,7 +48,7 @@ public class deposito extends javax.swing.JDialog {
         labelMetric3 = new org.edisoncor.gui.label.LabelMetric();
         btnbuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabladepo = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -78,6 +79,11 @@ public class deposito extends javax.swing.JDialog {
         btnimprimir.setText("Imprimir");
 
         btnguardar.setText("Guardar");
+        btnguardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnguardarActionPerformed(evt);
+            }
+        });
 
         btncancelar.setText("Cancelar");
 
@@ -147,8 +153,8 @@ public class deposito extends javax.swing.JDialog {
 
         btnbuscar.setText("Buscar");
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabladepo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tabladepo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null}
@@ -157,8 +163,8 @@ public class deposito extends javax.swing.JDialog {
                 "Código", "Descripción"
             }
         ));
-        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(jTable1);
+        tabladepo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setViewportView(tabladepo);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -302,6 +308,34 @@ public class deposito extends javax.swing.JDialog {
         
     }
     
+    // Metodo para guardar nuevo registro en la BDD
+    private void guardar(){
+        
+        try {
+            String codigo = txtcodigo.getText();
+            String descripcion = txtdescripcion.getText().toUpperCase();
+            String sql = "";
+            if ("agregar".equals(operacion)){
+                sql = "INSERT INTO deposito VALUES (" + codigo + ",'" + descripcion + "');";
+                System.out.println(sql);
+                JOptionPane.showMessageDialog(this, "Se ha insertado correctamente: " + descripcion);
+            }
+            con.sentencia = con.conectar().createStatement();
+            con.sentencia.executeUpdate(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    // Metodo para limpiar campos
+    private void limpiar_campos(){
+        
+        txtcodigo.setText("");
+        txtdescripcion.setText("");
+        
+    }
+    
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnmodificarActionPerformed
@@ -344,6 +378,15 @@ public class deposito extends javax.swing.JDialog {
             
         }
     }//GEN-LAST:event_txtdescripcionKeyPressed
+
+    private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
+        
+        int mensaje = JOptionPane.showConfirmDialog(this, "Deseas " + operacion, "Atencion", JOptionPane.YES_NO_OPTION);
+        if (mensaje == JOptionPane.YES_OPTION){
+            guardar();
+            limpiar_campos();
+        }
+    }//GEN-LAST:event_btnguardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -400,12 +443,12 @@ public class deposito extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private org.edisoncor.gui.label.LabelMetric labelMetric1;
     private org.edisoncor.gui.label.LabelMetric labelMetric2;
     private org.edisoncor.gui.label.LabelMetric labelMetric3;
     private org.edisoncor.gui.panel.PanelCurves panelCurves1;
     private org.edisoncor.gui.panel.PanelNice panelNice1;
+    private javax.swing.JTable tabladepo;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtbuscar;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtcodigo;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtdescripcion;
