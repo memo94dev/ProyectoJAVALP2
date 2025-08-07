@@ -94,6 +94,11 @@ public class deposito extends javax.swing.JDialog {
         });
 
         btncancelar.setText("Cancelar");
+        btncancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -340,7 +345,7 @@ public class deposito extends javax.swing.JDialog {
             if ("modificar".equals(operacion)){
                 sql = "UPDATE deposito SET descrip = '" + descripcion + "' WHERE cod_deposito = " + codigo + ";";
                 System.out.println(sql);
-                JOptionPane.showMessageDialog(this, "Se ha modificado correctamente: " + descripcion);
+                JOptionPane.showMessageDialog(this, "Se ha modificado correctamente a: " + descripcion);
             }
             if ("eliminar".equals(operacion)){
                 sql = "DELETE FROM deposito WHERE cod_deposito = " + codigo + ";";
@@ -361,6 +366,7 @@ public class deposito extends javax.swing.JDialog {
         
         txtcodigo.setText("");
         txtdescripcion.setText("");
+        txtbuscar.setText("");
         
     }
     
@@ -394,17 +400,28 @@ public class deposito extends javax.swing.JDialog {
     }
     
     // Metodo para buscar un deposito
-    private void buscar_deposito(){
+    private boolean buscar_deposito(){
         
         try {
             String codigo = txtcodigo.getText();
             String sql = "SELECT descrip as descripcion FROM deposito WHERE cod_deposito = " + codigo;
             System.out.println(sql);
             rs = con.Listar(sql);
-            rs.next();
-            txtdescripcion.setText(rs.getString("descripcion"));
+            //rs.next();
+            if (!rs.next()) {
+                JOptionPane.showMessageDialog(this, "No se ha encontrado ninguna descripcion");
+                return false;
+            } else {
+                //rs.next();
+                String resultado = rs.getString("descripcion");
+                System.out.println(resultado);
+                txtdescripcion.setText(resultado);
+                return true;
+                //txtdescripcion.setText(rs.getString("descripcion"));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
         
     }
@@ -482,24 +499,31 @@ public class deposito extends javax.swing.JDialog {
         int mensaje = JOptionPane.showConfirmDialog(this, "Deseas " + operacion, "Atencion", JOptionPane.YES_NO_OPTION);
         if (mensaje == JOptionPane.YES_OPTION){
             guardar();
-            desa_inicio();
+            btncancelar.doClick();
+            /*desa_inicio();
             limpiar_campos();
             limpiar_tabla();
             cargar_tabla();
-            desa_botones(2);
+            desa_botones(2); todos estos elementos se cambian por el doClick del boton cancelar*/
         }
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed
-        
-        if ("eliminar".equals(operacion)){
-            buscar_deposito();
+
+        boolean encontrado = buscar_deposito();
+        if (!encontrado) {
+            txtcodigo.requestFocus(); // vuelve el foco al campo código
+            txtcodigo.selectAll();    // selecciona el texto para que el usuario pueda reemplazarlo
+            return;                   // corta la ejecución del resto del método
+        }
+        if ("eliminar".equals(operacion)) {
+            //buscar_deposito();
             txtdescripcion.setEnabled(false);
             txtcodigo.setEnabled(false);
             btnguardar.setEnabled(true);
             btnguardar.requestFocus();
-        }else{
-            buscar_deposito();
+        } else {
+            //buscar_deposito();
             txtcodigo.setEnabled(false);
             txtdescripcion.setEnabled(true);
             txtdescripcion.requestFocus();
@@ -523,6 +547,16 @@ public class deposito extends javax.swing.JDialog {
         buscador();
         
     }//GEN-LAST:event_btnbuscarActionPerformed
+
+    private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
+            
+        desa_inicio();
+        limpiar_campos();
+        limpiar_tabla();
+        cargar_tabla();
+        desa_botones(2);
+            
+    }//GEN-LAST:event_btncancelarActionPerformed
 
     /**
      * @param args the command line arguments
