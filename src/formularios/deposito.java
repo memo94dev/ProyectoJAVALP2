@@ -147,6 +147,11 @@ public class deposito extends javax.swing.JDialog {
 
         txtcodigo.setDescripcion("Cód.");
         txtcodigo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtcodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtcodigoActionPerformed(evt);
+            }
+        });
 
         txtbuscar.setDescripcion("Ingrese la descripción");
         txtbuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -314,13 +319,18 @@ public class deposito extends javax.swing.JDialog {
     private void guardar(){
         
         try {
-            String codigo = txtcodigo.getText();
-            String descripcion = txtdescripcion.getText().toUpperCase();
+            String codigo = txtcodigo.getText().trim(); // Obtengo el valor del campo codigo y limpio de espacios
+            String descripcion = txtdescripcion.getText().toUpperCase().trim();
             String sql = "";
             if ("agregar".equals(operacion)){
                 sql = "INSERT INTO deposito VALUES (" + codigo + ",'" + descripcion + "');";
                 System.out.println(sql);
                 JOptionPane.showMessageDialog(this, "Se ha insertado correctamente: " + descripcion);
+            }
+            if ("modificar".equals(operacion)){
+                sql = "UPDATE deposito SET descrip = '" + descripcion + "' WHERE cod_deposito = " + codigo + ";";
+                System.out.println(sql);
+                JOptionPane.showMessageDialog(this, "Se ha modificado correctamente: " + descripcion);
             }
             con.sentencia = con.conectar().createStatement();
             con.sentencia.executeUpdate(sql);
@@ -367,8 +377,28 @@ public class deposito extends javax.swing.JDialog {
         
     }
     
+    // Metodo para buscar un deposito
+    private void buscar_deposito(){
+        
+        try {
+            String codigo = txtcodigo.getText();
+            String sql = "SELECT descrip as descripcion FROM deposito WHERE cod_deposito = " + codigo;
+            System.out.println(sql);
+            rs = con.Listar(sql);
+            rs.next();
+            txtdescripcion.setText(rs.getString("descripcion"));
+        } catch (SQLException ex) {
+            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
-        // TODO add your handling code here:
+        operacion = "modificar";
+        desa_botones(1);
+        JOptionPane.showMessageDialog(this, "Ingresa un codigo para el deposito a editar");
+        txtcodigo.setEnabled(true);
+        txtcodigo.requestFocus();
     }//GEN-LAST:event_btnmodificarActionPerformed
 
     private void buttonNice1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNice1ActionPerformed
@@ -422,6 +452,20 @@ public class deposito extends javax.swing.JDialog {
             desa_botones(2);
         }
     }//GEN-LAST:event_btnguardarActionPerformed
+
+    private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed
+        
+        if ("borrar".equals(operacion)){
+            btnguardar.setEnabled(true);
+            btnguardar.requestFocus();
+        }else{
+            buscar_deposito();
+            txtcodigo.setEnabled(false);
+            txtdescripcion.setEnabled(true);
+            txtdescripcion.requestFocus();
+        }
+        
+    }//GEN-LAST:event_txtcodigoActionPerformed
 
     /**
      * @param args the command line arguments
