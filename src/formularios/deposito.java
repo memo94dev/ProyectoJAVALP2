@@ -78,6 +78,11 @@ public class deposito extends javax.swing.JDialog {
         });
 
         btneliminar.setText("Eliminar");
+        btneliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliminarActionPerformed(evt);
+            }
+        });
 
         btnimprimir.setText("Imprimir");
 
@@ -160,6 +165,11 @@ public class deposito extends javax.swing.JDialog {
         labelMetric3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
 
         btnbuscar.setText("Buscar");
+        btnbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbuscarActionPerformed(evt);
+            }
+        });
 
         tabladepo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tabladepo.setModel(new javax.swing.table.DefaultTableModel(
@@ -332,6 +342,12 @@ public class deposito extends javax.swing.JDialog {
                 System.out.println(sql);
                 JOptionPane.showMessageDialog(this, "Se ha modificado correctamente: " + descripcion);
             }
+            if ("eliminar".equals(operacion)){
+                sql = "DELETE FROM deposito WHERE cod_deposito = " + codigo + ";";
+                System.out.println(sql);
+                JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente!");
+            }
+            
             con.sentencia = con.conectar().createStatement();
             con.sentencia.executeUpdate(sql);
         } catch (SQLException ex) {
@@ -387,6 +403,27 @@ public class deposito extends javax.swing.JDialog {
             rs = con.Listar(sql);
             rs.next();
             txtdescripcion.setText(rs.getString("descripcion"));
+        } catch (SQLException ex) {
+            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    // Metodo para buscar datos
+    private void buscador(){
+        
+        try {
+            cursor = (DefaultTableModel) tabladepo.getModel();
+            String buscar = txtbuscar.getText().toUpperCase().trim();
+            String sql = "SELECT * FROM deposito WHERE descrip LIKE '%" + buscar + "%' ORDER BY cod_deposito;";
+            rs = con.Listar(sql);
+            String[] fila1 = new String[2];
+            
+            while (rs.next()){
+                fila1[0] = rs.getString("cod_deposito");
+                fila1[1] = rs.getString("descrip");
+                cursor.addRow(fila1);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -455,7 +492,10 @@ public class deposito extends javax.swing.JDialog {
 
     private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed
         
-        if ("borrar".equals(operacion)){
+        if ("eliminar".equals(operacion)){
+            buscar_deposito();
+            txtdescripcion.setEnabled(false);
+            txtcodigo.setEnabled(false);
             btnguardar.setEnabled(true);
             btnguardar.requestFocus();
         }else{
@@ -466,6 +506,23 @@ public class deposito extends javax.swing.JDialog {
         }
         
     }//GEN-LAST:event_txtcodigoActionPerformed
+
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+        
+        operacion = "eliminar";
+        desa_botones(1);
+        JOptionPane.showMessageDialog(this, "Ingresa el numero del deposito a eliminar!");
+        txtcodigo.setEnabled(true);
+        txtcodigo.requestFocus();
+        
+    }//GEN-LAST:event_btneliminarActionPerformed
+
+    private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
+        
+        limpiar_tabla();
+        buscador();
+        
+    }//GEN-LAST:event_btnbuscarActionPerformed
 
     /**
      * @param args the command line arguments
