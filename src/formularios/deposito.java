@@ -23,7 +23,7 @@ public class deposito extends javax.swing.JDialog {
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
         
-        cargar_grilla(); // Metodo para cargar datos de la BDD en la tabla de inicio
+        cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         setLocationRelativeTo(null);
     }
@@ -219,8 +219,8 @@ public class deposito extends javax.swing.JDialog {
                             .addComponent(labelMetric3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(42, 42, 42)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buttonNice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(53, Short.MAX_VALUE))
@@ -339,7 +339,7 @@ public class deposito extends javax.swing.JDialog {
     }
     
     // Metodo para cargar datos en la tabla con datos de la BDD
-    private void cargar_grilla(){
+    private void cargar_tabla(){
         
         try {
             cursor = (DefaultTableModel) tabladepo.getModel();
@@ -361,8 +361,8 @@ public class deposito extends javax.swing.JDialog {
     private void limpiar_tabla(){
         
         cursor = (DefaultTableModel) tabladepo.getModel();
-        while (cursor.getRowCount()){
-            
+        while (cursor.getRowCount() > 0){
+            cursor.removeRow(0);
         }
         
     }
@@ -415,7 +415,11 @@ public class deposito extends javax.swing.JDialog {
         int mensaje = JOptionPane.showConfirmDialog(this, "Deseas " + operacion, "Atencion", JOptionPane.YES_NO_OPTION);
         if (mensaje == JOptionPane.YES_OPTION){
             guardar();
+            desa_inicio();
             limpiar_campos();
+            limpiar_tabla();
+            cargar_tabla();
+            desa_botones(2);
         }
     }//GEN-LAST:event_btnguardarActionPerformed
 
