@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_OPTION;
+import javax.swing.table.DefaultTableModel;
 import prg.conectDB;
 
 public class deposito extends javax.swing.JDialog {
@@ -21,6 +22,8 @@ public class deposito extends javax.swing.JDialog {
         initComponents();
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
+        
+        cargar_grilla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         setLocationRelativeTo(null);
     }
@@ -156,8 +159,7 @@ public class deposito extends javax.swing.JDialog {
         tabladepo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tabladepo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Código", "Descripción"
@@ -218,7 +220,7 @@ public class deposito extends javax.swing.JDialog {
                             .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(42, 42, 42)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buttonNice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(53, Short.MAX_VALUE))
@@ -333,6 +335,35 @@ public class deposito extends javax.swing.JDialog {
         
         txtcodigo.setText("");
         txtdescripcion.setText("");
+        
+    }
+    
+    // Metodo para cargar datos en la tabla con datos de la BDD
+    private void cargar_grilla(){
+        
+        try {
+            cursor = (DefaultTableModel) tabladepo.getModel();
+            String sql = "SELECT * FROM deposito ORDER BY cod_deposito ASC;";
+            rs = con.Listar(sql);
+            String[] fila = new String[2];
+            while(rs.next()){
+                fila[0] = rs.getString("cod_deposito");
+                fila[1] = rs.getString("descrip");
+                cursor.addRow(fila);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    // Metodo para limpiar valores de la tabla
+    private void limpiar_tabla(){
+        
+        cursor = (DefaultTableModel) tabladepo.getModel();
+        while (cursor.getRowCount()){
+            
+        }
         
     }
     
