@@ -42,7 +42,7 @@ public class deposito extends javax.swing.JDialog {
         btnimprimir = new javax.swing.JButton();
         btnguardar = new javax.swing.JButton();
         btncancelar = new javax.swing.JButton();
-        buttonNice1 = new org.edisoncor.gui.button.ButtonNice();
+        btnSalir = new org.edisoncor.gui.button.ButtonNice();
         labelMetric1 = new org.edisoncor.gui.label.LabelMetric();
         labelMetric2 = new org.edisoncor.gui.label.LabelMetric();
         txtdescripcion = new org.edisoncor.gui.textField.TextFieldRectBackground();
@@ -133,11 +133,11 @@ public class deposito extends javax.swing.JDialog {
                 .addGap(48, 48, 48))
         );
 
-        buttonNice1.setBackground(new java.awt.Color(0, 102, 255));
-        buttonNice1.setText("Salir");
-        buttonNice1.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setBackground(new java.awt.Color(0, 102, 255));
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonNice1ActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
@@ -195,7 +195,7 @@ public class deposito extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonNice1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,7 +242,7 @@ public class deposito extends javax.swing.JDialog {
                         .addGap(61, 61, 61)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonNice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
 
@@ -282,14 +282,14 @@ public class deposito extends javax.swing.JDialog {
                 btnmodificar.setEnabled(false);
                 btneliminar.setEnabled(false);
                 btnimprimir.setEnabled(false);
-                buttonNice1.setEnabled(false);
+                btnSalir.setEnabled(false);
             break;
             case 2:
                 btnagregar.setEnabled(true);
                 btnmodificar.setEnabled(true);
                 btneliminar.setEnabled(true);
                 btnimprimir.setEnabled(true);
-                buttonNice1.setEnabled(true);
+                btnSalir.setEnabled(true);
             break;
         }
         
@@ -409,7 +409,7 @@ public class deposito extends javax.swing.JDialog {
             rs = con.Listar(sql);
             //rs.next();
             if (!rs.next()) {
-                JOptionPane.showMessageDialog(this, "No se ha encontrado ninguna descripcion");
+                JOptionPane.showMessageDialog(this, "El codigo ingresado no existe");
                 return false;
             } else {
                 //rs.next();
@@ -455,7 +455,7 @@ public class deposito extends javax.swing.JDialog {
         txtcodigo.requestFocus();
     }//GEN-LAST:event_btnmodificarActionPerformed
 
-    private void buttonNice1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNice1ActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         
         int mensaje = JOptionPane.showConfirmDialog(this,"Desea salir?","Atención",JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
         if (mensaje == JOptionPane.YES_OPTION){
@@ -463,7 +463,7 @@ public class deposito extends javax.swing.JDialog {
             dispose(); // Para cerrar ventanas de opciones o formularios sin parar el sistema.
         }
         
-    }//GEN-LAST:event_buttonNice1ActionPerformed
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
         
@@ -602,6 +602,7 @@ public class deposito extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private org.edisoncor.gui.button.ButtonNice btnSalir;
     private javax.swing.JButton btnagregar;
     private javax.swing.JButton btnbuscar;
     private javax.swing.JButton btncancelar;
@@ -609,7 +610,6 @@ public class deposito extends javax.swing.JDialog {
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnimprimir;
     private javax.swing.JButton btnmodificar;
-    private org.edisoncor.gui.button.ButtonNice buttonNice1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
