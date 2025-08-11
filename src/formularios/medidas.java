@@ -1,13 +1,23 @@
 package formularios;
 
 import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import prg.conectDB;
 
 public class medidas extends javax.swing.JDialog {
@@ -18,7 +28,7 @@ public class medidas extends javax.swing.JDialog {
     String operacion = ""; // Bandera para definir la accion que se va a realizar (insert, update, delete)
 
     public medidas(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+        //super(parent, modal);
         initComponents();
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
@@ -85,6 +95,11 @@ public class medidas extends javax.swing.JDialog {
         });
 
         btnimprimir.setText("Imprimir");
+        btnimprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnimprimirActionPerformed(evt);
+            }
+        });
 
         btnguardar.setText("Guardar");
         btnguardar.addActionListener(new java.awt.event.ActionListener() {
@@ -447,6 +462,34 @@ public class medidas extends javax.swing.JDialog {
         
     }
     
+        // Metodo imprimir Reporte
+    private void imprimir(){
+        
+        try {
+            String sql = "SELECT * FROM u_medida ORDER BY id_u_medida ASC";
+            rs = con.Listar(sql);
+            Map parameters = new HashMap();
+            parameters.put("", new String(""));
+            JasperReport jr = null;
+            
+            // Cargamos el reporte
+            URL url = getClass().getClassLoader().getResource("reportes/reporte_u_medida.jasper");
+            jr = (JasperReport) JRLoader.loadObject(url);
+            
+            JasperPrint masterPrint = null;
+            JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
+            masterPrint = JasperFillManager.fillReport(jr, parameters, jrRS);
+            
+            // Generar ventana para mostrar el reporte
+            JasperViewer ventana = new JasperViewer(masterPrint, false);
+            ventana.setTitle("Vista Previa");
+            ventana.setVisible(true);
+        } catch (JRException ex) {
+            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
         operacion = "modificar";
         desa_botones(1);
@@ -557,6 +600,12 @@ public class medidas extends javax.swing.JDialog {
         desa_botones(2);
             
     }//GEN-LAST:event_btncancelarActionPerformed
+
+    private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
+        
+        imprimir();
+        
+    }//GEN-LAST:event_btnimprimirActionPerformed
 
     /**
      * @param args the command line arguments
