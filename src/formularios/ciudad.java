@@ -57,7 +57,7 @@ public class ciudad extends javax.swing.JDialog {
 
         panelNice1.setBackground(new java.awt.Color(153, 153, 153));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Formulario Ciudad"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Formulario Ciudad", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
         jPanel1.setOpaque(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
@@ -243,7 +243,7 @@ public class ciudad extends javax.swing.JDialog {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         panelCurves1.add(jPanel1, java.awt.BorderLayout.CENTER);
