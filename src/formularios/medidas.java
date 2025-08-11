@@ -462,7 +462,7 @@ public class medidas extends javax.swing.JDialog {
         
     }
     
-        // Metodo imprimir Reporte
+    // Metodo imprimir Reporte
     private void imprimir(){
         
         try {
