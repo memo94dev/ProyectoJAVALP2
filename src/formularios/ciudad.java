@@ -163,7 +163,7 @@ public class ciudad extends javax.swing.JDialog {
             }
         });
 
-        txtbuscar.setDescripcion("Ingrese la descripción");
+        txtbuscar.setDescripcion("Buscar Ciudad");
         txtbuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         labelMetric3.setText("Buscar");
@@ -247,7 +247,6 @@ public class ciudad extends javax.swing.JDialog {
         );
 
         panelCurves1.add(jPanel1, java.awt.BorderLayout.CENTER);
-        jPanel1.getAccessibleContext().setAccessibleName("Formulario Ciudad");
 
         panelNice1.add(panelCurves1, java.awt.BorderLayout.CENTER);
 

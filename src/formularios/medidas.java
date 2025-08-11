@@ -163,7 +163,7 @@ public class medidas extends javax.swing.JDialog {
             }
         });
 
-        txtbuscar.setDescripcion("Ingrese la descripción");
+        txtbuscar.setDescripcion("Buscar Unidad de Medida");
         txtbuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         labelMetric3.setText("Buscar");

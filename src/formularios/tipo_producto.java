@@ -163,7 +163,7 @@ public class tipo_producto extends javax.swing.JDialog {
             }
         });
 
-        txtbuscar.setDescripcion("Ingrese la descripción");
+        txtbuscar.setDescripcion("Buscar T. de Producto");
         txtbuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         labelMetric3.setText("Buscar");
