@@ -10,14 +10,14 @@ import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import prg.conectDB;
 
-public class deposito extends javax.swing.JDialog {
+public class ciudad extends javax.swing.JDialog {
     
     conectDB con; // Traer la clase de conexion
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
     String operacion = ""; // Bandera para definir la accion que se va a realizar (insert, update, delete)
 
-    public deposito(java.awt.Frame parent, boolean modal) {
+    public ciudad(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         con = new conectDB(); // Instancia de la clase de conexion
@@ -57,7 +57,7 @@ public class deposito extends javax.swing.JDialog {
 
         panelNice1.setBackground(new java.awt.Color(153, 153, 153));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Formulario Depósito"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Formulario Ciudad"));
         jPanel1.setOpaque(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
@@ -247,6 +247,7 @@ public class deposito extends javax.swing.JDialog {
         );
 
         panelCurves1.add(jPanel1, java.awt.BorderLayout.CENTER);
+        jPanel1.getAccessibleContext().setAccessibleName("Formulario Ciudad");
 
         panelNice1.add(panelCurves1, java.awt.BorderLayout.CENTER);
 
@@ -295,29 +296,29 @@ public class deposito extends javax.swing.JDialog {
         
     }
     
-    /* Metodo para realizar consulta de los codigos existentes y devolver el siguiente codigo de producto a utilizar */
+    /* Metodo para realizar consulta de los codigos existentes y devolver el siguiente codigo a utilizar */
     private void generar_codigo(){
         
         try {
-            String sql = "SELECT COALESCE (MAX(cod_deposito),0)+1 AS cod FROM deposito;"; // Creamos la consulta SQL.
+            String sql = "SELECT COALESCE (MAX(cod_ciudad),0)+1 AS cod FROM ciudad;"; // Creamos la consulta SQL.
             rs = con.Listar(sql); // Utilizamos el metodo listar.
             rs.next(); // Llamar a los siguientes resultados.
             txtcodigo.setText(rs.getString("cod")); // Enviar el resultado en el campo de codigo de nuestro formulario.
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ciudad.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
-    /* Metodo para validar duplicidad de la descripcion con los depositos ya cargados en la BDD */
+    /* Metodo para validar duplicidad de la descripcion */
     private void validar_descripcion(){
         
         try {
             String descripcion = txtdescripcion.getText().toUpperCase();
-            rs = con.Listar("SELECT * FROM deposito WHERE descrip = '" + descripcion + "'");
+            rs = con.Listar("SELECT * FROM ciudad WHERE descrip_ciudad = '" + descripcion + "'");
             boolean encontro = rs.next();
             if (encontro == true){
-                JOptionPane.showMessageDialog(this, "La descripción del deposito '" + descripcion 
+                JOptionPane.showMessageDialog(this, "La descripción de la ciudad '" + descripcion 
                         + "' ya se encuentra registrada.");
                 txtdescripcion.setEnabled(true);
             }else{
@@ -325,7 +326,7 @@ public class deposito extends javax.swing.JDialog {
                 btnguardar.requestFocus();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ciudad.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -338,17 +339,17 @@ public class deposito extends javax.swing.JDialog {
             String descripcion = txtdescripcion.getText().toUpperCase().trim();
             String sql = "";
             if ("agregar".equals(operacion)){
-                sql = "INSERT INTO deposito VALUES (" + codigo + ",'" + descripcion + "');";
+                sql = "INSERT INTO ciudad VALUES (" + codigo + ",'" + descripcion + "');";
                 System.out.println(sql);
                 JOptionPane.showMessageDialog(this, "Se ha insertado correctamente: " + descripcion);
             }
             if ("modificar".equals(operacion)){
-                sql = "UPDATE deposito SET descrip = '" + descripcion + "' WHERE cod_deposito = " + codigo + ";";
+                sql = "UPDATE ciudad SET descrip_ciudad = '" + descripcion + "' WHERE cod_ciudad = " + codigo + ";";
                 System.out.println(sql);
                 JOptionPane.showMessageDialog(this, "Se ha modificado correctamente a: " + descripcion);
             }
             if ("eliminar".equals(operacion)){
-                sql = "DELETE FROM deposito WHERE cod_deposito = " + codigo + ";";
+                sql = "DELETE FROM ciudad WHERE cod_ciudad = " + codigo + ";";
                 System.out.println(sql);
                 JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente!");
             }
@@ -356,7 +357,7 @@ public class deposito extends javax.swing.JDialog {
             con.sentencia = con.conectar().createStatement();
             con.sentencia.executeUpdate(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ciudad.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -375,16 +376,16 @@ public class deposito extends javax.swing.JDialog {
         
         try {
             cursor = (DefaultTableModel) tabladepo.getModel();
-            String sql = "SELECT * FROM deposito ORDER BY cod_deposito ASC;";
+            String sql = "SELECT * FROM ciudad ORDER BY cod_ciudad ASC;";
             rs = con.Listar(sql);
             String[] fila = new String[2];
             while(rs.next()){
-                fila[0] = rs.getString("cod_deposito");
-                fila[1] = rs.getString("descrip");
+                fila[0] = rs.getString("cod_ciudad");
+                fila[1] = rs.getString("descrip_ciudad");
                 cursor.addRow(fila);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ciudad.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -399,12 +400,12 @@ public class deposito extends javax.swing.JDialog {
         
     }
     
-    // Metodo para buscar un deposito
-    private boolean buscar_deposito(){
+    // Metodo para buscar 
+    private boolean buscar(){
         
         try {
             String codigo = txtcodigo.getText();
-            String sql = "SELECT descrip as descripcion FROM deposito WHERE cod_deposito = " + codigo;
+            String sql = "SELECT descrip_ciudad as ciudad FROM ciudad WHERE cod_ciudad = " + codigo;
             System.out.println(sql);
             rs = con.Listar(sql);
             //rs.next();
@@ -413,14 +414,14 @@ public class deposito extends javax.swing.JDialog {
                 return false;
             } else {
                 //rs.next();
-                String resultado = rs.getString("descripcion");
+                String resultado = rs.getString("ciudad");
                 System.out.println(resultado);
                 txtdescripcion.setText(resultado);
                 return true;
                 //txtdescripcion.setText(rs.getString("descripcion"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ciudad.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
@@ -432,17 +433,17 @@ public class deposito extends javax.swing.JDialog {
         try {
             cursor = (DefaultTableModel) tabladepo.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
-            String sql = "SELECT * FROM deposito WHERE descrip LIKE '%" + buscar + "%' ORDER BY cod_deposito;";
+            String sql = "SELECT * FROM ciudad WHERE descrip_ciudad LIKE '%" + buscar + "%' ORDER BY cod_ciudad;";
             rs = con.Listar(sql);
             String[] fila1 = new String[2];
             
             while (rs.next()){
-                fila1[0] = rs.getString("cod_deposito");
-                fila1[1] = rs.getString("descrip");
+                fila1[0] = rs.getString("cod_ciudad");
+                fila1[1] = rs.getString("descrip_ciudad");
                 cursor.addRow(fila1);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ciudad.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -450,7 +451,7 @@ public class deposito extends javax.swing.JDialog {
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
         operacion = "modificar";
         desa_botones(1);
-        JOptionPane.showMessageDialog(this, "Ingresa un codigo para el deposito a editar");
+        JOptionPane.showMessageDialog(this, "Ingresa un codigo para la ciudad a editar");
         txtcodigo.setEnabled(true);
         txtcodigo.requestFocus();
     }//GEN-LAST:event_btnmodificarActionPerformed
@@ -510,20 +511,20 @@ public class deposito extends javax.swing.JDialog {
 
     private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed
 
-        boolean encontrado = buscar_deposito();
+        boolean encontrado = buscar();
         if (!encontrado) {
             txtcodigo.requestFocus(); // vuelve el foco al campo código
             txtcodigo.selectAll();    // selecciona el texto para que el usuario pueda reemplazarlo
             return;                   // corta la ejecución del resto del método
         }
         if ("eliminar".equals(operacion)) {
-            //buscar_deposito();
+            //buscar();
             txtdescripcion.setEnabled(false);
             txtcodigo.setEnabled(false);
             btnguardar.setEnabled(true);
             btnguardar.requestFocus();
         } else {
-            //buscar_deposito();
+            //buscar();
             txtcodigo.setEnabled(false);
             txtdescripcion.setEnabled(true);
             txtdescripcion.requestFocus();
@@ -535,7 +536,7 @@ public class deposito extends javax.swing.JDialog {
         
         operacion = "eliminar";
         desa_botones(1);
-        JOptionPane.showMessageDialog(this, "Ingresa el numero del deposito a eliminar!");
+        JOptionPane.showMessageDialog(this, "Ingresa el numero de la ciudad a eliminar!");
         txtcodigo.setEnabled(true);
         txtcodigo.requestFocus();
         
@@ -575,20 +576,21 @@ public class deposito extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(deposito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ciudad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(deposito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ciudad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(deposito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ciudad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(deposito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ciudad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                deposito dialog = new deposito(new javax.swing.JFrame(), true);
+                ciudad dialog = new ciudad(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
