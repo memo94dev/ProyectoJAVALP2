@@ -293,7 +293,7 @@
                 </Component>
                 <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtbuscar">
                   <Properties>
-                    <Property name="descripcion" type="java.lang.String" value="Buscar Unidad de Medida"/>
+                    <Property name="descripcion" type="java.lang.String" value="Buscar U. de Medida"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="18" style="1"/>
                     </Property>

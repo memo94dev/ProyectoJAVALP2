@@ -28,6 +28,7 @@ public class tipo_producto extends javax.swing.JDialog {
     String operacion = ""; // Bandera para definir la accion que se va a realizar (insert, update, delete)
 
     public tipo_producto(java.awt.Frame parent, boolean modal) {
+        
         //super(parent, modal);
         initComponents();
         con = new conectDB(); // Instancia de la clase de conexion
@@ -36,6 +37,7 @@ public class tipo_producto extends javax.swing.JDialog {
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         setLocationRelativeTo(null); // Centrar ventana en la pantalla
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -491,11 +493,13 @@ public class tipo_producto extends javax.swing.JDialog {
     }
     
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
+        
         operacion = "modificar";
         desa_botones(1);
         JOptionPane.showMessageDialog(this, "Ingresa un codigo para el tipo de producto a editar");
         txtcodigo.setEnabled(true);
         txtcodigo.requestFocus();
+        
     }//GEN-LAST:event_btnmodificarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -519,9 +523,9 @@ public class tipo_producto extends javax.swing.JDialog {
     }//GEN-LAST:event_btnagregarActionPerformed
 
     private void txtdescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdescripcionKeyPressed
+        
         String descripcion = txtdescripcion.getText().trim();
-        if (evt.getKeyChar() == KeyEvent.VK_ENTER){
-            
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER){            
             if(descripcion.equals("") || descripcion.equals(" ")){
                 JOptionPane.showMessageDialog(this, "Ingrese algun valor");
                 txtdescripcion.requestFocus();
@@ -532,9 +536,9 @@ public class tipo_producto extends javax.swing.JDialog {
                     btnguardar.setEnabled(true);
                     btnguardar.requestFocus();
                 }
-            }
-            
+            }            
         }
+        
     }//GEN-LAST:event_txtdescripcionKeyPressed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
@@ -549,6 +553,7 @@ public class tipo_producto extends javax.swing.JDialog {
             cargar_tabla();
             desa_botones(2); todos estos elementos se cambian por el doClick del boton cancelar*/
         }
+        
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed

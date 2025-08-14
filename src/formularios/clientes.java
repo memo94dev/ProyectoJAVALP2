@@ -20,14 +20,14 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import prg.conectDB;
 
-public class deposito extends javax.swing.JDialog {
+public class clientes extends javax.swing.JDialog {
     
     conectDB con; // Traer la clase de conexion
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
-    String operacion = ""; // Bandera para definir la accion que se va a realizar (insert, update, delete)
+    int operacion = 0; // Bandera para definir la accion que se va a realizar (insert, update, delete)
 
-    public deposito(java.awt.Frame parent, boolean modal) {
+    public clientes(java.awt.Frame parent, boolean modal) {
         
         //super(parent, modal); // Se superpone a otras ventanas u objetos
         initComponents();
@@ -36,6 +36,7 @@ public class deposito extends javax.swing.JDialog {
         
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
+        llenar_combo("1");
         setLocationRelativeTo(null); // Centrar ventana en la pantalla
         
     }
@@ -55,22 +56,34 @@ public class deposito extends javax.swing.JDialog {
         btnguardar = new javax.swing.JButton();
         btncancelar = new javax.swing.JButton();
         btnSalir = new org.edisoncor.gui.button.ButtonNice();
-        labelMetric1 = new org.edisoncor.gui.label.LabelMetric();
-        labelMetric2 = new org.edisoncor.gui.label.LabelMetric();
-        txtdescripcion = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        labelCodigo = new org.edisoncor.gui.label.LabelMetric();
+        labelNombre = new org.edisoncor.gui.label.LabelMetric();
+        txtnombre = new org.edisoncor.gui.textField.TextFieldRectBackground();
         txtcodigo = new org.edisoncor.gui.textField.TextFieldRectBackground();
         txtbuscar = new org.edisoncor.gui.textField.TextFieldRectBackground();
-        labelMetric3 = new org.edisoncor.gui.label.LabelMetric();
+        labelBuscar = new org.edisoncor.gui.label.LabelMetric();
         btnbuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabladepo = new javax.swing.JTable();
+        tablacliente = new javax.swing.JTable();
+        btnlimpiar = new javax.swing.JButton();
+        labelApellido = new org.edisoncor.gui.label.LabelMetric();
+        txtapellido = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        txtdireccion = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        labelCiudad = new org.edisoncor.gui.label.LabelMetric();
+        labelTelefono = new org.edisoncor.gui.label.LabelMetric();
+        txttelefono = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        labelDireccion = new org.edisoncor.gui.label.LabelMetric();
+        combociudad = new javax.swing.JComboBox<>();
+        labelDocumento = new org.edisoncor.gui.label.LabelMetric();
+        txtdocumento = new org.edisoncor.gui.textField.TextFieldRectBackground();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         panelNice1.setBackground(new java.awt.Color(153, 153, 153));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Formulario Depósito", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registro Clientes", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
         jPanel1.setOpaque(false);
+        jPanel1.setPreferredSize(new java.awt.Dimension(970, 598));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
         jPanel2.setOpaque(false);
@@ -143,7 +156,7 @@ public class deposito extends javax.swing.JDialog {
                 .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
                 .addComponent(btnimprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnguardar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btncancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -158,17 +171,17 @@ public class deposito extends javax.swing.JDialog {
             }
         });
 
-        labelMetric1.setText("Código: ");
-        labelMetric1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        labelCodigo.setText("Código: ");
+        labelCodigo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        labelMetric2.setText("Descripción: ");
-        labelMetric2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        labelNombre.setText("Nombre:");
+        labelNombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        txtdescripcion.setDescripcion("Ingrese la descripción");
-        txtdescripcion.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtdescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtnombre.setDescripcion("Ingrese el nombre");
+        txtnombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtnombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtdescripcionKeyPressed(evt);
+                txtnombreKeyPressed(evt);
             }
         });
 
@@ -180,11 +193,19 @@ public class deposito extends javax.swing.JDialog {
             }
         });
 
-        txtbuscar.setDescripcion("Buscar Depósito");
+        txtbuscar.setDescripcion("Ingrese un valor");
         txtbuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyTyped(evt);
+            }
+        });
 
-        labelMetric3.setText("Buscar");
-        labelMetric3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        labelBuscar.setText("Buscar");
+        labelBuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         btnbuscar.setText("Buscar");
         btnbuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -193,17 +214,75 @@ public class deposito extends javax.swing.JDialog {
             }
         });
 
-        tabladepo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        tabladepo.setModel(new javax.swing.table.DefaultTableModel(
+        tablacliente.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tablacliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Descripción"
+                "Código", "Documento", "Nombre", "Apellido", "Dirección", "Teléfono"
             }
         ));
-        tabladepo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(tabladepo);
+        tablacliente.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setViewportView(tablacliente);
+
+        btnlimpiar.setText("Limpiar");
+        btnlimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnlimpiarActionPerformed(evt);
+            }
+        });
+
+        labelApellido.setText("Apellido:");
+        labelApellido.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        txtapellido.setDescripcion("Ingrese el apellido");
+        txtapellido.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtapellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtapellidoKeyPressed(evt);
+            }
+        });
+
+        txtdireccion.setDescripcion("Ingrese la dirección");
+        txtdireccion.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtdireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtdireccionKeyPressed(evt);
+            }
+        });
+
+        labelCiudad.setText("Ciudad:");
+        labelCiudad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        labelTelefono.setText("Teléfono:");
+        labelTelefono.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        txttelefono.setDescripcion("Ingrese el teléfono");
+        txttelefono.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txttelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txttelefonoKeyPressed(evt);
+            }
+        });
+
+        labelDireccion.setText("Dirección:");
+        labelDireccion.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        combociudad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        combociudad.setForeground(new java.awt.Color(102, 102, 102));
+        combociudad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        labelDocumento.setText("Doc.: ");
+        labelDocumento.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        txtdocumento.setDescripcion("CI o RUC");
+        txtdocumento.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtdocumento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtdocumentoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -214,53 +293,94 @@ public class deposito extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelMetric2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelMetric1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelMetric3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(34, 34, 34)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtapellido, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtnombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(labelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtdocumento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(46, 46, 46)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(combociudad, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
+                                            .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(labelTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelMetric1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(labelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(combociudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(labelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtdocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtapellido, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(labelTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelMetric2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtdescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelMetric3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(61, 61, 61)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         panelCurves1.add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -271,7 +391,7 @@ public class deposito extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelNice1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelNice1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 983, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,7 +406,13 @@ public class deposito extends javax.swing.JDialog {
         
         btnguardar.setEnabled(false);
         txtcodigo.setEnabled(false);
-        txtdescripcion.setEnabled(false);
+        txtdocumento.setEnabled(false);
+        txtnombre.setEnabled(false);
+        txtapellido.setEnabled(false);
+        txtdireccion.setEnabled(false);
+        txttelefono.setEnabled(false);
+        combociudad.setEnabled(false);
+        txtbuscar.requestFocus();
         
     }
     
@@ -316,33 +442,33 @@ public class deposito extends javax.swing.JDialog {
     private void generar_codigo(){
         
         try {
-            String sql = "SELECT COALESCE (MAX(cod_deposito),0)+1 AS cod FROM deposito;"; // Creamos la consulta SQL.
+            String sql = "SELECT COALESCE (MAX(id_cliente),0)+1 AS cod FROM clientes;"; // Creamos la consulta SQL.
             rs = con.Listar(sql); // Utilizamos el metodo listar.
             rs.next(); // Llamar a los siguientes resultados.
             txtcodigo.setText(rs.getString("cod")); // Enviar el resultado en el campo de codigo de nuestro formulario.
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
-    /* Metodo para validar duplicidad de la descripcion con los depositos ya cargados en la BDD */
+    /* Metodo para validar duplicidad de valores en la BDD */
     private void validar_descripcion(){
         
         try {
-            String descripcion = txtdescripcion.getText().toUpperCase();
+            String descripcion = txtnombre.getText().toUpperCase();
             rs = con.Listar("SELECT * FROM deposito WHERE descrip = '" + descripcion + "'");
             boolean encontro = rs.next();
             if (encontro == true){
                 JOptionPane.showMessageDialog(this, "La descripción del deposito '" + descripcion 
                         + "' ya se encuentra registrada.");
-                txtdescripcion.setEnabled(true);
+                txtnombre.setEnabled(true);
             }else{
                 btnguardar.setEnabled(true);
                 btnguardar.requestFocus();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -352,7 +478,7 @@ public class deposito extends javax.swing.JDialog {
         
         try {
             String codigo = txtcodigo.getText().trim(); // Obtengo el valor del campo codigo y limpio de espacios
-            String descripcion = txtdescripcion.getText().toUpperCase().trim();
+            String descripcion = txtnombre.getText().toUpperCase().trim();
             String sql = "";
             if ("agregar".equals(operacion)){
                 sql = "INSERT INTO deposito VALUES (" + codigo + ",'" + descripcion + "');";
@@ -373,7 +499,7 @@ public class deposito extends javax.swing.JDialog {
             con.sentencia = con.conectar().createStatement();
             con.sentencia.executeUpdate(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -382,7 +508,11 @@ public class deposito extends javax.swing.JDialog {
     private void limpiar_campos(){
         
         txtcodigo.setText("");
-        txtdescripcion.setText("");
+        txtnombre.setText("");
+        txtapellido.setText("");
+        txtdireccion.setText("");
+        txttelefono.setText("");
+        txtdocumento.setText("");
         txtbuscar.setText("");
         
     }
@@ -391,17 +521,38 @@ public class deposito extends javax.swing.JDialog {
     private void cargar_tabla(){
         
         try {
-            cursor = (DefaultTableModel) tabladepo.getModel();
-            String sql = "SELECT * FROM deposito ORDER BY cod_deposito ASC;";
+            cursor = (DefaultTableModel) tablacliente.getModel();
+            String sql = "SELECT * FROM clientes ORDER BY id_cliente ASC;";
             rs = con.Listar(sql);
-            String[] fila = new String[2];
+            String[] fila = new String[6];
             while(rs.next()){
-                fila[0] = rs.getString("cod_deposito");
-                fila[1] = rs.getString("descrip");
+                fila[0] = rs.getString("id_cliente");
+                fila[1] = rs.getString("ci_ruc");
+                fila[2] = rs.getString("cli_nombre");
+                fila[3] = rs.getString("cli_apellido");
+                fila[4] = rs.getString("cli_direccion");
+                fila[5] = rs.getString("cli_telefono");
                 cursor.addRow(fila);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    // Metodo para cargar combobox
+    private void llenar_combo(String orden){
+        
+        try {
+            String sql = "SELECT CONCAT (cod_ciudad, '-', descrip_ciudad) AS ciudad FROM ciudad ORDER BY cod_ciudad = " + orden + "ASC;";
+            rs = con.Listar(sql);
+            if (rs.isBeforeFirst()){
+                while (rs.next()){
+                    combociudad.addItem(rs.getString("ciudad"));
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -409,15 +560,15 @@ public class deposito extends javax.swing.JDialog {
     // Metodo para limpiar valores de la tabla
     private void limpiar_tabla(){
         
-        cursor = (DefaultTableModel) tabladepo.getModel();
+        cursor = (DefaultTableModel) tablacliente.getModel();
         while (cursor.getRowCount() > 0){
             cursor.removeRow(0);
         }
         
     }
     
-    // Metodo para buscar un deposito
-    private boolean buscar_deposito(){
+    // Metodo para buscar
+    private boolean buscar(){
         
         try {
             String codigo = txtcodigo.getText();
@@ -432,12 +583,12 @@ public class deposito extends javax.swing.JDialog {
                 //rs.next();
                 String resultado = rs.getString("descripcion");
                 System.out.println(resultado);
-                txtdescripcion.setText(resultado);
+                txtnombre.setText(resultado);
                 return true;
                 //txtdescripcion.setText(rs.getString("descripcion"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
         
@@ -447,19 +598,22 @@ public class deposito extends javax.swing.JDialog {
     private void buscador(){
         
         try {
-            cursor = (DefaultTableModel) tabladepo.getModel();
+            cursor = (DefaultTableModel) tablacliente.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
-            String sql = "SELECT * FROM deposito WHERE descrip LIKE '%" + buscar + "%' ORDER BY cod_deposito;";
+            String sql = "SELECT * FROM clientes WHERE ci_ruc LIKE '%" + buscar + "%' OR cli_nombre ILIKE '%" + buscar + "%' ORDER BY id_cliente;";
             rs = con.Listar(sql);
-            String[] fila1 = new String[2];
-            
-            while (rs.next()){
-                fila1[0] = rs.getString("cod_deposito");
-                fila1[1] = rs.getString("descrip");
-                cursor.addRow(fila1);
+            String[] fila = new String[6];
+            while(rs.next()){
+                fila[0] = rs.getString("id_cliente");
+                fila[1] = rs.getString("ci_ruc");
+                fila[2] = rs.getString("cli_nombre");
+                fila[3] = rs.getString("cli_apellido");
+                fila[4] = rs.getString("cli_direccion");
+                fila[5] = rs.getString("cli_telefono");
+                cursor.addRow(fila);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -487,14 +641,14 @@ public class deposito extends javax.swing.JDialog {
             ventana.setTitle("Vista Previa");
             ventana.setVisible(true);
         } catch (JRException ex) {
-            Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
     
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
        
-        operacion = "modificar";
+        operacion = 2;
         desa_botones(1);
         JOptionPane.showMessageDialog(this, "Ingresa un codigo para el deposito a editar");
         txtcodigo.setEnabled(true);
@@ -514,21 +668,21 @@ public class deposito extends javax.swing.JDialog {
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
         
-        operacion = "agregar";
+        operacion = 1;
         desa_botones(1);
         generar_codigo();
-        txtdescripcion.setEnabled(true);
-        txtdescripcion.requestFocus();
+        txtdocumento.setEnabled(true);
+        txtdocumento.requestFocus();
         
     }//GEN-LAST:event_btnagregarActionPerformed
 
-    private void txtdescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdescripcionKeyPressed
+    private void txtnombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreKeyPressed
         
-        String descripcion = txtdescripcion.getText().trim();
+        String descripcion = txtnombre.getText().trim();
         if (evt.getKeyChar() == KeyEvent.VK_ENTER){
             if(descripcion.equals("") || descripcion.equals(" ")){
                 JOptionPane.showMessageDialog(this, "Ingrese algun valor");
-                txtdescripcion.requestFocus();
+                txtnombre.requestFocus();
             }else{
                 if("agregar".equals(operacion)){
                     validar_descripcion();
@@ -539,7 +693,7 @@ public class deposito extends javax.swing.JDialog {
             }
         }
         
-    }//GEN-LAST:event_txtdescripcionKeyPressed
+    }//GEN-LAST:event_txtnombreKeyPressed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         
@@ -558,7 +712,7 @@ public class deposito extends javax.swing.JDialog {
 
     private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed
 
-        boolean encontrado = buscar_deposito();
+        boolean encontrado = buscar();
         if (!encontrado) {
             txtcodigo.requestFocus(); // vuelve el foco al campo código
             txtcodigo.selectAll();    // selecciona el texto para que el usuario pueda reemplazarlo
@@ -566,22 +720,22 @@ public class deposito extends javax.swing.JDialog {
         }
         if ("eliminar".equals(operacion)) {
             //buscar_deposito();
-            txtdescripcion.setEnabled(false);
+            txtnombre.setEnabled(false);
             txtcodigo.setEnabled(false);
             btnguardar.setEnabled(true);
             btnguardar.requestFocus();
         } else {
             //buscar_deposito();
             txtcodigo.setEnabled(false);
-            txtdescripcion.setEnabled(true);
-            txtdescripcion.requestFocus();
+            txtnombre.setEnabled(true);
+            txtnombre.requestFocus();
         }
         
     }//GEN-LAST:event_txtcodigoActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
         
-        operacion = "eliminar";
+        operacion = 3;
         desa_botones(1);
         JOptionPane.showMessageDialog(this, "Ingresa el numero del deposito a eliminar!");
         txtcodigo.setEnabled(true);
@@ -612,6 +766,42 @@ public class deposito extends javax.swing.JDialog {
         
     }//GEN-LAST:event_btnimprimirActionPerformed
 
+    private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed
+        
+        txtbuscar.setText("");
+        txtbuscar.requestFocus();
+        cargar_tabla();
+        
+    }//GEN-LAST:event_btnlimpiarActionPerformed
+
+    private void txtapellidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtapellidoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtapellidoKeyPressed
+
+    private void txtdireccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdireccionKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtdireccionKeyPressed
+
+    private void txttelefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttelefonoKeyPressed
+
+    private void txtdocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdocumentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtdocumentoActionPerformed
+
+    private void txtbuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyTyped
+        // Se utiliza keypressed
+    }//GEN-LAST:event_txtbuscarKeyTyped
+
+    private void txtbuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyPressed
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnbuscar.doClick();
+        }
+
+    }//GEN-LAST:event_txtbuscarKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -629,20 +819,21 @@ public class deposito extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(deposito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(deposito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(deposito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(deposito.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                deposito dialog = new deposito(new javax.swing.JFrame(), true);
+                clientes dialog = new clientes(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -663,18 +854,29 @@ public class deposito extends javax.swing.JDialog {
     private javax.swing.JButton btneliminar;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnimprimir;
+    private javax.swing.JButton btnlimpiar;
     private javax.swing.JButton btnmodificar;
+    private javax.swing.JComboBox<String> combociudad;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.edisoncor.gui.label.LabelMetric labelMetric1;
-    private org.edisoncor.gui.label.LabelMetric labelMetric2;
-    private org.edisoncor.gui.label.LabelMetric labelMetric3;
+    private org.edisoncor.gui.label.LabelMetric labelApellido;
+    private org.edisoncor.gui.label.LabelMetric labelBuscar;
+    private org.edisoncor.gui.label.LabelMetric labelCiudad;
+    private org.edisoncor.gui.label.LabelMetric labelCodigo;
+    private org.edisoncor.gui.label.LabelMetric labelDireccion;
+    private org.edisoncor.gui.label.LabelMetric labelDocumento;
+    private org.edisoncor.gui.label.LabelMetric labelNombre;
+    private org.edisoncor.gui.label.LabelMetric labelTelefono;
     private org.edisoncor.gui.panel.PanelCurves panelCurves1;
     private org.edisoncor.gui.panel.PanelNice panelNice1;
-    private javax.swing.JTable tabladepo;
+    private javax.swing.JTable tablacliente;
+    private org.edisoncor.gui.textField.TextFieldRectBackground txtapellido;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtbuscar;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtcodigo;
-    private org.edisoncor.gui.textField.TextFieldRectBackground txtdescripcion;
+    private org.edisoncor.gui.textField.TextFieldRectBackground txtdireccion;
+    private org.edisoncor.gui.textField.TextFieldRectBackground txtdocumento;
+    private org.edisoncor.gui.textField.TextFieldRectBackground txtnombre;
+    private org.edisoncor.gui.textField.TextFieldRectBackground txttelefono;
     // End of variables declaration//GEN-END:variables
 }

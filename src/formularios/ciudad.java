@@ -28,6 +28,7 @@ public class ciudad extends javax.swing.JDialog {
     String operacion = ""; // Bandera para definir la accion que se va a realizar (insert, update, delete)
 
     public ciudad(java.awt.Frame parent, boolean modal) {
+        
         //super(parent, modal); // Se superpone
         initComponents();
         con = new conectDB(); // Instancia de la clase de conexion
@@ -36,6 +37,7 @@ public class ciudad extends javax.swing.JDialog {
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         setLocationRelativeTo(null); // Centrar ventana en la pantalla
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -462,7 +464,7 @@ public class ciudad extends javax.swing.JDialog {
         
     }
     
-        // Metodo imprimir Reporte
+    // Metodo imprimir Reporte
     private void imprimir(){
         
         try {
@@ -484,6 +486,8 @@ public class ciudad extends javax.swing.JDialog {
             JasperViewer ventana = new JasperViewer(masterPrint, false);
             ventana.setTitle("Vista Previa");
             ventana.setVisible(true);
+            ventana.setSize(700, 700);
+            ventana.setLocationRelativeTo(null);
         } catch (JRException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -491,11 +495,13 @@ public class ciudad extends javax.swing.JDialog {
     }
     
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
+        
         operacion = "modificar";
         desa_botones(1);
         JOptionPane.showMessageDialog(this, "Ingresa un codigo para la ciudad a editar");
         txtcodigo.setEnabled(true);
         txtcodigo.requestFocus();
+        
     }//GEN-LAST:event_btnmodificarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -519,9 +525,9 @@ public class ciudad extends javax.swing.JDialog {
     }//GEN-LAST:event_btnagregarActionPerformed
 
     private void txtdescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdescripcionKeyPressed
+        
         String descripcion = txtdescripcion.getText().trim();
         if (evt.getKeyChar() == KeyEvent.VK_ENTER){
-            
             if(descripcion.equals("") || descripcion.equals(" ")){
                 JOptionPane.showMessageDialog(this, "Ingrese algun valor");
                 txtdescripcion.requestFocus();
@@ -533,8 +539,8 @@ public class ciudad extends javax.swing.JDialog {
                     btnguardar.requestFocus();
                 }
             }
-            
         }
+        
     }//GEN-LAST:event_txtdescripcionKeyPressed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
