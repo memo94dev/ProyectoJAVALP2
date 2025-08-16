@@ -179,9 +179,17 @@ public class clientes extends javax.swing.JDialog {
 
         txtnombre.setDescripcion("Ingrese el nombre");
         txtnombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtnombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtnombreActionPerformed(evt);
+            }
+        });
         txtnombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtnombreKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtnombreKeyTyped(evt);
             }
         });
 
@@ -238,14 +246,27 @@ public class clientes extends javax.swing.JDialog {
 
         txtapellido.setDescripcion("Ingrese el apellido");
         txtapellido.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtapellido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtapellidoActionPerformed(evt);
+            }
+        });
         txtapellido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtapellidoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtapellidoKeyTyped(evt);
             }
         });
 
         txtdireccion.setDescripcion("Ingrese la dirección");
         txtdireccion.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtdireccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtdireccionActionPerformed(evt);
+            }
+        });
         txtdireccion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtdireccionKeyPressed(evt);
@@ -260,9 +281,17 @@ public class clientes extends javax.swing.JDialog {
 
         txttelefono.setDescripcion("Ingrese el teléfono");
         txttelefono.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txttelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txttelefonoActionPerformed(evt);
+            }
+        });
         txttelefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txttelefonoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txttelefonoKeyTyped(evt);
             }
         });
 
@@ -272,6 +301,16 @@ public class clientes extends javax.swing.JDialog {
         combociudad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         combociudad.setForeground(new java.awt.Color(102, 102, 102));
         combociudad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        combociudad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                combociudadMouseClicked(evt);
+            }
+        });
+        combociudad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                combociudadKeyTyped(evt);
+            }
+        });
 
         labelDocumento.setText("Doc.: ");
         labelDocumento.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -281,6 +320,11 @@ public class clientes extends javax.swing.JDialog {
         txtdocumento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtdocumentoActionPerformed(evt);
+            }
+        });
+        txtdocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtdocumentoKeyPressed(evt);
             }
         });
 
@@ -344,14 +388,15 @@ public class clientes extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(combociudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(labelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtdocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtdocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(labelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(combociudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -363,9 +408,9 @@ public class clientes extends javax.swing.JDialog {
                                     .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtapellido, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelDireccion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(labelTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -474,34 +519,27 @@ public class clientes extends javax.swing.JDialog {
     }
     
     // Metodo para guardar nuevo registro en la BDD
-    private void guardar(){
-        
-        try {
-            String codigo = txtcodigo.getText().trim(); // Obtengo el valor del campo codigo y limpio de espacios
-            String descripcion = txtnombre.getText().toUpperCase().trim();
-            String sql = "";
-            if ("agregar".equals(operacion)){
-                sql = "INSERT INTO deposito VALUES (" + codigo + ",'" + descripcion + "');";
-                System.out.println(sql);
-                JOptionPane.showMessageDialog(this, "Se ha insertado correctamente: " + descripcion);
-            }
-            if ("modificar".equals(operacion)){
-                sql = "UPDATE deposito SET descrip = '" + descripcion + "' WHERE cod_deposito = " + codigo + ";";
-                System.out.println(sql);
-                JOptionPane.showMessageDialog(this, "Se ha modificado correctamente a: " + descripcion);
-            }
-            if ("eliminar".equals(operacion)){
-                sql = "DELETE FROM deposito WHERE cod_deposito = " + codigo + ";";
-                System.out.println(sql);
-                JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente!");
-            }
-            
-            con.sentencia = con.conectar().createStatement();
-            con.sentencia.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+    private void guardar() {
+
+        String codigo = txtcodigo.getText().trim();
+        String nombre = txtnombre.getText().toUpperCase().trim();
+        String documento = txtdocumento.getText().trim();
+        String apellido = txtapellido.getText().toUpperCase().trim();
+        String direccion = txtdireccion.getText().toUpperCase().trim();
+        String telefono = txttelefono.getText().trim();
+        String ciudad = (String) combociudad.getSelectedItem();
+        if (operacion == 1) {
+            con.insertar_datos("clientes", "id_cliente, ci_ruc, cli_nombre, cli_apellido, cli_direccion, cli_telefono, cod_ciudad",
+                codigo + ", '"
+               + documento + "', '"
+               + nombre + "', '"
+               + apellido + "', '"
+               + direccion + "', '"
+               + telefono + "', "
+               + "(SELECT SPLIT_PART('" + ciudad + "','-',1)::integer)",
+                1);
         }
-        
+
     }
     
     // Metodo para limpiar campos
@@ -677,27 +715,24 @@ public class clientes extends javax.swing.JDialog {
     }//GEN-LAST:event_btnagregarActionPerformed
 
     private void txtnombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreKeyPressed
-        
-        String descripcion = txtnombre.getText().trim();
-        if (evt.getKeyChar() == KeyEvent.VK_ENTER){
-            if(descripcion.equals("") || descripcion.equals(" ")){
+
+        /*
+        } else if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+            String nombre = txtnombre.getText().trim();
+            if (nombre.equals("") || nombre.equals(" ")) {
                 JOptionPane.showMessageDialog(this, "Ingrese algun valor");
                 txtnombre.requestFocus();
-            }else{
-                if("agregar".equals(operacion)){
-                    validar_descripcion();
-                }else{
-                    btnguardar.setEnabled(true);
-                    btnguardar.requestFocus();
-                }
+            } else {
+                txtapellido.setEnabled(true);
+                txtapellido.requestFocus();
             }
-        }
-        
+        }*/
+
     }//GEN-LAST:event_txtnombreKeyPressed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         
-        int mensaje = JOptionPane.showConfirmDialog(this, "Deseas " + operacion, "Atencion", JOptionPane.YES_NO_OPTION);
+        int mensaje = JOptionPane.showConfirmDialog(this, "Deseas realizar la operacion?", "Atencion", JOptionPane.YES_NO_OPTION);
         if (mensaje == JOptionPane.YES_OPTION){
             guardar();
             btncancelar.doClick();
@@ -770,6 +805,7 @@ public class clientes extends javax.swing.JDialog {
         
         txtbuscar.setText("");
         txtbuscar.requestFocus();
+        limpiar_tabla();
         cargar_tabla();
         
     }//GEN-LAST:event_btnlimpiarActionPerformed
@@ -779,7 +815,13 @@ public class clientes extends javax.swing.JDialog {
     }//GEN-LAST:event_txtapellidoKeyPressed
 
     private void txtdireccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdireccionKeyPressed
-        // TODO add your handling code here:
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER){
+            String direccion = txtdireccion.getText().trim();
+            if (direccion.equals("")){
+                JOptionPane.showMessageDialog(this, "Ingrese una direccion");
+                txtdireccion.requestFocus();
+            }
+        }
     }//GEN-LAST:event_txtdireccionKeyPressed
 
     private void txttelefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyPressed
@@ -801,6 +843,106 @@ public class clientes extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_txtbuscarKeyPressed
+
+    private void txtdocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyPressed
+        
+        String doc = txtdocumento.getText();
+        if (evt.getKeyCode() == 10){
+            if (doc.equals("")){
+                JOptionPane.showMessageDialog(this, "Complete este campo!");
+                txtdocumento.requestFocus();
+            }else{
+                txtnombre.setEnabled(true);
+                txtnombre.requestFocus();
+                txtdocumento.setEnabled(false);
+            }
+        }
+        
+    }//GEN-LAST:event_txtdocumentoKeyPressed
+
+    private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
+        
+        txtnombre.setEnabled(false);
+        txtapellido.setEnabled(true);
+        txtapellido.requestFocus();
+        
+    }//GEN-LAST:event_txtnombreActionPerformed
+
+    private void txtnombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreKeyTyped
+        
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Solo puede ingresar letras");
+            txtnombre.requestFocus();
+        }
+        
+    }//GEN-LAST:event_txtnombreKeyTyped
+
+    private void txtapellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtapellidoActionPerformed
+        
+        txtapellido.setEnabled(false);
+        combociudad.setEnabled(true);
+        combociudad.requestFocus();
+        
+    }//GEN-LAST:event_txtapellidoActionPerformed
+
+    private void txtapellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtapellidoKeyTyped
+
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Solo puede ingresar letras");
+            txtapellido.requestFocus();
+        }
+
+    }//GEN-LAST:event_txtapellidoKeyTyped
+
+    private void combociudadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combociudadKeyTyped
+        
+        combociudad.setEnabled(false);
+        txtdireccion.setEnabled(true);
+        txtdireccion.requestFocus();
+        
+    }//GEN-LAST:event_combociudadKeyTyped
+
+    private void combociudadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combociudadMouseClicked
+        
+        combociudad.setEnabled(false);
+        txtdireccion.setEnabled(true);
+        txtdireccion.requestFocus();
+        
+    }//GEN-LAST:event_combociudadMouseClicked
+
+    private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
+        
+        int k = evt.getKeyChar();
+        if ((k >= 32 && k <= 45) || (k >= 58 && k <= 126)){
+            evt.setKeyChar((char) KeyEvent.VK_CLEAR);
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Solo puede ingresar numeros");
+            txttelefono.requestFocus();
+        }
+        
+    }//GEN-LAST:event_txttelefonoKeyTyped
+
+    private void txttelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelefonoActionPerformed
+        
+        txttelefono.setEnabled(false);
+        btnguardar.setEnabled(true);
+        btnguardar.requestFocus();
+        
+    }//GEN-LAST:event_txttelefonoActionPerformed
+
+    private void txtdireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdireccionActionPerformed
+        
+        txtdireccion.setEnabled(false);
+        txttelefono.setEnabled(true);
+        txttelefono.requestFocus();
+        
+    }//GEN-LAST:event_txtdireccionActionPerformed
 
     /**
      * @param args the command line arguments

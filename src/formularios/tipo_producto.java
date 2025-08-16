@@ -63,7 +63,7 @@ public class tipo_producto extends javax.swing.JDialog {
         labelMetric3 = new org.edisoncor.gui.label.LabelMetric();
         btnbuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabladepo = new javax.swing.JTable();
+        tablatproducto = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -193,8 +193,8 @@ public class tipo_producto extends javax.swing.JDialog {
             }
         });
 
-        tabladepo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        tabladepo.setModel(new javax.swing.table.DefaultTableModel(
+        tablatproducto.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tablatproducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -202,8 +202,8 @@ public class tipo_producto extends javax.swing.JDialog {
                 "Código", "Descripción"
             }
         ));
-        tabladepo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(tabladepo);
+        tablatproducto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setViewportView(tablatproducto);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -391,7 +391,7 @@ public class tipo_producto extends javax.swing.JDialog {
     private void cargar_tabla(){
         
         try {
-            cursor = (DefaultTableModel) tabladepo.getModel();
+            cursor = (DefaultTableModel) tablatproducto.getModel();
             String sql = "SELECT * FROM tipo_producto ORDER BY cod_tipo_prod ASC;";
             rs = con.Listar(sql);
             String[] fila = new String[2];
@@ -409,7 +409,7 @@ public class tipo_producto extends javax.swing.JDialog {
     // Metodo para limpiar valores de la tabla
     private void limpiar_tabla(){
         
-        cursor = (DefaultTableModel) tabladepo.getModel();
+        cursor = (DefaultTableModel) tablatproducto.getModel();
         while (cursor.getRowCount() > 0){
             cursor.removeRow(0);
         }
@@ -447,7 +447,7 @@ public class tipo_producto extends javax.swing.JDialog {
     private void buscador(){
         
         try {
-            cursor = (DefaultTableModel) tabladepo.getModel();
+            cursor = (DefaultTableModel) tablatproducto.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
             String sql = "SELECT * FROM tipo_producto WHERE t_p_descrip LIKE '%" + buscar + "%' ORDER BY cod_tipo_prod;";
             rs = con.Listar(sql);
@@ -675,7 +675,7 @@ public class tipo_producto extends javax.swing.JDialog {
     private org.edisoncor.gui.label.LabelMetric labelMetric3;
     private org.edisoncor.gui.panel.PanelCurves panelCurves1;
     private org.edisoncor.gui.panel.PanelNice panelNice1;
-    private javax.swing.JTable tabladepo;
+    private javax.swing.JTable tablatproducto;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtbuscar;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtcodigo;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtdescripcion;

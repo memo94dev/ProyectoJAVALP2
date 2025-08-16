@@ -63,7 +63,7 @@ public class medidas extends javax.swing.JDialog {
         labelMetric3 = new org.edisoncor.gui.label.LabelMetric();
         btnbuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabladepo = new javax.swing.JTable();
+        tablaumedidas = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -193,8 +193,8 @@ public class medidas extends javax.swing.JDialog {
             }
         });
 
-        tabladepo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        tabladepo.setModel(new javax.swing.table.DefaultTableModel(
+        tablaumedidas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tablaumedidas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -202,8 +202,8 @@ public class medidas extends javax.swing.JDialog {
                 "Código", "Descripción"
             }
         ));
-        tabladepo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(tabladepo);
+        tablaumedidas.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setViewportView(tablaumedidas);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -391,7 +391,7 @@ public class medidas extends javax.swing.JDialog {
     private void cargar_tabla(){
         
         try {
-            cursor = (DefaultTableModel) tabladepo.getModel();
+            cursor = (DefaultTableModel) tablaumedidas.getModel();
             String sql = "SELECT * FROM u_medida ORDER BY id_u_medida ASC;";
             rs = con.Listar(sql);
             String[] fila = new String[2];
@@ -409,7 +409,7 @@ public class medidas extends javax.swing.JDialog {
     // Metodo para limpiar valores de la tabla
     private void limpiar_tabla(){
         
-        cursor = (DefaultTableModel) tabladepo.getModel();
+        cursor = (DefaultTableModel) tablaumedidas.getModel();
         while (cursor.getRowCount() > 0){
             cursor.removeRow(0);
         }
@@ -447,7 +447,7 @@ public class medidas extends javax.swing.JDialog {
     private void buscador(){
         
         try {
-            cursor = (DefaultTableModel) tabladepo.getModel();
+            cursor = (DefaultTableModel) tablaumedidas.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
             String sql = "SELECT * FROM u_medida WHERE u_descrip LIKE '%" + buscar + "%' ORDER BY id_u_medida;";
             rs = con.Listar(sql);
@@ -675,7 +675,7 @@ public class medidas extends javax.swing.JDialog {
     private org.edisoncor.gui.label.LabelMetric labelMetric3;
     private org.edisoncor.gui.panel.PanelCurves panelCurves1;
     private org.edisoncor.gui.panel.PanelNice panelNice1;
-    private javax.swing.JTable tabladepo;
+    private javax.swing.JTable tablaumedidas;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtbuscar;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtcodigo;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtdescripcion;

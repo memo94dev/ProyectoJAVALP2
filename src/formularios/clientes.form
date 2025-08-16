@@ -147,14 +147,16 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jPanel2" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="labelCodigo" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Component id="txtcodigo" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Component id="labelCiudad" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Component id="combociudad" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                           <Component id="labelDocumento" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                                           <Component id="txtdocumento" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="labelCodigo" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                          <Component id="txtcodigo" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                          <Component id="labelCiudad" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                          <Component id="combociudad" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -171,9 +173,9 @@
                                           </Group>
                                       </Group>
                                       <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="txtdireccion" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="labelDireccion" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
+                                              <Component id="txtdireccion" min="-2" pref="36" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
@@ -334,7 +336,9 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtnombreActionPerformed"/>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtnombreKeyPressed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtnombreKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtcodigo">
@@ -466,7 +470,9 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtapellidoActionPerformed"/>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtapellidoKeyPressed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtapellidoKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtdireccion">
@@ -477,6 +483,7 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtdireccionActionPerformed"/>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtdireccionKeyPressed"/>
                   </Events>
                 </Component>
@@ -504,7 +511,9 @@
                     </Property>
                   </Properties>
                   <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txttelefonoActionPerformed"/>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txttelefonoKeyPressed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txttelefonoKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="org.edisoncor.gui.label.LabelMetric" name="labelDireccion">
@@ -530,6 +539,10 @@
                       <Color id="Cursor de Mano"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="combociudadMouseClicked"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="combociudadKeyTyped"/>
+                  </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
@@ -551,6 +564,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtdocumentoActionPerformed"/>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtdocumentoKeyPressed"/>
                   </Events>
                 </Component>
               </SubComponents>
