@@ -506,7 +506,8 @@ public class deposito extends javax.swing.JDialog {
         
         int mensaje = JOptionPane.showConfirmDialog(this,"Desea salir?","Atención",JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
         if (mensaje == JOptionPane.YES_OPTION){
-            //System.exit(WIDTH); // Para cerrar totalmente el sistema.
+            //System.exit(WIDTH); // Para cerrar totalmente el sistema. Con codigo 1(confuso)
+            //System.exit(0); // Mejor practica, cierra el programa con codigo o(correcto)
             dispose(); // Para cerrar ventanas de opciones o formularios sin parar el sistema.
         }
         

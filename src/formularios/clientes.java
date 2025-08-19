@@ -498,24 +498,26 @@ public class clientes extends javax.swing.JDialog {
     }
     
     /* Metodo para validar duplicidad de valores en la BDD */
-    private void validar_descripcion(){
-        
+    private boolean validar_documento(){
+      
         try {
-            String descripcion = txtnombre.getText().toUpperCase();
-            rs = con.Listar("SELECT * FROM deposito WHERE descrip = '" + descripcion + "'");
-            boolean encontro = rs.next();
-            if (encontro == true){
-                JOptionPane.showMessageDialog(this, "La descripción del deposito '" + descripcion 
-                        + "' ya se encuentra registrada.");
-                txtnombre.setEnabled(true);
+            String doc = txtdocumento.getText().trim();
+            rs = con.Listar("SELECT * FROM clientes WHERE ci_ruc = '" + doc + "'");
+            //boolean encontro = rs.next();
+            if (rs.next()){
+                String nombre = rs.getString("cli_nombre");
+                String apellido = rs.getString("cli_apellido");
+                JOptionPane.showMessageDialog(this, "El documento ingresado '" + doc 
+                        + "' ya ha sido registrado para: " + nombre + " " + apellido);
+                return true;
             }else{
-                btnguardar.setEnabled(true);
-                btnguardar.requestFocus();
+                return false;
             }
         } catch (SQLException ex) {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        
+
     }
     
     // Metodo para guardar nuevo registro en la BDD
@@ -852,9 +854,14 @@ public class clientes extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Complete este campo!");
                 txtdocumento.requestFocus();
             }else{
-                txtnombre.setEnabled(true);
-                txtnombre.requestFocus();
-                txtdocumento.setEnabled(false);
+                if (validar_documento()){
+                    txtdocumento.requestFocus();
+                    txtdocumento.selectAll();
+                }else{
+                    txtnombre.setEnabled(true);
+                    txtnombre.requestFocus();
+                    txtdocumento.setEnabled(false);
+                }
             }
         }
         
