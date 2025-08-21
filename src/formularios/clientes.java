@@ -21,24 +21,25 @@ import net.sf.jasperreports.view.JasperViewer;
 import prg.conectDB;
 
 public class clientes extends javax.swing.JDialog {
-    
+
     conectDB con; // Traer la clase de conexion
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
     int operacion = 0; // Bandera para definir la accion que se va a realizar (insert, update, delete)
+    private boolean modoEdicion;
 
     public clientes(java.awt.Frame parent, boolean modal) {
-        
+
         //super(parent, modal); // Se superpone a otras ventanas u objetos
         initComponents();
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
-        
+
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo("1");
         setLocationRelativeTo(null); // Centrar ventana en la pantalla
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -120,6 +121,14 @@ public class clientes extends javax.swing.JDialog {
         btnguardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnguardarActionPerformed(evt);
+            }
+        });
+        btnguardar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnguardarKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                btnguardarKeyTyped(evt);
             }
         });
 
@@ -232,6 +241,11 @@ public class clientes extends javax.swing.JDialog {
             }
         ));
         tablacliente.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tablacliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaclienteMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablacliente);
 
         btnlimpiar.setText("Limpiar");
@@ -447,8 +461,8 @@ public class clientes extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /* Metodo para inhabilitar el boton guardar y las entradas de texto al iniciar la pantalla */
-    private void desa_inicio(){
-        
+    private void desa_inicio() {
+
         btnguardar.setEnabled(false);
         txtcodigo.setEnabled(false);
         txtdocumento.setEnabled(false);
@@ -458,34 +472,34 @@ public class clientes extends javax.swing.JDialog {
         txttelefono.setEnabled(false);
         combociudad.setEnabled(false);
         txtbuscar.requestFocus();
-        
+
     }
-    
+
     /* Metodo para inhabilitar botones y habilitar botones */
-    private void desa_botones(int a){
-        
-        switch(a){
+    private void desa_botones(int a) {
+
+        switch (a) {
             case 1:
                 btnagregar.setEnabled(false);
                 btnmodificar.setEnabled(false);
                 btneliminar.setEnabled(false);
                 btnimprimir.setEnabled(false);
                 btnSalir.setEnabled(false);
-            break;
+                break;
             case 2:
                 btnagregar.setEnabled(true);
                 btnmodificar.setEnabled(true);
                 btneliminar.setEnabled(true);
                 btnimprimir.setEnabled(true);
                 btnSalir.setEnabled(true);
-            break;
+                break;
         }
-        
+
     }
-    
+
     /* Metodo para realizar consulta de los codigos existentes y devolver el siguiente codigo de producto a utilizar */
-    private void generar_codigo(){
-        
+    private void generar_codigo() {
+
         try {
             String sql = "SELECT COALESCE (MAX(id_cliente),0)+1 AS cod FROM clientes;"; // Creamos la consulta SQL.
             rs = con.Listar(sql); // Utilizamos el metodo listar.
@@ -494,32 +508,29 @@ public class clientes extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     /* Metodo para validar duplicidad de valores en la BDD */
-    private boolean validar_documento(){
-      
+    private boolean validar_documento() {
+
         try {
             String doc = txtdocumento.getText().trim();
             rs = con.Listar("SELECT * FROM clientes WHERE ci_ruc = '" + doc + "'");
             //boolean encontro = rs.next();
-            if (rs.next()){
+            if (rs.next()) {
                 String nombre = rs.getString("cli_nombre");
                 String apellido = rs.getString("cli_apellido");
-                JOptionPane.showMessageDialog(this, "El documento ingresado '" + doc 
+                JOptionPane.showMessageDialog(this, "El documento ingresado '" + doc
                         + "' ya ha sido registrado para: " + nombre + " " + apellido);
-                return true;
-            }else{
-                return false;
+                return true; // Documento duplicado
             }
         } catch (SQLException ex) {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
-
+        return false; // Documento no duplicado
     }
-    
+
     // Metodo para guardar nuevo registro en la BDD
     private void guardar() {
 
@@ -532,21 +543,30 @@ public class clientes extends javax.swing.JDialog {
         String ciudad = (String) combociudad.getSelectedItem();
         if (operacion == 1) {
             con.insertar_datos("clientes", "id_cliente, ci_ruc, cli_nombre, cli_apellido, cli_direccion, cli_telefono, cod_ciudad",
-                codigo + ", '"
-               + documento + "', '"
-               + nombre + "', '"
-               + apellido + "', '"
-               + direccion + "', '"
-               + telefono + "', "
-               + "(SELECT SPLIT_PART('" + ciudad + "','-',1)::integer)",
-                1);
+                    codigo + ", '"
+                    + documento + "', '"
+                    + nombre + "', '"
+                    + apellido + "', '"
+                    + direccion + "', '"
+                    + telefono + "', "
+                    + "(SELECT SPLIT_PART('" + ciudad + "','-',1)::integer)",
+                    1);
         }
-
+        if (operacion == 2) {
+            con.actualizar_datos("clientes",
+                    "ci_ruc = '" + documento
+                    + "', cli_nombre = '" + nombre
+                    + "', cli_apellido = '" + apellido
+                    + "', cli_direccion = '" + direccion
+                    + "', cli_telefono = '" + telefono
+                    + "', cod_ciudad = (SELECT SPLIT_PART('" + ciudad + "','-',1)::integer)",
+                    "id_cliente = " + codigo, 1);
+        }
     }
-    
+
     // Metodo para limpiar campos
-    private void limpiar_campos(){
-        
+    private void limpiar_campos() {
+
         txtcodigo.setText("");
         txtnombre.setText("");
         txtapellido.setText("");
@@ -554,18 +574,18 @@ public class clientes extends javax.swing.JDialog {
         txttelefono.setText("");
         txtdocumento.setText("");
         txtbuscar.setText("");
-        
+
     }
-    
+
     // Metodo para cargar datos en la tabla con datos de la BDD
-    private void cargar_tabla(){
-        
+    private void cargar_tabla() {
+
         try {
             cursor = (DefaultTableModel) tablacliente.getModel();
             String sql = "SELECT * FROM clientes ORDER BY id_cliente ASC;";
             rs = con.Listar(sql);
             String[] fila = new String[6];
-            while(rs.next()){
+            while (rs.next()) {
                 fila[0] = rs.getString("id_cliente");
                 fila[1] = rs.getString("ci_ruc");
                 fila[2] = rs.getString("cli_nombre");
@@ -577,39 +597,39 @@ public class clientes extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     // Metodo para cargar combobox
-    private void llenar_combo(String orden){
-        
+    private void llenar_combo(String orden) {
+
         try {
             String sql = "SELECT CONCAT (cod_ciudad, '-', descrip_ciudad) AS ciudad FROM ciudad ORDER BY cod_ciudad = " + orden + "ASC;";
             rs = con.Listar(sql);
-            if (rs.isBeforeFirst()){
-                while (rs.next()){
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
                     combociudad.addItem(rs.getString("ciudad"));
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     // Metodo para limpiar valores de la tabla
-    private void limpiar_tabla(){
-        
+    private void limpiar_tabla() {
+
         cursor = (DefaultTableModel) tablacliente.getModel();
-        while (cursor.getRowCount() > 0){
+        while (cursor.getRowCount() > 0) {
             cursor.removeRow(0);
         }
-        
+
     }
-    
+
     // Metodo para buscar
-    private boolean buscar(){
-        
+    private boolean buscar() {
+
         try {
             String codigo = txtcodigo.getText();
             String sql = "SELECT descrip as descripcion FROM deposito WHERE cod_deposito = " + codigo;
@@ -631,19 +651,19 @@ public class clientes extends javax.swing.JDialog {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
+
     }
-    
+
     // Metodo para buscar datos
-    private void buscador(){
-        
+    private void buscador() {
+
         try {
             cursor = (DefaultTableModel) tablacliente.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
             String sql = "SELECT * FROM clientes WHERE ci_ruc LIKE '%" + buscar + "%' OR cli_nombre ILIKE '%" + buscar + "%' ORDER BY id_cliente;";
             rs = con.Listar(sql);
             String[] fila = new String[6];
-            while(rs.next()){
+            while (rs.next()) {
                 fila[0] = rs.getString("id_cliente");
                 fila[1] = rs.getString("ci_ruc");
                 fila[2] = rs.getString("cli_nombre");
@@ -655,27 +675,27 @@ public class clientes extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     // Metodo imprimir Reporte
-    private void imprimir(){
-        
+    private void imprimir() {
+
         try {
             String sql = "SELECT * FROM deposito ORDER BY cod_deposito ASC";
             rs = con.Listar(sql);
             Map parameters = new HashMap();
             parameters.put("", new String(""));
             JasperReport jr = null;
-            
+
             // Cargamos el reporte
             URL url = getClass().getClassLoader().getResource("reportes/reporte_deposito.jasper");
             jr = (JasperReport) JRLoader.loadObject(url);
-            
+
             JasperPrint masterPrint = null;
             JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
             masterPrint = JasperFillManager.fillReport(jr, parameters, jrRS);
-            
+
             // Generar ventana para mostrar el reporte
             JasperViewer ventana = new JasperViewer(masterPrint, false);
             ventana.setTitle("Vista Previa");
@@ -683,37 +703,76 @@ public class clientes extends javax.swing.JDialog {
         } catch (JRException ex) {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
+    // Ver datos
+    private void ver_datos() {
+
+        int fila = tablacliente.getSelectedRow();
+        txtcodigo.setText(tablacliente.getValueAt(fila, 0).toString());
+        txtdocumento.setText(tablacliente.getValueAt(fila, 1).toString());
+        txtnombre.setText(tablacliente.getValueAt(fila, 2).toString());
+        txtapellido.setText(tablacliente.getValueAt(fila, 3).toString());
+        //combociudad.setEnabled(true);
+        txtdireccion.setText(tablacliente.getValueAt(fila, 4).toString());
+        txttelefono.setText(tablacliente.getValueAt(fila, 5).toString());
+
+        String codigo = tablacliente.getValueAt(fila, 0).toString();
+        //System.out.println("Codigo del cliente: " + codigo);
+
+        try {
+            String sql = "SELECT CONCAT(c.cod_ciudad, '-', c.descrip_ciudad) AS ciudad FROM ciudad c JOIN clientes cl ON cl.cod_ciudad = c.cod_ciudad WHERE cl.id_cliente = "
+                    + codigo;
+            //System.out.println(sql);
+            rs = con.Listar(sql);
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    String ciudad = rs.getString("ciudad");
+                    //System.out.println(ciudad);
+                    combociudad.setSelectedItem(rs.getString("ciudad"));
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
-       
-        operacion = 2;
-        desa_botones(1);
-        JOptionPane.showMessageDialog(this, "Ingresa un codigo para el deposito a editar");
-        txtcodigo.setEnabled(true);
-        txtcodigo.requestFocus();
-        
+
+        modoEdicion = true;
+        if (txtcodigo.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un registro de la grilla para editar..");
+            btncancelar.doClick();
+        } else {
+            operacion = 2;
+            desa_botones(1);
+            txtdocumento.setEnabled(true);
+            txtdocumento.requestFocus();
+        }
+
     }//GEN-LAST:event_btnmodificarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        
-        int mensaje = JOptionPane.showConfirmDialog(this,"Desea salir?","Atención",JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
-        if (mensaje == JOptionPane.YES_OPTION){
+
+        int mensaje = JOptionPane.showConfirmDialog(this, "Desea salir?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
+        if (mensaje == JOptionPane.YES_OPTION) {
             //System.exit(WIDTH); // Para cerrar totalmente el sistema.
             dispose(); // Para cerrar ventanas de opciones o formularios sin parar el sistema.
         }
-        
+
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
-        
+
+        modoEdicion = false;
         operacion = 1;
         desa_botones(1);
         generar_codigo();
         txtdocumento.setEnabled(true);
         txtdocumento.requestFocus();
-        
+
     }//GEN-LAST:event_btnagregarActionPerformed
 
     private void txtnombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreKeyPressed
@@ -733,9 +792,9 @@ public class clientes extends javax.swing.JDialog {
     }//GEN-LAST:event_txtnombreKeyPressed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
-        
+
         int mensaje = JOptionPane.showConfirmDialog(this, "Deseas realizar la operacion?", "Atencion", JOptionPane.YES_NO_OPTION);
-        if (mensaje == JOptionPane.YES_OPTION){
+        if (mensaje == JOptionPane.YES_OPTION) {
             guardar();
             btncancelar.doClick();
             /*desa_inicio();
@@ -744,7 +803,7 @@ public class clientes extends javax.swing.JDialog {
             cargar_tabla();
             desa_botones(2); todos estos elementos se cambian por el doClick del boton cancelar*/
         }
-        
+
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed
@@ -767,49 +826,56 @@ public class clientes extends javax.swing.JDialog {
             txtnombre.setEnabled(true);
             txtnombre.requestFocus();
         }
-        
+
     }//GEN-LAST:event_txtcodigoActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
-        
-        operacion = 3;
-        desa_botones(1);
-        JOptionPane.showMessageDialog(this, "Ingresa el numero del deposito a eliminar!");
-        txtcodigo.setEnabled(true);
-        txtcodigo.requestFocus();
-        
+
+        /*operacion = 3;
+        desa_botones(1);*/
+        String codigo = txtcodigo.getText();
+        if (codigo.equals("")) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar un registro de la grilla para eliminar!");
+        } else {
+            int mensaje = JOptionPane.showConfirmDialog(this, "Deseas eliminar el registro?", "Atención", JOptionPane.YES_NO_OPTION);
+            if (mensaje == JOptionPane.YES_OPTION) {
+                con.borrar_datos("clientes", "id_cliente", codigo);
+                btncancelar.doClick();
+            }
+        }
+
     }//GEN-LAST:event_btneliminarActionPerformed
 
     private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
-        
+
         limpiar_tabla();
         buscador();
-        
+
     }//GEN-LAST:event_btnbuscarActionPerformed
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
-            
+
         desa_inicio();
         limpiar_campos();
         limpiar_tabla();
         cargar_tabla();
         desa_botones(2);
-            
+
     }//GEN-LAST:event_btncancelarActionPerformed
 
     private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
-        
+
         imprimir();
-        
+
     }//GEN-LAST:event_btnimprimirActionPerformed
 
     private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed
-        
+
         txtbuscar.setText("");
         txtbuscar.requestFocus();
         limpiar_tabla();
         cargar_tabla();
-        
+
     }//GEN-LAST:event_btnlimpiarActionPerformed
 
     private void txtapellidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtapellidoKeyPressed
@@ -817,9 +883,9 @@ public class clientes extends javax.swing.JDialog {
     }//GEN-LAST:event_txtapellidoKeyPressed
 
     private void txtdireccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdireccionKeyPressed
-        if (evt.getKeyChar() == KeyEvent.VK_ENTER){
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
             String direccion = txtdireccion.getText().trim();
-            if (direccion.equals("")){
+            if (direccion.equals("")) {
                 JOptionPane.showMessageDialog(this, "Ingrese una direccion");
                 txtdireccion.requestFocus();
             }
@@ -847,36 +913,44 @@ public class clientes extends javax.swing.JDialog {
     }//GEN-LAST:event_txtbuscarKeyPressed
 
     private void txtdocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyPressed
-        
+
         String doc = txtdocumento.getText();
-        if (evt.getKeyCode() == 10){
-            if (doc.equals("")){
+        if (evt.getKeyCode() == 10) {
+            if (doc.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Complete este campo!");
                 txtdocumento.requestFocus();
-            }else{
-                if (validar_documento()){
-                    txtdocumento.requestFocus();
-                    txtdocumento.selectAll();
-                }else{
+            } else {
+                System.out.println(modoEdicion);
+                if (!modoEdicion) {
+                    boolean existe = validar_documento();
+                    if (!existe) {
+                        txtnombre.setEnabled(true);
+                        txtnombre.requestFocus();
+                        txtdocumento.setEnabled(false);
+                    } else {
+                        txtdocumento.requestFocus();
+                        txtdocumento.selectAll();
+                    }
+                } else {
                     txtnombre.setEnabled(true);
                     txtnombre.requestFocus();
                     txtdocumento.setEnabled(false);
                 }
             }
         }
-        
+
     }//GEN-LAST:event_txtdocumentoKeyPressed
 
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
-        
+
         txtnombre.setEnabled(false);
         txtapellido.setEnabled(true);
         txtapellido.requestFocus();
-        
+
     }//GEN-LAST:event_txtnombreActionPerformed
 
     private void txtnombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreKeyTyped
-        
+
         char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
             getToolkit().beep();
@@ -884,15 +958,15 @@ public class clientes extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Solo puede ingresar letras");
             txtnombre.requestFocus();
         }
-        
+
     }//GEN-LAST:event_txtnombreKeyTyped
 
     private void txtapellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtapellidoActionPerformed
-        
+
         txtapellido.setEnabled(false);
         combociudad.setEnabled(true);
         combociudad.requestFocus();
-        
+
     }//GEN-LAST:event_txtapellidoActionPerformed
 
     private void txtapellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtapellidoKeyTyped
@@ -908,48 +982,75 @@ public class clientes extends javax.swing.JDialog {
     }//GEN-LAST:event_txtapellidoKeyTyped
 
     private void combociudadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combociudadKeyTyped
-        
+
         combociudad.setEnabled(false);
         txtdireccion.setEnabled(true);
         txtdireccion.requestFocus();
-        
+
     }//GEN-LAST:event_combociudadKeyTyped
 
     private void combociudadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combociudadMouseClicked
-        
+
         combociudad.setEnabled(false);
         txtdireccion.setEnabled(true);
         txtdireccion.requestFocus();
-        
+
     }//GEN-LAST:event_combociudadMouseClicked
 
     private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
-        
+
         int k = evt.getKeyChar();
-        if ((k >= 32 && k <= 45) || (k >= 58 && k <= 126)){
+        if ((k >= 32 && k <= 45) || (k >= 58 && k <= 126)) {
             evt.setKeyChar((char) KeyEvent.VK_CLEAR);
             getToolkit().beep();
             JOptionPane.showMessageDialog(this, "Solo puede ingresar numeros");
             txttelefono.requestFocus();
         }
-        
+
     }//GEN-LAST:event_txttelefonoKeyTyped
 
     private void txttelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelefonoActionPerformed
-        
+
         txttelefono.setEnabled(false);
         btnguardar.setEnabled(true);
         btnguardar.requestFocus();
-        
+
     }//GEN-LAST:event_txttelefonoActionPerformed
 
     private void txtdireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdireccionActionPerformed
-        
+
         txtdireccion.setEnabled(false);
         txttelefono.setEnabled(true);
         txttelefono.requestFocus();
-        
+
     }//GEN-LAST:event_txtdireccionActionPerformed
+
+    private void tablaclienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaclienteMouseClicked
+
+        ver_datos();
+
+    }//GEN-LAST:event_tablaclienteMouseClicked
+
+    private void btnguardarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnguardarKeyTyped
+
+    }//GEN-LAST:event_btnguardarKeyTyped
+
+    private void btnguardarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnguardarKeyPressed
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            int mensaje = JOptionPane.showConfirmDialog(this, "Deseas realizar la operacion?", "Atencion", JOptionPane.YES_NO_OPTION);
+            if (mensaje == JOptionPane.YES_OPTION) {
+                guardar();
+                btncancelar.doClick();
+                /*desa_inicio();
+            limpiar_campos();
+            limpiar_tabla();
+            cargar_tabla();
+            desa_botones(2); todos estos elementos se cambian por el doClick del boton cancelar*/
+            }
+        }
+
+    }//GEN-LAST:event_btnguardarKeyPressed
 
     /**
      * @param args the command line arguments
