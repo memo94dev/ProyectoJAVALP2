@@ -21,23 +21,23 @@ import net.sf.jasperreports.view.JasperViewer;
 import prg.conectDB;
 
 public class deposito extends javax.swing.JDialog {
-    
+
     conectDB con; // Traer la clase de conexion
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
     String operacion = ""; // Bandera para definir la accion que se va a realizar (insert, update, delete)
 
     public deposito(java.awt.Frame parent, boolean modal) {
-        
+
         //super(parent, modal); // Se superpone a otras ventanas u objetos
         initComponents();
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
-        
+
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         setLocationRelativeTo(null); // Centrar ventana en la pantalla
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -282,39 +282,39 @@ public class deposito extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /* Metodo para inhabilitar el boton guardar y las entradas de texto al iniciar la pantalla */
-    private void desa_inicio(){
-        
+    private void desa_inicio() {
+
         btnguardar.setEnabled(false);
         txtcodigo.setEnabled(false);
         txtdescripcion.setEnabled(false);
-        
+
     }
-    
+
     /* Metodo para inhabilitar botones y habilitar botones */
-    private void desa_botones(int a){
-        
-        switch(a){
+    private void desa_botones(int a) {
+
+        switch (a) {
             case 1:
                 btnagregar.setEnabled(false);
                 btnmodificar.setEnabled(false);
                 btneliminar.setEnabled(false);
                 btnimprimir.setEnabled(false);
                 btnSalir.setEnabled(false);
-            break;
+                break;
             case 2:
                 btnagregar.setEnabled(true);
                 btnmodificar.setEnabled(true);
                 btneliminar.setEnabled(true);
                 btnimprimir.setEnabled(true);
                 btnSalir.setEnabled(true);
-            break;
+                break;
         }
-        
+
     }
-    
+
     /* Metodo para realizar consulta de los codigos existentes y devolver el siguiente codigo de producto a utilizar */
-    private void generar_codigo(){
-        
+    private void generar_codigo() {
+
         try {
             String sql = "SELECT COALESCE (MAX(cod_deposito),0)+1 AS cod FROM deposito;"; // Creamos la consulta SQL.
             rs = con.Listar(sql); // Utilizamos el metodo listar.
@@ -323,79 +323,79 @@ public class deposito extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     /* Metodo para validar duplicidad de la descripcion con los depositos ya cargados en la BDD */
-    private void validar_descripcion(){
-        
+    private void validar_descripcion() {
+
         try {
             String descripcion = txtdescripcion.getText().toUpperCase();
             rs = con.Listar("SELECT * FROM deposito WHERE descrip = '" + descripcion + "'");
             boolean encontro = rs.next();
-            if (encontro == true){
-                JOptionPane.showMessageDialog(this, "La descripción del deposito '" + descripcion 
+            if (encontro == true) {
+                JOptionPane.showMessageDialog(this, "La descripción del deposito '" + descripcion
                         + "' ya se encuentra registrada.");
                 txtdescripcion.setEnabled(true);
-            }else{
+            } else {
                 btnguardar.setEnabled(true);
                 btnguardar.requestFocus();
             }
         } catch (SQLException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     // Metodo para guardar nuevo registro en la BDD
-    private void guardar(){
-        
+    private void guardar() {
+
         try {
             String codigo = txtcodigo.getText().trim(); // Obtengo el valor del campo codigo y limpio de espacios
             String descripcion = txtdescripcion.getText().toUpperCase().trim();
             String sql = "";
-            if ("agregar".equals(operacion)){
+            if ("agregar".equals(operacion)) {
                 sql = "INSERT INTO deposito VALUES (" + codigo + ",'" + descripcion + "');";
                 System.out.println(sql);
                 JOptionPane.showMessageDialog(this, "Se ha insertado correctamente: " + descripcion);
             }
-            if ("modificar".equals(operacion)){
+            if ("modificar".equals(operacion)) {
                 sql = "UPDATE deposito SET descrip = '" + descripcion + "' WHERE cod_deposito = " + codigo + ";";
                 System.out.println(sql);
                 JOptionPane.showMessageDialog(this, "Se ha modificado correctamente a: " + descripcion);
             }
-            if ("eliminar".equals(operacion)){
+            if ("eliminar".equals(operacion)) {
                 sql = "DELETE FROM deposito WHERE cod_deposito = " + codigo + ";";
                 System.out.println(sql);
                 JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente!");
             }
-            
+
             con.sentencia = con.conectar().createStatement();
             con.sentencia.executeUpdate(sql);
         } catch (SQLException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     // Metodo para limpiar campos
-    private void limpiar_campos(){
-        
+    private void limpiar_campos() {
+
         txtcodigo.setText("");
         txtdescripcion.setText("");
         txtbuscar.setText("");
-        
+
     }
-    
+
     // Metodo para cargar datos en la tabla con datos de la BDD
-    private void cargar_tabla(){
-        
+    private void cargar_tabla() {
+
         try {
             cursor = (DefaultTableModel) tabladepo.getModel();
             String sql = "SELECT * FROM deposito ORDER BY cod_deposito ASC;";
             rs = con.Listar(sql);
             String[] fila = new String[2];
-            while(rs.next()){
+            while (rs.next()) {
                 fila[0] = rs.getString("cod_deposito");
                 fila[1] = rs.getString("descrip");
                 cursor.addRow(fila);
@@ -403,22 +403,22 @@ public class deposito extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     // Metodo para limpiar valores de la tabla
-    private void limpiar_tabla(){
-        
+    private void limpiar_tabla() {
+
         cursor = (DefaultTableModel) tabladepo.getModel();
-        while (cursor.getRowCount() > 0){
+        while (cursor.getRowCount() > 0) {
             cursor.removeRow(0);
         }
-        
+
     }
-    
+
     // Metodo para buscar un deposito
-    private boolean buscar_deposito(){
-        
+    private boolean buscar_deposito() {
+
         try {
             String codigo = txtcodigo.getText();
             String sql = "SELECT descrip as descripcion FROM deposito WHERE cod_deposito = " + codigo;
@@ -440,20 +440,20 @@ public class deposito extends javax.swing.JDialog {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
+
     }
-    
+
     // Metodo para buscar datos
-    private void buscador(){
-        
+    private void buscador() {
+
         try {
             cursor = (DefaultTableModel) tabladepo.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
             String sql = "SELECT * FROM deposito WHERE descrip LIKE '%" + buscar + "%' ORDER BY cod_deposito;";
             rs = con.Listar(sql);
             String[] fila1 = new String[2];
-            
-            while (rs.next()){
+
+            while (rs.next()) {
                 fila1[0] = rs.getString("cod_deposito");
                 fila1[1] = rs.getString("descrip");
                 cursor.addRow(fila1);
@@ -461,27 +461,27 @@ public class deposito extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     // Metodo imprimir Reporte
-    private void imprimir(){
-        
+    private void imprimir() {
+
         try {
             String sql = "SELECT * FROM deposito ORDER BY cod_deposito ASC";
             rs = con.Listar(sql);
             Map parameters = new HashMap();
             parameters.put("", new String(""));
             JasperReport jr = null;
-            
+
             // Cargamos el reporte
             URL url = getClass().getClassLoader().getResource("reportes/reporte_deposito.jasper");
             jr = (JasperReport) JRLoader.loadObject(url);
-            
+
             JasperPrint masterPrint = null;
             JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
             masterPrint = JasperFillManager.fillReport(jr, parameters, jrRS);
-            
+
             // Generar ventana para mostrar el reporte
             JasperViewer ventana = new JasperViewer(masterPrint, false);
             ventana.setTitle("Vista Previa");
@@ -489,63 +489,63 @@ public class deposito extends javax.swing.JDialog {
         } catch (JRException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
-       
+
         operacion = "modificar";
         desa_botones(1);
         JOptionPane.showMessageDialog(this, "Ingresa un codigo para el deposito a editar");
         txtcodigo.setEnabled(true);
         txtcodigo.requestFocus();
-        
+
     }//GEN-LAST:event_btnmodificarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        
-        int mensaje = JOptionPane.showConfirmDialog(this,"Desea salir?","Atención",JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
-        if (mensaje == JOptionPane.YES_OPTION){
+
+        int mensaje = JOptionPane.showConfirmDialog(this, "Desea salir?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
+        if (mensaje == JOptionPane.YES_OPTION) {
             //System.exit(WIDTH); // Para cerrar totalmente el sistema. Con codigo 1(confuso)
             //System.exit(0); // Mejor practica, cierra el programa con codigo o(correcto)
             dispose(); // Para cerrar ventanas de opciones o formularios sin parar el sistema.
         }
-        
+
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
-        
+
         operacion = "agregar";
         desa_botones(1);
         generar_codigo();
         txtdescripcion.setEnabled(true);
         txtdescripcion.requestFocus();
-        
+
     }//GEN-LAST:event_btnagregarActionPerformed
 
     private void txtdescripcionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdescripcionKeyPressed
-        
+
         String descripcion = txtdescripcion.getText().trim();
-        if (evt.getKeyChar() == KeyEvent.VK_ENTER){
-            if(descripcion.equals("") || descripcion.equals(" ")){
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+            if (descripcion.equals("") || descripcion.equals(" ")) {
                 JOptionPane.showMessageDialog(this, "Ingrese algun valor");
                 txtdescripcion.requestFocus();
-            }else{
-                if("agregar".equals(operacion)){
+            } else {
+                if ("agregar".equals(operacion)) {
                     validar_descripcion();
-                }else{
+                } else {
                     btnguardar.setEnabled(true);
                     btnguardar.requestFocus();
                 }
             }
         }
-        
+
     }//GEN-LAST:event_txtdescripcionKeyPressed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
-        
+
         int mensaje = JOptionPane.showConfirmDialog(this, "Deseas " + operacion, "Atencion", JOptionPane.YES_NO_OPTION);
-        if (mensaje == JOptionPane.YES_OPTION){
+        if (mensaje == JOptionPane.YES_OPTION) {
             guardar();
             btncancelar.doClick();
             /*desa_inicio();
@@ -554,7 +554,7 @@ public class deposito extends javax.swing.JDialog {
             cargar_tabla();
             desa_botones(2); todos estos elementos se cambian por el doClick del boton cancelar*/
         }
-        
+
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed
@@ -577,40 +577,40 @@ public class deposito extends javax.swing.JDialog {
             txtdescripcion.setEnabled(true);
             txtdescripcion.requestFocus();
         }
-        
+
     }//GEN-LAST:event_txtcodigoActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
-        
+
         operacion = "eliminar";
         desa_botones(1);
         JOptionPane.showMessageDialog(this, "Ingresa el numero del deposito a eliminar!");
         txtcodigo.setEnabled(true);
         txtcodigo.requestFocus();
-        
+
     }//GEN-LAST:event_btneliminarActionPerformed
 
     private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
-        
+
         limpiar_tabla();
         buscador();
-        
+
     }//GEN-LAST:event_btnbuscarActionPerformed
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
-            
+
         desa_inicio();
         limpiar_campos();
         limpiar_tabla();
         cargar_tabla();
         desa_botones(2);
-            
+
     }//GEN-LAST:event_btncancelarActionPerformed
 
     private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
-        
+
         imprimir();
-        
+
     }//GEN-LAST:event_btnimprimirActionPerformed
 
     /**
@@ -651,6 +651,7 @@ public class deposito extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
+                dialog.setResizable(false);
 
             }
         });

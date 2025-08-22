@@ -27,7 +27,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="14" isBold="false"/>
 					</textElement>
-					<text><![CDATA[proyecto - pl2]]></text>
+					<text><![CDATA[proyecto - lp2]]></text>
 				</staticText>
 			</frame>
 		</band>

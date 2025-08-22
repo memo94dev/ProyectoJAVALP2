@@ -26,7 +26,6 @@ public class clientes extends javax.swing.JDialog {
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
     int operacion = 0; // Bandera para definir la accion que se va a realizar (insert, update, delete)
-    private boolean modoEdicion;
 
     public clientes(java.awt.Frame parent, boolean modal) {
 
@@ -627,31 +626,33 @@ public class clientes extends javax.swing.JDialog {
 
     }
 
-    // Metodo para buscar
-    private boolean buscar() {
+    // Metodo para validar documento para que no se dupliquen al editar
+    private String buscar(String codigo) {
 
         try {
-            String codigo = txtcodigo.getText();
-            String sql = "SELECT descrip as descripcion FROM deposito WHERE cod_deposito = " + codigo;
-            System.out.println(sql);
+            String sql = "SELECT ci_ruc FROM clientes WHERE id_cliente = " + codigo;
             rs = con.Listar(sql);
-            //rs.next();
-            if (!rs.next()) {
-                JOptionPane.showMessageDialog(this, "El codigo ingresado no existe");
-                return false;
-            } else {
-                //rs.next();
-                String resultado = rs.getString("descripcion");
-                System.out.println(resultado);
-                txtnombre.setText(resultado);
-                return true;
-                //txtdescripcion.setText(rs.getString("descripcion"));
+            if (rs.next()) {
+                return rs.getString("ci_ruc").trim();
             }
         } catch (SQLException ex) {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
+        return null;
 
+    }
+
+    // Metodo para habilitar campos dentro del metodo txtdocumento
+    private void habilitarCampos() {
+        txtnombre.setEnabled(true);
+        txtnombre.requestFocus();
+        txtdocumento.setEnabled(false);
+    }
+
+    // Metodo para mostrar mensaje dentro del metodo txtdocumento
+    private void mostrarErrorDocumento() {
+        txtdocumento.requestFocus();
+        txtdocumento.selectAll();
     }
 
     // Metodo para buscar datos
@@ -682,14 +683,14 @@ public class clientes extends javax.swing.JDialog {
     private void imprimir() {
 
         try {
-            String sql = "SELECT * FROM deposito ORDER BY cod_deposito ASC";
+            String sql = "SELECT * FROM v_reporte_clientes;";
             rs = con.Listar(sql);
             Map parameters = new HashMap();
             parameters.put("", new String(""));
             JasperReport jr = null;
 
             // Cargamos el reporte
-            URL url = getClass().getClassLoader().getResource("reportes/reporte_deposito.jasper");
+            URL url = getClass().getClassLoader().getResource("reportes/reporte_clientes.jasper");
             jr = (JasperReport) JRLoader.loadObject(url);
 
             JasperPrint masterPrint = null;
@@ -741,7 +742,6 @@ public class clientes extends javax.swing.JDialog {
 
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
 
-        modoEdicion = true;
         if (txtcodigo.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar un registro de la grilla para editar..");
             btncancelar.doClick();
@@ -766,7 +766,6 @@ public class clientes extends javax.swing.JDialog {
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
 
-        modoEdicion = false;
         operacion = 1;
         desa_botones(1);
         generar_codigo();
@@ -808,7 +807,7 @@ public class clientes extends javax.swing.JDialog {
 
     private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed
 
-        boolean encontrado = buscar();
+        /* boolean encontrado = buscar();
         if (!encontrado) {
             txtcodigo.requestFocus(); // vuelve el foco al campo código
             txtcodigo.selectAll();    // selecciona el texto para que el usuario pueda reemplazarlo
@@ -826,7 +825,7 @@ public class clientes extends javax.swing.JDialog {
             txtnombre.setEnabled(true);
             txtnombre.requestFocus();
         }
-
+         */
     }//GEN-LAST:event_txtcodigoActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
@@ -913,31 +912,47 @@ public class clientes extends javax.swing.JDialog {
     }//GEN-LAST:event_txtbuscarKeyPressed
 
     private void txtdocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyPressed
+        
+        String codigo = txtcodigo.getText().trim();
+        String documento = txtdocumento.getText().trim();
 
-        String doc = txtdocumento.getText();
-        if (evt.getKeyCode() == 10) {
-            if (doc.isEmpty()) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (documento.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Complete este campo!");
                 txtdocumento.requestFocus();
-            } else {
-                System.out.println(modoEdicion);
-                if (!modoEdicion) {
-                    boolean existe = validar_documento();
-                    if (!existe) {
-                        txtnombre.setEnabled(true);
-                        txtnombre.requestFocus();
-                        txtdocumento.setEnabled(false);
-                    } else {
-                        txtdocumento.requestFocus();
-                        txtdocumento.selectAll();
-                    }
+                return;
+            }
+
+            if (operacion == 1) {
+                // Modo guardar: validar si el documento ya existe
+                if (!validar_documento()) {
+                    habilitarCampos();
                 } else {
-                    txtnombre.setEnabled(true);
-                    txtnombre.requestFocus();
-                    txtdocumento.setEnabled(false);
+                    mostrarErrorDocumento();
+                }
+            } else {
+                // Modo edición
+                String documentoActual = buscar(codigo);
+                if (documentoActual == null) {
+                    JOptionPane.showMessageDialog(this, "El código ingresado no existe");
+                    txtcodigo.requestFocus();
+                    return;
+                }
+
+                if (documento.equals(documentoActual)) {
+                    // Documento no cambió, no validar
+                    habilitarCampos();
+                } else {
+                    // Documento cambió, validar
+                    if (!validar_documento()) {
+                        habilitarCampos();
+                    } else {
+                        mostrarErrorDocumento();
+                    }
                 }
             }
         }
+    
 
     }//GEN-LAST:event_txtdocumentoKeyPressed
 
@@ -1066,16 +1081,28 @@ public class clientes extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(clientes.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(clientes.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(clientes.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(clientes.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -1086,11 +1113,12 @@ public class clientes extends javax.swing.JDialog {
                 clientes dialog = new clientes(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
+        public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });
                 dialog.setVisible(true);
+                dialog.setResizable(false);
 
             }
         });
