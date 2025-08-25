@@ -486,7 +486,8 @@ public class deposito extends javax.swing.JDialog {
             JasperViewer ventana = new JasperViewer(masterPrint, false);
             ventana.setTitle("Vista Previa");
             ventana.setVisible(true);
-        } catch (JRException ex) {
+            ventana.setSize(1000, 680);
+            ventana.setLocationRelativeTo(null);        } catch (JRException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
 

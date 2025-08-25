@@ -701,6 +701,8 @@ public class clientes extends javax.swing.JDialog {
             JasperViewer ventana = new JasperViewer(masterPrint, false);
             ventana.setTitle("Vista Previa");
             ventana.setVisible(true);
+            ventana.setSize(1000, 680);
+            ventana.setLocationRelativeTo(null);
         } catch (JRException ex) {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -486,7 +486,7 @@ public class ciudad extends javax.swing.JDialog {
             JasperViewer ventana = new JasperViewer(masterPrint, false);
             ventana.setTitle("Vista Previa");
             ventana.setVisible(true);
-            ventana.setSize(700, 700);
+            ventana.setSize(1000, 680);
             ventana.setLocationRelativeTo(null);
         } catch (JRException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
