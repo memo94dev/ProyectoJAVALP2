@@ -55,7 +55,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder justification="2" title="Registro Clientes">
+                    <TitledBorder justification="2" title="Productos">
                       <Font PropertyName="font" name="Tahoma" size="18" style="0"/>
                     </TitledBorder>
                   </Border>
@@ -90,44 +90,29 @@
                                               <Component id="labelCodigo" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                                  <Component id="txtbuscar" min="-2" pref="209" max="-2" attributes="0"/>
-                                                  <Component id="txtapellido" alignment="1" min="-2" pref="209" max="-2" attributes="0"/>
-                                                  <Component id="txtnombre" alignment="0" min="-2" pref="209" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="txtcodigo" min="-2" pref="50" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="labelDocumento" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="txtdocumento" max="32767" attributes="0"/>
-                                              </Group>
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="txtbuscar" pref="209" max="32767" attributes="0"/>
+                                              <Component id="txtprecio" alignment="1" pref="209" max="32767" attributes="0"/>
+                                              <Component id="txtnombre" alignment="1" pref="209" max="32767" attributes="0"/>
+                                              <Component id="txtcodigo" max="32767" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
                                               <Group type="102" alignment="1" attributes="0">
                                                   <Component id="labelCiudad" min="-2" pref="94" max="-2" attributes="0"/>
                                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="combociudad" min="-2" pref="211" max="-2" attributes="0"/>
+                                                  <Component id="combotipo" min="-2" pref="211" max="-2" attributes="0"/>
                                               </Group>
-                                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                                  <Group type="102" alignment="0" attributes="0">
-                                                      <Component id="btnbuscar" min="-2" pref="105" max="-2" attributes="0"/>
-                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                      <Component id="btnlimpiar" min="-2" pref="105" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" alignment="1" attributes="0">
-                                                      <Group type="103" groupAlignment="1" attributes="0">
-                                                          <Component id="labelTelefono" min="-2" pref="94" max="-2" attributes="0"/>
-                                                          <Component id="labelDireccion" min="-2" pref="94" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                      <Group type="103" groupAlignment="0" attributes="0">
-                                                          <Component id="txttelefono" alignment="0" min="-2" pref="209" max="-2" attributes="0"/>
-                                                          <Component id="txtdireccion" alignment="0" min="-2" pref="209" max="-2" attributes="0"/>
-                                                      </Group>
-                                                  </Group>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="btnbuscar" min="-2" pref="105" max="-2" attributes="0"/>
+                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                  <Component id="btnlimpiar" min="-2" pref="105" max="-2" attributes="0"/>
+                                                  <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="labelCiudad1" min="-2" pref="94" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="combomedida" min="-2" pref="211" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -147,42 +132,25 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jPanel2" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                          <Component id="labelDocumento" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                          <Component id="txtdocumento" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="labelCodigo" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                          <Component id="txtcodigo" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                          <Component id="labelCiudad" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                          <Component id="combociudad" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="labelCodigo" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="txtcodigo" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="labelCiudad" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="combotipo" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="labelNombre" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="txtnombre" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                                          <Component id="labelCiudad1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                          <Component id="combomedida" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="labelNombre" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                              <Component id="txtnombre" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="labelApellido" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                              <Component id="txtapellido" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="labelDireccion" alignment="1" min="-2" pref="36" max="-2" attributes="0"/>
-                                              <Component id="txtdireccion" min="-2" pref="36" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="labelTelefono" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                              <Component id="txttelefono" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="labelApellido" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="txtprecio" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -389,28 +357,22 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="tablacliente">
+                    <Component class="javax.swing.JTable" name="tablaproductos">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Tahoma" size="18" style="0"/>
                         </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="6" rowCount="0">
+                          <Table columnCount="5" rowCount="0">
                             <Column editable="true" title="C&#xf3;digo" type="java.lang.Object"/>
-                            <Column editable="true" title="Documento" type="java.lang.Object"/>
                             <Column editable="true" title="Nombre" type="java.lang.Object"/>
-                            <Column editable="true" title="Apellido" type="java.lang.Object"/>
-                            <Column editable="true" title="Direcci&#xf3;n" type="java.lang.Object"/>
-                            <Column editable="true" title="Tel&#xe9;fono" type="java.lang.Object"/>
+                            <Column editable="true" title="Tipo Producto" type="java.lang.Object"/>
+                            <Column editable="true" title="Medida" type="java.lang.Object"/>
+                            <Column editable="true" title="Precio" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -446,7 +408,7 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaclienteMouseClicked"/>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaproductosMouseClicked"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -461,75 +423,34 @@
                 </Component>
                 <Component class="org.edisoncor.gui.label.LabelMetric" name="labelApellido">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Apellido:"/>
+                    <Property name="text" type="java.lang.String" value="Precio:"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="18" style="1"/>
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtapellido">
+                <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtprecio">
                   <Properties>
-                    <Property name="descripcion" type="java.lang.String" value="Ingrese el apellido"/>
+                    <Property name="descripcion" type="java.lang.String" value="Ingrese el precio"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="18" style="1"/>
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtapellidoActionPerformed"/>
-                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtapellidoKeyPressed"/>
-                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtapellidoKeyTyped"/>
-                  </Events>
-                </Component>
-                <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtdireccion">
-                  <Properties>
-                    <Property name="descripcion" type="java.lang.String" value="Ingrese la direcci&#xf3;n"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="18" style="1"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtdireccionActionPerformed"/>
-                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtdireccionKeyPressed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtprecioActionPerformed"/>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtprecioKeyPressed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtprecioKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="org.edisoncor.gui.label.LabelMetric" name="labelCiudad">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Ciudad:"/>
+                    <Property name="text" type="java.lang.String" value="Tipo Prod.:"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="18" style="1"/>
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="org.edisoncor.gui.label.LabelMetric" name="labelTelefono">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Tel&#xe9;fono:"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="18" style="1"/>
-                    </Property>
-                  </Properties>
-                </Component>
-                <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txttelefono">
-                  <Properties>
-                    <Property name="descripcion" type="java.lang.String" value="Ingrese el tel&#xe9;fono"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="18" style="1"/>
-                    </Property>
-                  </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txttelefonoActionPerformed"/>
-                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txttelefonoKeyPressed"/>
-                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txttelefonoKeyTyped"/>
-                  </Events>
-                </Component>
-                <Component class="org.edisoncor.gui.label.LabelMetric" name="labelDireccion">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Direcci&#xf3;n:"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Arial" size="18" style="1"/>
-                    </Property>
-                  </Properties>
-                </Component>
-                <Component class="javax.swing.JComboBox" name="combociudad">
+                <Component class="javax.swing.JComboBox" name="combotipo">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="18" style="1"/>
@@ -545,33 +466,44 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="combociudadMouseClicked"/>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combociudadActionPerformed"/>
-                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="combociudadKeyTyped"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="combotipoMouseClicked"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="combotipoActionPerformed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="combotipoKeyTyped"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="org.edisoncor.gui.label.LabelMetric" name="labelDocumento">
+                <Component class="org.edisoncor.gui.label.LabelMetric" name="labelCiudad1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Doc.: "/>
+                    <Property name="text" type="java.lang.String" value="Medida:"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="18" style="1"/>
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtdocumento">
+                <Component class="javax.swing.JComboBox" name="combomedida">
                   <Properties>
-                    <Property name="descripcion" type="java.lang.String" value="CI o RUC"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Arial" size="18" style="1"/>
                     </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="66" green="66" red="66" type="rgb"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Cursor de Mano"/>
+                    </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtdocumentoActionPerformed"/>
-                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtdocumentoKeyPressed"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="combomedidaMouseClicked"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="combomedidaKeyTyped"/>
                   </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

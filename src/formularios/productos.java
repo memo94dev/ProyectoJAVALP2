@@ -20,14 +20,14 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import prg.conectDB;
 
-public class clientes extends javax.swing.JDialog {
+public class productos extends javax.swing.JDialog {
 
     conectDB con; // Traer la clase de conexion
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
     int operacion = 0; // Bandera para definir la accion que se va a realizar (insert, update, delete)
 
-    public clientes(java.awt.Frame parent, boolean modal) {
+    public productos(java.awt.Frame parent, boolean modal) {
 
         //super(parent, modal); // Se superpone a otras ventanas u objetos
         initComponents();
@@ -37,6 +37,7 @@ public class clientes extends javax.swing.JDialog {
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo("1");
+        llenar_combo_medida("1");
         setLocationRelativeTo(null); // Centrar ventana en la pantalla
 
     }
@@ -64,24 +65,20 @@ public class clientes extends javax.swing.JDialog {
         labelBuscar = new org.edisoncor.gui.label.LabelMetric();
         btnbuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablacliente = new javax.swing.JTable();
+        tablaproductos = new javax.swing.JTable();
         btnlimpiar = new javax.swing.JButton();
         labelApellido = new org.edisoncor.gui.label.LabelMetric();
-        txtapellido = new org.edisoncor.gui.textField.TextFieldRectBackground();
-        txtdireccion = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        txtprecio = new org.edisoncor.gui.textField.TextFieldRectBackground();
         labelCiudad = new org.edisoncor.gui.label.LabelMetric();
-        labelTelefono = new org.edisoncor.gui.label.LabelMetric();
-        txttelefono = new org.edisoncor.gui.textField.TextFieldRectBackground();
-        labelDireccion = new org.edisoncor.gui.label.LabelMetric();
-        combociudad = new javax.swing.JComboBox<>();
-        labelDocumento = new org.edisoncor.gui.label.LabelMetric();
-        txtdocumento = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        combotipo = new javax.swing.JComboBox<>();
+        labelCiudad1 = new org.edisoncor.gui.label.LabelMetric();
+        combomedida = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         panelNice1.setBackground(new java.awt.Color(153, 153, 153));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registro Clientes", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
         jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(970, 598));
 
@@ -230,22 +227,22 @@ public class clientes extends javax.swing.JDialog {
             }
         });
 
-        tablacliente.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        tablacliente.setModel(new javax.swing.table.DefaultTableModel(
+        tablaproductos.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tablaproductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Documento", "Nombre", "Apellido", "Dirección", "Teléfono"
+                "Código", "Nombre", "Tipo Producto", "Medida", "Precio"
             }
         ));
-        tablacliente.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tablacliente.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaproductos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tablaproductos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaclienteMouseClicked(evt);
+                tablaproductosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tablacliente);
+        jScrollPane1.setViewportView(tablaproductos);
 
         btnlimpiar.setText("Limpiar");
         btnlimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -254,95 +251,61 @@ public class clientes extends javax.swing.JDialog {
             }
         });
 
-        labelApellido.setText("Apellido:");
+        labelApellido.setText("Precio:");
         labelApellido.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        txtapellido.setDescripcion("Ingrese el apellido");
-        txtapellido.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtapellido.addActionListener(new java.awt.event.ActionListener() {
+        txtprecio.setDescripcion("Ingrese el precio");
+        txtprecio.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtprecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtapellidoActionPerformed(evt);
+                txtprecioActionPerformed(evt);
             }
         });
-        txtapellido.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtprecio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtapellidoKeyPressed(evt);
+                txtprecioKeyPressed(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtapellidoKeyTyped(evt);
+                txtprecioKeyTyped(evt);
             }
         });
 
-        txtdireccion.setDescripcion("Ingrese la dirección");
-        txtdireccion.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtdireccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtdireccionActionPerformed(evt);
-            }
-        });
-        txtdireccion.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtdireccionKeyPressed(evt);
-            }
-        });
-
-        labelCiudad.setText("Ciudad:");
+        labelCiudad.setText("Tipo Prod.:");
         labelCiudad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        labelTelefono.setText("Teléfono:");
-        labelTelefono.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-
-        txttelefono.setDescripcion("Ingrese el teléfono");
-        txttelefono.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txttelefono.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txttelefonoActionPerformed(evt);
-            }
-        });
-        txttelefono.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txttelefonoKeyPressed(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txttelefonoKeyTyped(evt);
-            }
-        });
-
-        labelDireccion.setText("Dirección:");
-        labelDireccion.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-
-        combociudad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        combociudad.setForeground(new java.awt.Color(102, 102, 102));
-        combociudad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        combociudad.addMouseListener(new java.awt.event.MouseAdapter() {
+        combotipo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        combotipo.setForeground(new java.awt.Color(102, 102, 102));
+        combotipo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        combotipo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                combociudadMouseClicked(evt);
+                combotipoMouseClicked(evt);
             }
         });
-        combociudad.addActionListener(new java.awt.event.ActionListener() {
+        combotipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combociudadActionPerformed(evt);
+                combotipoActionPerformed(evt);
             }
         });
-        combociudad.addKeyListener(new java.awt.event.KeyAdapter() {
+        combotipo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                combociudadKeyTyped(evt);
+                combotipoKeyTyped(evt);
             }
         });
 
-        labelDocumento.setText("Doc.: ");
-        labelDocumento.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        labelCiudad1.setText("Medida:");
+        labelCiudad1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        txtdocumento.setDescripcion("CI o RUC");
-        txtdocumento.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtdocumento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtdocumentoActionPerformed(evt);
+        combomedida.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        combomedida.setForeground(new java.awt.Color(102, 102, 102));
+        combomedida.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        combomedida.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                combomedidaMouseClicked(evt);
             }
         });
-        txtdocumento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtdocumentoKeyPressed(evt);
+        combomedida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                combomedidaKeyTyped(evt);
             }
         });
 
@@ -365,36 +328,26 @@ public class clientes extends javax.swing.JDialog {
                                     .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(labelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtapellido, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtnombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(labelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtdocumento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtbuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                                    .addComponent(txtprecio, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                                    .addComponent(txtnombre, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                                    .addComponent(txtcodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(46, 46, 46)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(combociudad, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(labelTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))))))))
+                                        .addComponent(combotipo, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(87, 87, 87))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(labelCiudad1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(combomedida, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -406,33 +359,22 @@ public class clientes extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(labelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtdocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(labelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(combociudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(combotipo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtapellido, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelDireccion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtdireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(labelTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txttelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(labelCiudad1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(combomedida, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -469,12 +411,10 @@ public class clientes extends javax.swing.JDialog {
 
         btnguardar.setEnabled(false);
         txtcodigo.setEnabled(false);
-        txtdocumento.setEnabled(false);
         txtnombre.setEnabled(false);
-        txtapellido.setEnabled(false);
-        txtdireccion.setEnabled(false);
-        txttelefono.setEnabled(false);
-        combociudad.setEnabled(false);
+        txtprecio.setEnabled(false);
+        combomedida.setEnabled(false);
+        combotipo.setEnabled(false);
         txtbuscar.requestFocus();
 
     }
@@ -505,12 +445,12 @@ public class clientes extends javax.swing.JDialog {
     private void generar_codigo() {
 
         try {
-            String sql = "SELECT COALESCE (MAX(id_cliente),0)+1 AS cod FROM clientes;"; // Creamos la consulta SQL.
+            String sql = "SELECT COALESCE (MAX(cod_producto),0)+1 AS cod FROM producto;"; // Creamos la consulta SQL.
             rs = con.Listar(sql); // Utilizamos el metodo listar.
             rs.next(); // Llamar a los siguientes resultados.
             txtcodigo.setText(rs.getString("cod")); // Enviar el resultado en el campo de codigo de nuestro formulario.
         } catch (SQLException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -519,52 +459,46 @@ public class clientes extends javax.swing.JDialog {
     private boolean validar_documento() {
 
         try {
-            String doc = txtdocumento.getText().trim();
-            rs = con.Listar("SELECT * FROM clientes WHERE ci_ruc = '" + doc + "'");
+            String cod = txtcodigo.getText().trim();
+            rs = con.Listar("SELECT * FROM productos WHERE cod_producto = '" + cod + "'");
             //boolean encontro = rs.next();
             if (rs.next()) {
-                String nombre = rs.getString("cli_nombre");
-                String apellido = rs.getString("cli_apellido");
-                JOptionPane.showMessageDialog(this, "El documento ingresado '" + doc
-                        + "' ya ha sido registrado para: " + nombre + " " + apellido);
-                return true; // Documento duplicado
+                String nombre = rs.getString("p_descrip");
+                JOptionPane.showMessageDialog(this, "El producto ingresado '" + cod
+                        + "' ya ha sido registrado para: " + nombre + "!");
+                return true; // Producto duplicado
             }
         } catch (SQLException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false; // Documento no duplicado
+        return false; // Producto no duplicado
     }
 
     // Metodo para guardar nuevo registro en la BDD
     private void guardar() {
 
         String codigo = txtcodigo.getText().trim();
-        String nombre = txtnombre.getText().toUpperCase().trim();
-        String documento = txtdocumento.getText().trim();
-        String apellido = txtapellido.getText().toUpperCase().trim();
-        String direccion = txtdireccion.getText().toUpperCase().trim();
-        String telefono = txttelefono.getText().trim();
-        String ciudad = (String) combociudad.getSelectedItem();
+        String descripcion = txtnombre.getText().toUpperCase().trim();
+        String precio = txtprecio.getText().toUpperCase().trim();
+        String medida = (String) combotipo.getSelectedItem();
+        String tipo = (String) combotipo.getSelectedItem();
         if (operacion == 1) {
-            con.insertar_datos("clientes", "id_cliente, ci_ruc, cli_nombre, cli_apellido, cli_direccion, cli_telefono, cod_ciudad",
-                    codigo + ", '"
-                    + documento + "', '"
-                    + nombre + "', '"
-                    + apellido + "', '"
-                    + direccion + "', '"
-                    + telefono + "', "
-                    + "(SELECT SPLIT_PART('" + ciudad + "','-',1)::integer)",
+            con.insertar_datos("productos", "cod_producto, cod_tipo_prod, id_u_medida, p_descrip, precio",
+                    codigo + ", "
+                    + "(SELECT SPLIT_PART('" + tipo + "','-',1)::integer)"
+                    + "(SELECT SPLIT_PART('" + medida + "','-',1)::integer)"
+                    + descripcion + "', "
+                    + precio,
                     1);
         }
         if (operacion == 2) {
-            con.actualizar_datos("clientes",
-                    "ci_ruc = '" + documento
-                    + "', cli_nombre = '" + nombre
-                    + "', cli_apellido = '" + apellido
-                    + "', cli_direccion = '" + direccion
-                    + "', cli_telefono = '" + telefono
-                    + "', cod_ciudad = (SELECT SPLIT_PART('" + ciudad + "','-',1)::integer)",
-                    "id_cliente = " + codigo, 1);
+            con.actualizar_datos("productos",
+                    "cod_producto = '" + codigo
+                    + "', cod_tipo_prod = (SELECT SPLIT_PART('" + tipo + "','-',1)::integer)"
+                    + "', id_u_medida = (SELECT SPLIT_PART('" + medida + "','-',1)::integer)"
+                    + "', p_descrip = '" + descripcion
+                    + "', precio = '" + precio,
+                    "cod_producto = " + codigo, 1);
         }
     }
 
@@ -573,10 +507,7 @@ public class clientes extends javax.swing.JDialog {
 
         txtcodigo.setText("");
         txtnombre.setText("");
-        txtapellido.setText("");
-        txtdireccion.setText("");
-        txttelefono.setText("");
-        txtdocumento.setText("");
+        txtprecio.setText("");
         txtbuscar.setText("");
 
     }
@@ -585,21 +516,24 @@ public class clientes extends javax.swing.JDialog {
     private void cargar_tabla() {
 
         try {
-            cursor = (DefaultTableModel) tablacliente.getModel();
-            String sql = "SELECT * FROM clientes ORDER BY id_cliente ASC;";
+            cursor = (DefaultTableModel) tablaproductos.getModel();
+String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip) AS tipo_producto, CONCAT(p.id_u_medida, '- ', u.u_descrip) AS medida, p.p_descrip, p.precio " +
+             "FROM producto p " +
+             "JOIN tipo_producto t ON p.cod_tipo_prod = t.cod_tipo_prod " +
+             "JOIN u_medida u ON p.id_u_medida = u.id_u_medida " +
+             "ORDER BY p.cod_producto ASC;";
             rs = con.Listar(sql);
             String[] fila = new String[6];
             while (rs.next()) {
-                fila[0] = rs.getString("id_cliente");
-                fila[1] = rs.getString("ci_ruc");
-                fila[2] = rs.getString("cli_nombre");
-                fila[3] = rs.getString("cli_apellido");
-                fila[4] = rs.getString("cli_direccion");
-                fila[5] = rs.getString("cli_telefono");
+                fila[0] = rs.getString("cod_producto");
+                fila[1] = rs.getString("p_descrip");
+                fila[2] = rs.getString("tipo_producto");
+                fila[3] = rs.getString("medida");
+                fila[4] = rs.getString("precio");
                 cursor.addRow(fila);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -608,15 +542,32 @@ public class clientes extends javax.swing.JDialog {
     private void llenar_combo(String orden) {
 
         try {
-            String sql = "SELECT CONCAT (cod_ciudad, '-', descrip_ciudad) AS ciudad FROM ciudad ORDER BY cod_ciudad = " + orden + "ASC;";
+            String sql = "SELECT CONCAT(p.cod_tipo_prod, '- ' , t.t_p_descrip) AS tipo FROM producto p, tipo_producto t ORDER BY p.cod_producto ASC;";
             rs = con.Listar(sql);
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
-                    combociudad.addItem(rs.getString("ciudad"));
+                    combotipo.addItem(rs.getString("tipo"));
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    private void llenar_combo_medida(String orden) {
+
+        try {
+            String sql = "SELECT CONCAT(p.id_u_medida, '- ' , u.u_descrip) AS medida FROM producto p, u_medida u ORDER BY p.id_u_medida ASC;";
+            rs = con.Listar(sql);
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    combomedida.addItem(rs.getString("medida"));
+                    System.out.println(rs.getString("medida"));
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -624,24 +575,24 @@ public class clientes extends javax.swing.JDialog {
     // Metodo para limpiar valores de la tabla
     private void limpiar_tabla() {
 
-        cursor = (DefaultTableModel) tablacliente.getModel();
+        cursor = (DefaultTableModel) tablaproductos.getModel();
         while (cursor.getRowCount() > 0) {
             cursor.removeRow(0);
         }
 
     }
 
-    // Metodo para validar documento para que no se dupliquen al editar
+    // Metodo para validar producto para que no se dupliquen
     private String buscar(String codigo) {
 
         try {
-            String sql = "SELECT ci_ruc FROM clientes WHERE id_cliente = " + codigo;
+            String sql = "SELECT cod_producto FROM producto WHERE cod_producto = " + codigo;
             rs = con.Listar(sql);
             if (rs.next()) {
-                return rs.getString("ci_ruc").trim();
+                return rs.getString("cod_producto").trim();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
 
@@ -649,37 +600,36 @@ public class clientes extends javax.swing.JDialog {
 
     // Metodo para habilitar campos dentro del metodo txtdocumento
     private void habilitarCampos() {
-        txtnombre.setEnabled(true);
+       /* txtnombre.setEnabled(true);
         txtnombre.requestFocus();
-        txtdocumento.setEnabled(false);
+        txtdocumento.setEnabled(false);*/
     }
 
     // Metodo para mostrar mensaje dentro del metodo txtdocumento
     private void mostrarErrorDocumento() {
-        txtdocumento.requestFocus();
-        txtdocumento.selectAll();
+        /*txtdocumento.requestFocus();
+        txtdocumento.selectAll();*/
     }
 
     // Metodo para buscar datos
     private void buscador() {
 
         try {
-            cursor = (DefaultTableModel) tablacliente.getModel();
+            cursor = (DefaultTableModel) tablaproductos.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
-            String sql = "SELECT * FROM clientes WHERE ci_ruc LIKE '%" + buscar + "%' OR cli_nombre ILIKE '%" + buscar + "%' ORDER BY id_cliente;";
+            String sql = "SELECT * FROM producto WHERE cod_producto LIKE '%" + buscar + "%' OR p_descrip ILIKE '%" + buscar + "%' ORDER BY cod_producto;";
             rs = con.Listar(sql);
             String[] fila = new String[6];
             while (rs.next()) {
-                fila[0] = rs.getString("id_cliente");
-                fila[1] = rs.getString("ci_ruc");
-                fila[2] = rs.getString("cli_nombre");
-                fila[3] = rs.getString("cli_apellido");
-                fila[4] = rs.getString("cli_direccion");
-                fila[5] = rs.getString("cli_telefono");
+                fila[0] = rs.getString("cod_producto");
+                fila[1] = rs.getString("cod_tipo_prod");
+                fila[2] = rs.getString("id_u_medida");
+                fila[3] = rs.getString("p_descrip");
+                fila[4] = rs.getString("precio");
                 cursor.addRow(fila);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -709,7 +659,7 @@ public class clientes extends javax.swing.JDialog {
             ventana.setSize(1000, 680);
             ventana.setLocationRelativeTo(null);
         } catch (JRException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -717,16 +667,16 @@ public class clientes extends javax.swing.JDialog {
     // Ver datos
     private void ver_datos() {
 
-        int fila = tablacliente.getSelectedRow();
-        txtcodigo.setText(tablacliente.getValueAt(fila, 0).toString());
-        txtdocumento.setText(tablacliente.getValueAt(fila, 1).toString());
-        txtnombre.setText(tablacliente.getValueAt(fila, 2).toString());
-        txtapellido.setText(tablacliente.getValueAt(fila, 3).toString());
+        /*int fila = tablaproductos.getSelectedRow();
+        txtcodigo.setText(tablaproductos.getValueAt(fila, 0).toString());
+        txtdocumento.setText(tablaproductos.getValueAt(fila, 1).toString());
+        txtnombre.setText(tablaproductos.getValueAt(fila, 2).toString());
+        txtprecio.setText(tablaproductos.getValueAt(fila, 3).toString());
         //combociudad.setEnabled(true);
-        txtdireccion.setText(tablacliente.getValueAt(fila, 4).toString());
-        txttelefono.setText(tablacliente.getValueAt(fila, 5).toString());
+        txtdireccion.setText(tablaproductos.getValueAt(fila, 4).toString());
+        txttelefono.setText(tablaproductos.getValueAt(fila, 5).toString());
 
-        String codigo = tablacliente.getValueAt(fila, 0).toString();
+        String codigo = tablaproductos.getValueAt(fila, 0).toString();
         //System.out.println("Codigo del cliente: " + codigo);
 
         try {
@@ -738,12 +688,12 @@ public class clientes extends javax.swing.JDialog {
                 while (rs.next()) {
                     String ciudad = rs.getString("ciudad");
                     //System.out.println(ciudad);
-                    combociudad.setSelectedItem(rs.getString("ciudad"));
+                    combotipo.setSelectedItem(rs.getString("ciudad"));
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
 
     }
 
@@ -755,8 +705,8 @@ public class clientes extends javax.swing.JDialog {
         } else {
             operacion = 2;
             desa_botones(1);
-            txtdocumento.setEnabled(true);
-            txtdocumento.requestFocus();
+            txtnombre.setEnabled(true);
+            txtnombre.requestFocus();
         }
 
     }//GEN-LAST:event_btnmodificarActionPerformed
@@ -776,8 +726,8 @@ public class clientes extends javax.swing.JDialog {
         operacion = 1;
         desa_botones(1);
         generar_codigo();
-        txtdocumento.setEnabled(true);
-        txtdocumento.requestFocus();
+        txtnombre.setEnabled(true);
+        txtnombre.requestFocus();
 
     }//GEN-LAST:event_btnagregarActionPerformed
 
@@ -845,7 +795,7 @@ public class clientes extends javax.swing.JDialog {
         } else {
             int mensaje = JOptionPane.showConfirmDialog(this, "Deseas eliminar el registro?", "Atención", JOptionPane.YES_NO_OPTION);
             if (mensaje == JOptionPane.YES_OPTION) {
-                con.borrar_datos("clientes", "id_cliente", codigo);
+                con.borrar_datos("producto", "cod_cliente", codigo);
                 btncancelar.doClick();
             }
         }
@@ -884,27 +834,9 @@ public class clientes extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnlimpiarActionPerformed
 
-    private void txtapellidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtapellidoKeyPressed
+    private void txtprecioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtprecioKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtapellidoKeyPressed
-
-    private void txtdireccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdireccionKeyPressed
-        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-            String direccion = txtdireccion.getText().trim();
-            if (direccion.equals("")) {
-                JOptionPane.showMessageDialog(this, "Ingrese una direccion");
-                txtdireccion.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_txtdireccionKeyPressed
-
-    private void txttelefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txttelefonoKeyPressed
-
-    private void txtdocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdocumentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtdocumentoActionPerformed
+    }//GEN-LAST:event_txtprecioKeyPressed
 
     private void txtbuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyTyped
         // Se utiliza keypressed
@@ -918,56 +850,11 @@ public class clientes extends javax.swing.JDialog {
 
     }//GEN-LAST:event_txtbuscarKeyPressed
 
-    private void txtdocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyPressed
-        
-        String codigo = txtcodigo.getText().trim();
-        String documento = txtdocumento.getText().trim();
-
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (documento.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Complete este campo!");
-                txtdocumento.requestFocus();
-                return;
-            }
-
-            if (operacion == 1) {
-                // Modo guardar: validar si el documento ya existe
-                if (!validar_documento()) {
-                    habilitarCampos();
-                } else {
-                    mostrarErrorDocumento();
-                }
-            } else {
-                // Modo edición
-                String documentoActual = buscar(codigo);
-                if (documentoActual == null) {
-                    JOptionPane.showMessageDialog(this, "El código ingresado no existe");
-                    txtcodigo.requestFocus();
-                    return;
-                }
-
-                if (documento.equals(documentoActual)) {
-                    // Documento no cambió, no validar
-                    habilitarCampos();
-                } else {
-                    // Documento cambió, validar
-                    if (!validar_documento()) {
-                        habilitarCampos();
-                    } else {
-                        mostrarErrorDocumento();
-                    }
-                }
-            }
-        }
-    
-
-    }//GEN-LAST:event_txtdocumentoKeyPressed
-
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
 
         txtnombre.setEnabled(false);
-        txtapellido.setEnabled(true);
-        txtapellido.requestFocus();
+        txtprecio.setEnabled(true);
+        txtprecio.requestFocus();
 
     }//GEN-LAST:event_txtnombreActionPerformed
 
@@ -983,75 +870,47 @@ public class clientes extends javax.swing.JDialog {
 
     }//GEN-LAST:event_txtnombreKeyTyped
 
-    private void txtapellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtapellidoActionPerformed
+    private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
 
-        txtapellido.setEnabled(false);
-        combociudad.setEnabled(true);
-        combociudad.requestFocus();
+        txtprecio.setEnabled(false);
+        combotipo.setEnabled(true);
+        combotipo.requestFocus();
 
-    }//GEN-LAST:event_txtapellidoActionPerformed
+    }//GEN-LAST:event_txtprecioActionPerformed
 
-    private void txtapellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtapellidoKeyTyped
+    private void txtprecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtprecioKeyTyped
 
         char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(this, "Solo puede ingresar letras");
-            txtapellido.requestFocus();
+            txtprecio.requestFocus();
         }
 
-    }//GEN-LAST:event_txtapellidoKeyTyped
+    }//GEN-LAST:event_txtprecioKeyTyped
 
-    private void combociudadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combociudadKeyTyped
+    private void combotipoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combotipoKeyTyped
 
-        combociudad.setEnabled(false);
+        combotipo.setEnabled(false);
+        /*txtdireccion.setEnabled(true);
+        txtdireccion.requestFocus();*/
+
+    }//GEN-LAST:event_combotipoKeyTyped
+
+    private void combotipoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combotipoMouseClicked
+
+        /*combotipo.setEnabled(false);
         txtdireccion.setEnabled(true);
-        txtdireccion.requestFocus();
+        txtdireccion.requestFocus();*/
 
-    }//GEN-LAST:event_combociudadKeyTyped
+    }//GEN-LAST:event_combotipoMouseClicked
 
-    private void combociudadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combociudadMouseClicked
-
-        combociudad.setEnabled(false);
-        txtdireccion.setEnabled(true);
-        txtdireccion.requestFocus();
-
-    }//GEN-LAST:event_combociudadMouseClicked
-
-    private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
-
-        int k = evt.getKeyChar();
-        if ((k >= 32 && k <= 45) || (k >= 58 && k <= 126)) {
-            evt.setKeyChar((char) KeyEvent.VK_CLEAR);
-            getToolkit().beep();
-            JOptionPane.showMessageDialog(this, "Solo puede ingresar numeros");
-            txttelefono.requestFocus();
-        }
-
-    }//GEN-LAST:event_txttelefonoKeyTyped
-
-    private void txttelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttelefonoActionPerformed
-
-        txttelefono.setEnabled(false);
-        btnguardar.setEnabled(true);
-        btnguardar.requestFocus();
-
-    }//GEN-LAST:event_txttelefonoActionPerformed
-
-    private void txtdireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdireccionActionPerformed
-
-        txtdireccion.setEnabled(false);
-        txttelefono.setEnabled(true);
-        txttelefono.requestFocus();
-
-    }//GEN-LAST:event_txtdireccionActionPerformed
-
-    private void tablaclienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaclienteMouseClicked
+    private void tablaproductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaproductosMouseClicked
 
         ver_datos();
 
-    }//GEN-LAST:event_tablaclienteMouseClicked
+    }//GEN-LAST:event_tablaproductosMouseClicked
 
     private void btnguardarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnguardarKeyTyped
 
@@ -1074,9 +933,17 @@ public class clientes extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnguardarKeyPressed
 
-    private void combociudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combociudadActionPerformed
+    private void combomedidaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combomedidaMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_combociudadActionPerformed
+    }//GEN-LAST:event_combomedidaMouseClicked
+
+    private void combomedidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combomedidaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combomedidaKeyTyped
+
+    private void combotipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combotipoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combotipoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1097,31 +964,33 @@ public class clientes extends javax.swing.JDialog {
 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(clientes.class
+            java.util.logging.Logger.getLogger(productos.class
 .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         
 
 } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(clientes.class
+            java.util.logging.Logger.getLogger(productos.class
 .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         
 
 } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(clientes.class
+            java.util.logging.Logger.getLogger(productos.class
 .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         
 
 } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(clientes.class
+            java.util.logging.Logger.getLogger(productos.class
 .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                clientes dialog = new clientes(new javax.swing.JFrame(), true);
+                productos dialog = new productos(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
         public void windowClosing(java.awt.event.WindowEvent e) {
@@ -1145,27 +1014,23 @@ public class clientes extends javax.swing.JDialog {
     private javax.swing.JButton btnimprimir;
     private javax.swing.JButton btnlimpiar;
     private javax.swing.JButton btnmodificar;
-    private javax.swing.JComboBox<String> combociudad;
+    private javax.swing.JComboBox<String> combomedida;
+    private javax.swing.JComboBox<String> combotipo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private org.edisoncor.gui.label.LabelMetric labelApellido;
     private org.edisoncor.gui.label.LabelMetric labelBuscar;
     private org.edisoncor.gui.label.LabelMetric labelCiudad;
+    private org.edisoncor.gui.label.LabelMetric labelCiudad1;
     private org.edisoncor.gui.label.LabelMetric labelCodigo;
-    private org.edisoncor.gui.label.LabelMetric labelDireccion;
-    private org.edisoncor.gui.label.LabelMetric labelDocumento;
     private org.edisoncor.gui.label.LabelMetric labelNombre;
-    private org.edisoncor.gui.label.LabelMetric labelTelefono;
     private org.edisoncor.gui.panel.PanelCurves panelCurves1;
     private org.edisoncor.gui.panel.PanelNice panelNice1;
-    private javax.swing.JTable tablacliente;
-    private org.edisoncor.gui.textField.TextFieldRectBackground txtapellido;
+    private javax.swing.JTable tablaproductos;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtbuscar;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtcodigo;
-    private org.edisoncor.gui.textField.TextFieldRectBackground txtdireccion;
-    private org.edisoncor.gui.textField.TextFieldRectBackground txtdocumento;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtnombre;
-    private org.edisoncor.gui.textField.TextFieldRectBackground txttelefono;
+    private org.edisoncor.gui.textField.TextFieldRectBackground txtprecio;
     // End of variables declaration//GEN-END:variables
 }

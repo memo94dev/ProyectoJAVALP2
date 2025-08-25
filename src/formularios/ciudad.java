@@ -263,7 +263,7 @@ public class ciudad extends javax.swing.JDialog {
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
-        panelCurves1.add(jPanel1, java.awt.BorderLayout.CENTER);
+        panelCurves1.add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         panelNice1.add(panelCurves1, java.awt.BorderLayout.CENTER);
 
