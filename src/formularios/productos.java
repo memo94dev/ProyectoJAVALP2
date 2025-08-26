@@ -208,9 +208,17 @@ public class productos extends javax.swing.JDialog {
 
         txtbuscar.setDescripcion("Ingrese un valor");
         txtbuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarActionPerformed(evt);
+            }
+        });
         txtbuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtbuscarKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtbuscarKeyTyped(evt);
@@ -365,12 +373,13 @@ public class productos extends javax.swing.JDialog {
                             .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(combotipo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(labelCiudad1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(combomedida, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(combomedida, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -480,24 +489,24 @@ public class productos extends javax.swing.JDialog {
         String codigo = txtcodigo.getText().trim();
         String descripcion = txtnombre.getText().toUpperCase().trim();
         String precio = txtprecio.getText().toUpperCase().trim();
-        String medida = (String) combotipo.getSelectedItem();
+        String medida = (String) combomedida.getSelectedItem();
         String tipo = (String) combotipo.getSelectedItem();
         if (operacion == 1) {
-            con.insertar_datos("productos", "cod_producto, cod_tipo_prod, id_u_medida, p_descrip, precio",
+            con.insertar_datos("producto", "cod_producto, cod_tipo_prod, id_u_medida, p_descrip, precio",
                     codigo + ", "
-                    + "(SELECT SPLIT_PART('" + tipo + "','-',1)::integer)"
-                    + "(SELECT SPLIT_PART('" + medida + "','-',1)::integer)"
+                    + "(SELECT SPLIT_PART('" + tipo + "','-',1)::integer), "
+                    + "(SELECT SPLIT_PART('" + medida + "','-',1)::integer), '"
                     + descripcion + "', "
                     + precio,
                     1);
         }
         if (operacion == 2) {
-            con.actualizar_datos("productos",
-                    "cod_producto = '" + codigo
-                    + "', cod_tipo_prod = (SELECT SPLIT_PART('" + tipo + "','-',1)::integer)"
-                    + "', id_u_medida = (SELECT SPLIT_PART('" + medida + "','-',1)::integer)"
-                    + "', p_descrip = '" + descripcion
-                    + "', precio = '" + precio,
+            con.actualizar_datos("producto",
+                    "cod_producto = " + codigo
+                    + ", cod_tipo_prod = (SELECT SPLIT_PART('" + tipo + "','-',1)::integer)"
+                    + ", id_u_medida = (SELECT SPLIT_PART('" + medida + "','-',1)::integer)"
+                    + ", p_descrip = '" + descripcion
+                    + "', precio = " + precio,
                     "cod_producto = " + codigo, 1);
         }
     }
@@ -517,13 +526,13 @@ public class productos extends javax.swing.JDialog {
 
         try {
             cursor = (DefaultTableModel) tablaproductos.getModel();
-String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip) AS tipo_producto, CONCAT(p.id_u_medida, '- ', u.u_descrip) AS medida, p.p_descrip, p.precio " +
-             "FROM producto p " +
-             "JOIN tipo_producto t ON p.cod_tipo_prod = t.cod_tipo_prod " +
-             "JOIN u_medida u ON p.id_u_medida = u.id_u_medida " +
-             "ORDER BY p.cod_producto ASC;";
+            String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip) AS tipo_producto, CONCAT(p.id_u_medida, '- ', u.u_descrip) AS medida, p.p_descrip, p.precio "
+                    + "FROM producto p "
+                    + "JOIN tipo_producto t ON p.cod_tipo_prod = t.cod_tipo_prod "
+                    + "JOIN u_medida u ON p.id_u_medida = u.id_u_medida "
+                    + "ORDER BY p.cod_producto ASC;";
             rs = con.Listar(sql);
-            String[] fila = new String[6];
+            String[] fila = new String[5];
             while (rs.next()) {
                 fila[0] = rs.getString("cod_producto");
                 fila[1] = rs.getString("p_descrip");
@@ -542,7 +551,7 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
     private void llenar_combo(String orden) {
 
         try {
-            String sql = "SELECT CONCAT(p.cod_tipo_prod, '- ' , t.t_p_descrip) AS tipo FROM producto p, tipo_producto t ORDER BY p.cod_producto ASC;";
+            String sql = "SELECT CONCAT(cod_tipo_prod, '- ' , t_p_descrip) AS tipo FROM tipo_producto ORDER BY cod_tipo_prod ASC;";
             rs = con.Listar(sql);
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
@@ -554,16 +563,15 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
         }
 
     }
-    
+
     private void llenar_combo_medida(String orden) {
 
         try {
-            String sql = "SELECT CONCAT(p.id_u_medida, '- ' , u.u_descrip) AS medida FROM producto p, u_medida u ORDER BY p.id_u_medida ASC;";
+            String sql = "SELECT CONCAT(id_u_medida, '- ' , u_descrip) AS medida FROM u_medida ORDER BY id_u_medida ASC;";
             rs = con.Listar(sql);
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
                     combomedida.addItem(rs.getString("medida"));
-                    System.out.println(rs.getString("medida"));
                 }
             }
         } catch (SQLException ex) {
@@ -600,7 +608,7 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
 
     // Metodo para habilitar campos dentro del metodo txtdocumento
     private void habilitarCampos() {
-       /* txtnombre.setEnabled(true);
+        /* txtnombre.setEnabled(true);
         txtnombre.requestFocus();
         txtdocumento.setEnabled(false);*/
     }
@@ -617,14 +625,15 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
         try {
             cursor = (DefaultTableModel) tablaproductos.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
-            String sql = "SELECT * FROM producto WHERE cod_producto LIKE '%" + buscar + "%' OR p_descrip ILIKE '%" + buscar + "%' ORDER BY cod_producto;";
+            String sql = "SELECT * FROM producto WHERE p_descrip ILIKE '%" + buscar + "%' ORDER BY cod_producto;";
             rs = con.Listar(sql);
-            String[] fila = new String[6];
+            String[] fila = new String[5];
+            System.out.println("Texto buscado: " + buscar);
             while (rs.next()) {
                 fila[0] = rs.getString("cod_producto");
-                fila[1] = rs.getString("cod_tipo_prod");
-                fila[2] = rs.getString("id_u_medida");
-                fila[3] = rs.getString("p_descrip");
+                fila[1] = rs.getString("p_descrip");
+                fila[2] = rs.getString("cod_tipo_prod");
+                fila[3] = rs.getString("id_u_medida");
                 fila[4] = rs.getString("precio");
                 cursor.addRow(fila);
             }
@@ -667,16 +676,15 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
     // Ver datos
     private void ver_datos() {
 
-        /*int fila = tablaproductos.getSelectedRow();
+        int fila = tablaproductos.getSelectedRow(); // codigo nombre tipo medida precio 
+        System.out.println(fila);
         txtcodigo.setText(tablaproductos.getValueAt(fila, 0).toString());
-        txtdocumento.setText(tablaproductos.getValueAt(fila, 1).toString());
-        txtnombre.setText(tablaproductos.getValueAt(fila, 2).toString());
-        txtprecio.setText(tablaproductos.getValueAt(fila, 3).toString());
-        //combociudad.setEnabled(true);
-        txtdireccion.setText(tablaproductos.getValueAt(fila, 4).toString());
-        txttelefono.setText(tablaproductos.getValueAt(fila, 5).toString());
+        txtnombre.setText(tablaproductos.getValueAt(fila, 1).toString());
+        txtprecio.setText(tablaproductos.getValueAt(fila, 4).toString());
+        combotipo.setSelectedItem(tablaproductos.getValueAt(fila, 2).toString());
+        combomedida.setSelectedItem(tablaproductos.getValueAt(fila, 3).toString());
 
-        String codigo = tablaproductos.getValueAt(fila, 0).toString();
+        /*String codigo = tablaproductos.getValueAt(fila, 0).toString();
         //System.out.println("Codigo del cliente: " + codigo);
 
         try {
@@ -694,7 +702,6 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
         } catch (SQLException ex) {
             Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-
     }
 
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
@@ -795,7 +802,7 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
         } else {
             int mensaje = JOptionPane.showConfirmDialog(this, "Deseas eliminar el registro?", "Atención", JOptionPane.YES_NO_OPTION);
             if (mensaje == JOptionPane.YES_OPTION) {
-                con.borrar_datos("producto", "cod_cliente", codigo);
+                con.borrar_datos("producto", "cod_producto", codigo);
                 btncancelar.doClick();
             }
         }
@@ -839,7 +846,11 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
     }//GEN-LAST:event_txtprecioKeyPressed
 
     private void txtbuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyTyped
-        // Se utiliza keypressed
+
+        //btnbuscar.doClick(); -- Se camnbia por key pressed ya que con este metodo busca antes de grabar el caracter y lo hace impreciso
+        //limpiar_tabla();
+        //buscador();
+
     }//GEN-LAST:event_txtbuscarKeyTyped
 
     private void txtbuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyPressed
@@ -880,11 +891,11 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
 
     private void txtprecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtprecioKeyTyped
 
-        char c = evt.getKeyChar();
-        if (Character.isDigit(c)) {
+        int k = evt.getKeyChar();
+        if ((k >= 32 && k <= 45) || (k >= 58 && k <= 126)) {
+            evt.setKeyChar((char) KeyEvent.VK_CLEAR);
             getToolkit().beep();
-            evt.consume();
-            JOptionPane.showMessageDialog(this, "Solo puede ingresar letras");
+            JOptionPane.showMessageDialog(this, "Solo puede ingresar numeros sin punto decimal!");
             txtprecio.requestFocus();
         }
 
@@ -893,8 +904,8 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
     private void combotipoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combotipoKeyTyped
 
         combotipo.setEnabled(false);
-        /*txtdireccion.setEnabled(true);
-        txtdireccion.requestFocus();*/
+        combomedida.setEnabled(true);
+        combomedida.requestFocus();
 
     }//GEN-LAST:event_combotipoKeyTyped
 
@@ -938,12 +949,31 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
     }//GEN-LAST:event_combomedidaMouseClicked
 
     private void combomedidaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combomedidaKeyTyped
-        // TODO add your handling code here:
+
+        combomedida.setEnabled(false);
+        btnguardar.setEnabled(true);
+        btnguardar.requestFocus();
+
     }//GEN-LAST:event_combomedidaKeyTyped
 
     private void combotipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combotipoActionPerformed
-        // TODO add your handling code here:
+
+        //combomedida.setEnabled(false);
+        //combomedida.setEnabled(true);
+        //combotipo.requestFocus();
+
     }//GEN-LAST:event_combotipoActionPerformed
+
+    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtbuscarActionPerformed
+
+    private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
+
+        limpiar_tabla();
+        buscador();
+
+    }//GEN-LAST:event_txtbuscarKeyReleased
 
     /**
      * @param args the command line arguments
@@ -959,28 +989,24 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(productos.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(productos.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(productos.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(productos.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -993,7 +1019,7 @@ String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip
                 productos dialog = new productos(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-        public void windowClosing(java.awt.event.WindowEvent e) {
+                    public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });

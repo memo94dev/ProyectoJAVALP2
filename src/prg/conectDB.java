@@ -73,7 +73,7 @@ public class conectDB {
         try {
             state = con.createStatement();
             state.executeUpdate("insert into " +tabla+ "("+campos+ ")"
-                    +"values("+valores+")");
+                    +" values ("+valores+")");
             switch(mensaje){
                 case 1:
                     JOptionPane.showMessageDialog(null, "Se ha grabado exitosamente", "Atención",
