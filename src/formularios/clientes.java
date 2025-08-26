@@ -215,6 +215,9 @@ public class clientes extends javax.swing.JDialog {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtbuscarKeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtbuscarKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtbuscarKeyTyped(evt);
             }
@@ -533,6 +536,7 @@ public class clientes extends javax.swing.JDialog {
             Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false; // Documento no duplicado
+
     }
 
     // Metodo para guardar nuevo registro en la BDD
@@ -919,7 +923,7 @@ public class clientes extends javax.swing.JDialog {
     }//GEN-LAST:event_txtbuscarKeyPressed
 
     private void txtdocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdocumentoKeyPressed
-        
+
         String codigo = txtcodigo.getText().trim();
         String documento = txtdocumento.getText().trim();
 
@@ -959,7 +963,7 @@ public class clientes extends javax.swing.JDialog {
                 }
             }
         }
-    
+
 
     }//GEN-LAST:event_txtdocumentoKeyPressed
 
@@ -1078,6 +1082,24 @@ public class clientes extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_combociudadActionPerformed
 
+    private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
+
+        char c = evt.getKeyChar();
+        int keyCode = evt.getKeyCode();
+
+        // Verifica si es letra o número
+        boolean esLetraONumero = Character.isLetterOrDigit(c);
+
+        // Verifica si es espacio o borrar
+        boolean esEspacioOBorrar = keyCode == KeyEvent.VK_SPACE || keyCode == KeyEvent.VK_BACK_SPACE;
+
+        if (esLetraONumero || esEspacioOBorrar) {
+            limpiar_tabla();
+            buscador();
+        }
+
+    }//GEN-LAST:event_txtbuscarKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -1092,28 +1114,24 @@ public class clientes extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(clientes.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(clientes.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(clientes.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(clientes.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -1124,7 +1142,7 @@ public class clientes extends javax.swing.JDialog {
                 clientes dialog = new clientes(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-        public void windowClosing(java.awt.event.WindowEvent e) {
+                    public void windowClosing(java.awt.event.WindowEvent e) {
                         System.exit(0);
                     }
                 });

@@ -311,7 +311,15 @@ public class productos extends javax.swing.JDialog {
                 combomedidaMouseClicked(evt);
             }
         });
+        combomedida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combomedidaActionPerformed(evt);
+            }
+        });
         combomedida.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                combomedidaKeyPressed(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 combomedidaKeyTyped(evt);
             }
@@ -468,19 +476,25 @@ public class productos extends javax.swing.JDialog {
     private boolean validar_documento() {
 
         try {
-            String cod = txtcodigo.getText().trim();
-            rs = con.Listar("SELECT * FROM productos WHERE cod_producto = '" + cod + "'");
+            String descrip = txtnombre.getText().toUpperCase().trim();
+            String medida = (String) combomedida.getSelectedItem();
+            String tipo = (String) combotipo.getSelectedItem();
+            rs = con.Listar("SELECT * FROM producto WHERE p_descrip = '" + descrip + "' AND cod_tipo_prod = (SELECT SPLIT_PART('"
+                    + tipo + "','-',1)::integer) AND id_u_medida = (SELECT SPLIT_PART('" + medida + "','-',1)::integer);");
             //boolean encontro = rs.next();
             if (rs.next()) {
-                String nombre = rs.getString("p_descrip");
-                JOptionPane.showMessageDialog(this, "El producto ingresado '" + cod
-                        + "' ya ha sido registrado para: " + nombre + "!");
-                return true; // Producto duplicado
+                String codigo = rs.getString("cod_producto");
+                System.out.println(codigo);
+                JOptionPane.showMessageDialog(this, "El producto ingresado ya ha sido registrado con el codigo: " + codigo);
+                return true; // Documento duplicado
+            } else {
+                return false;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false; // Producto no duplicado
+
     }
 
     // Metodo para guardar nuevo registro en la BDD
@@ -594,10 +608,12 @@ public class productos extends javax.swing.JDialog {
     private String buscar(String codigo) {
 
         try {
-            String sql = "SELECT cod_producto FROM producto WHERE cod_producto = " + codigo;
+            String sql = "SELECT p_descrip FROM producto WHERE cod_producto = " + codigo;
             rs = con.Listar(sql);
             if (rs.next()) {
-                return rs.getString("cod_producto").trim();
+                String ds = rs.getString("p_descrip").trim();;
+                System.out.println("Se encuentra el producto en la BDD: " + ds);
+                return ds;
             }
         } catch (SQLException ex) {
             Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
@@ -608,15 +624,18 @@ public class productos extends javax.swing.JDialog {
 
     // Metodo para habilitar campos dentro del metodo txtdocumento
     private void habilitarCampos() {
-        /* txtnombre.setEnabled(true);
-        txtnombre.requestFocus();
-        txtdocumento.setEnabled(false);*/
+
+        combomedida.setEnabled(false);
+        btnguardar.setEnabled(true);
+        btnguardar.requestFocus();
+
     }
 
     // Metodo para mostrar mensaje dentro del metodo txtdocumento
     private void mostrarErrorDocumento() {
-        /*txtdocumento.requestFocus();
-        txtdocumento.selectAll();*/
+
+        btncancelar.doClick();
+
     }
 
     // Metodo para buscar datos
@@ -628,7 +647,7 @@ public class productos extends javax.swing.JDialog {
             String sql = "SELECT * FROM producto WHERE p_descrip ILIKE '%" + buscar + "%' ORDER BY cod_producto;";
             rs = con.Listar(sql);
             String[] fila = new String[5];
-            System.out.println("Texto buscado: " + buscar);
+            //System.out.println("Texto buscado: " + buscar);
             while (rs.next()) {
                 fila[0] = rs.getString("cod_producto");
                 fila[1] = rs.getString("p_descrip");
@@ -740,17 +759,53 @@ public class productos extends javax.swing.JDialog {
 
     private void txtnombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtnombreKeyPressed
 
-        /*
-        } else if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-            String nombre = txtnombre.getText().trim();
-            if (nombre.equals("") || nombre.equals(" ")) {
-                JOptionPane.showMessageDialog(this, "Ingrese algun valor");
+        String codigo = txtcodigo.getText().trim();
+        String descripcion = txtnombre.getText().trim();
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (descripcion.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Complete este campo!");
                 txtnombre.requestFocus();
+                return;
             } else {
-                txtapellido.setEnabled(true);
-                txtapellido.requestFocus();
+                txtnombre.setEnabled(false);
+                txtprecio.setEnabled(true);
+                txtprecio.requestFocus();
             }
-        }*/
+
+            /*if (operacion == 1) {
+                System.out.println("La operacion es insertar " + operacion);
+                // Modo guardar: validar si el documento ya existe
+                if (!validar_documento()) {
+                    System.out.println("Entra a habilitar campos, retorna false ");
+                    habilitarCampos();
+                } else {
+                    System.out.println("Entra a habilitar campos, retorna true ");
+                    mostrarErrorDocumento();
+                }
+            } else {
+                // Modo edición
+                System.out.println("La operacion es editar " + operacion);
+                String documentoActual = buscar(codigo);
+                if (documentoActual == null) {
+                    JOptionPane.showMessageDialog(this, "El código ingresado no existe");
+                    txtcodigo.requestFocus();
+                    return;
+                }
+
+                if (descripcion.equals(documentoActual)) {
+                    // Documento no cambió, no validar
+                    habilitarCampos();
+                } else {
+                    // Documento cambió, validar
+                    if (!validar_documento()) {
+                        habilitarCampos();
+                    } else {
+                        mostrarErrorDocumento();
+                    }
+                }
+            }*/
+        }
 
     }//GEN-LAST:event_txtnombreKeyPressed
 
@@ -863,9 +918,9 @@ public class productos extends javax.swing.JDialog {
 
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
 
-        txtnombre.setEnabled(false);
+        /*txtnombre.setEnabled(false);
         txtprecio.setEnabled(true);
-        txtprecio.requestFocus();
+        txtprecio.requestFocus();*/
 
     }//GEN-LAST:event_txtnombreActionPerformed
 
@@ -883,9 +938,14 @@ public class productos extends javax.swing.JDialog {
 
     private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
 
-        txtprecio.setEnabled(false);
-        combotipo.setEnabled(true);
-        combotipo.requestFocus();
+        String precio = txtprecio.getText();
+        if (precio.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar el precio del producto!");
+        } else {
+            txtprecio.setEnabled(false);
+            combotipo.setEnabled(true);
+            combotipo.requestFocus();
+        }
 
     }//GEN-LAST:event_txtprecioActionPerformed
 
@@ -970,10 +1030,73 @@ public class productos extends javax.swing.JDialog {
 
     private void txtbuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbuscarKeyReleased
 
-        limpiar_tabla();
-        buscador();
+        char c = evt.getKeyChar();
+        int keyCode = evt.getKeyCode();
+
+        // Verifica si es letra o número
+        boolean esLetraONumero = Character.isLetterOrDigit(c);
+
+        // Verifica si es espacio o borrar
+        boolean esEspacioOBorrar = keyCode == KeyEvent.VK_SPACE || keyCode == KeyEvent.VK_BACK_SPACE;
+
+        if (esLetraONumero || esEspacioOBorrar) {
+            limpiar_tabla();
+            buscador();
+        }
 
     }//GEN-LAST:event_txtbuscarKeyReleased
+
+    private void combomedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combomedidaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combomedidaActionPerformed
+
+    private void combomedidaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combomedidaKeyPressed
+
+        String codigo = txtcodigo.getText().trim();
+        String descripcion = txtnombre.getText().trim();
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            /* if (descripcion.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Complete este campo!");
+                txtnombre.requestFocus();
+                return;
+            }*/
+
+            if (operacion == 1) {
+                System.out.println("La operacion es insertar " + operacion);
+                // Modo guardar: validar si el documento ya existe
+                if (!validar_documento()) {
+                    System.out.println("Entra a habilitar campos, retorna false ");
+                    habilitarCampos();
+                } else {
+                    System.out.println("Entra a mostrar error, retorna true ");
+                    mostrarErrorDocumento();
+                }
+            } else {
+                // Modo edición
+                System.out.println("La operacion es editar " + operacion);
+                String documentoActual = buscar(codigo);
+                if (documentoActual == null) {
+                    JOptionPane.showMessageDialog(this, "El código ingresado no existe");
+                    txtcodigo.requestFocus();
+                    return;
+                }
+
+                if (descripcion.equals(documentoActual)) {
+                    // Documento no cambió, no validar
+                    habilitarCampos();
+                } else {
+                    // Documento cambió, validar
+                    if (!validar_documento()) {
+                        habilitarCampos();
+                    } else {
+                        mostrarErrorDocumento();
+                    }
+                }
+            }
+        }
+
+    }//GEN-LAST:event_combomedidaKeyPressed
 
     /**
      * @param args the command line arguments
