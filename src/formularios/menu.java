@@ -40,8 +40,10 @@ public class menu extends javax.swing.JFrame {
         etiquetafecha = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menureferenciales = new javax.swing.JMenu();
-        refventas = new javax.swing.JMenuItem();
-        refcompras = new javax.swing.JMenuItem();
+        refventas = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        refcompras = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         menucompras = new javax.swing.JMenu();
         menuventas = new javax.swing.JMenu();
         menuinformes = new javax.swing.JMenu();
@@ -77,9 +79,27 @@ public class menu extends javax.swing.JFrame {
         menureferenciales.setText("Referenciales");
 
         refventas.setText("Ventas");
+
+        jMenuItem1.setText("Deposito");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        refventas.add(jMenuItem1);
+
         menureferenciales.add(refventas);
 
         refcompras.setText("Compras");
+
+        jMenuItem2.setText("Clientes");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        refcompras.add(jMenuItem2);
+
         menureferenciales.add(refcompras);
 
         jMenuBar1.add(menureferenciales);
@@ -144,6 +164,18 @@ public class menu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        new deposito(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        
+        new clientes(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     // Metodo de inicio
     private void inicio() {
@@ -242,6 +274,8 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu menuayuda;
     private javax.swing.JMenu menucompras;
     private javax.swing.JMenu menuinformes;
@@ -249,7 +283,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenu menureferenciales;
     private javax.swing.JMenu menusalir;
     private javax.swing.JMenu menuventas;
-    private javax.swing.JMenuItem refcompras;
-    private javax.swing.JMenuItem refventas;
+    private javax.swing.JMenu refcompras;
+    private javax.swing.JMenu refventas;
     // End of variables declaration//GEN-END:variables
 }
