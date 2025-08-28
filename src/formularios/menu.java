@@ -10,15 +10,17 @@ public class menu extends javax.swing.JFrame {
 
     conectDB con;
     ResultSet rs;
-    String username = acceso.username;
+    String username = acceso.username.toUpperCase();
 
     public menu() {
 
         initComponents();
         inicio();
         niveles();
-        
+
         setLocationRelativeTo(null);
+        setExtendedState(this.MAXIMIZED_BOTH);
+        //setResizable(false);
         etiquetausuario.setText(username);
         con = new conectDB();
         con.conectar();
@@ -71,10 +73,10 @@ public class menu extends javax.swing.JFrame {
 
         jMenuBar1.setBackground(new java.awt.Color(204, 204, 204));
         jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jMenuBar1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jMenuBar1.setMaximumSize(new java.awt.Dimension(100, 32769));
         jMenuBar1.setMinimumSize(new java.awt.Dimension(100, 26));
-        jMenuBar1.setPreferredSize(new java.awt.Dimension(66, 50));
+        jMenuBar1.setPreferredSize(new java.awt.Dimension(66, 70));
 
         menureferenciales.setText("Referenciales");
 
@@ -144,7 +146,7 @@ public class menu extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(etiquetafecha, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                     .addComponent(etiquetausuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(351, Short.MAX_VALUE))
+                .addContainerGap(427, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,22 +161,22 @@ public class menu extends javax.swing.JFrame {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(348, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
+
         new deposito(this, true).setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        
+
         new clientes(this, true).setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     // Metodo de inicio

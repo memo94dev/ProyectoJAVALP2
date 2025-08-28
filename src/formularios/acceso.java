@@ -71,7 +71,7 @@ public class acceso extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "El usuario sera bloqueado", "Atencion!", WIDTH);
                 }
                 if (contador == 3) {
-                    String sql = "UPDATE usuario SET estado = 'inactivo' WHERE usu_nick = '" + txtusu.getText() +"';";
+                    String sql = "UPDATE usuario SET estado = 'inactivo' WHERE usu_nick = '" + txtusu.getText() + "';";
                     System.out.println(sql);
                     JOptionPane.showMessageDialog(this, "Usuario bloqueado! contacte con el administrador del sistema", "Atencion!", WIDTH);
                     JOptionPane.showMessageDialog(this, "Numero del administrador: 098522011...");
@@ -88,10 +88,10 @@ public class acceso extends javax.swing.JDialog {
         }
 
     }
-    
+
     // Metodo para validar usuario
-    private void validar_usuario(){
-        
+    private void validar_usuario() {
+
         try {
             String usuario = txtusu.getText();
             String sql = "SELECT * FROM usuario WHERE usu_nick = '"
@@ -99,26 +99,26 @@ public class acceso extends javax.swing.JDialog {
             System.out.println(sql);
             rs = con.Listar(sql);
             boolean encontro = rs.next();
-            
+
             if (encontro == false) {
                 JOptionPane.showMessageDialog(this, "El usuario " + usuario + " no existe!");
-                contadorx ++;
+                contadorx++;
                 System.out.println(contadorx);
                 if (contadorx == 3) {
                     System.exit(0);
                 }
-            }else{
+            } else {
                 usuario_bloqueado();
             }
         } catch (SQLException ex) {
             Logger.getLogger(acceso.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     // Validar usuario inactivo 
-    private void usuario_bloqueado(){
-        
+    private void usuario_bloqueado() {
+
         try {
             String usuario = txtusu.getText();
             String sql = "SELECT * FROM usuario WHERE estado = 'activo' AND usu_nick = '"
@@ -130,13 +130,13 @@ public class acceso extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "El usuario se encuentra bloqueado");
                 JOptionPane.showMessageDialog(this, "Contacte con el administrador de sistemas");
                 JOptionPane.showMessageDialog(this, "Al celular: 098522011.. o al correo: memo94dev@gmail.com");
-            }else{
+            } else {
                 txtclave.requestFocus();
             }
         } catch (SQLException ex) {
             Logger.getLogger(acceso.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -174,6 +174,17 @@ public class acceso extends javax.swing.JDialog {
 
         labelMetric2.setText("Contraseña:");
         labelMetric2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+
+        txtclave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtclaveActionPerformed(evt);
+            }
+        });
+        txtclave.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtclaveKeyPressed(evt);
+            }
+        });
 
         btnCancelar.setBackground(new java.awt.Color(204, 0, 51));
         btnCancelar.setText("Cancelar");
@@ -265,7 +276,7 @@ public class acceso extends javax.swing.JDialog {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
 
         ingresar();
-        
+
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -277,10 +288,22 @@ public class acceso extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSalir2ActionPerformed
 
     private void txtusuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusuActionPerformed
-        
+
         validar_usuario();
-        
+
     }//GEN-LAST:event_txtusuActionPerformed
+
+    private void txtclaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtclaveActionPerformed
+
+    }//GEN-LAST:event_txtclaveActionPerformed
+
+    private void txtclaveKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtclaveKeyPressed
+
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+            ingresar();
+        }
+
+    }//GEN-LAST:event_txtclaveKeyPressed
 
     /* Metodo para inhabilitar el boton guardar y las entradas de texto al iniciar la pantalla */
     private void desa_inicio() {
