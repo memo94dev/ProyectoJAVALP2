@@ -599,7 +599,7 @@ public class proveedores extends javax.swing.JDialog {
         try {
             cursor = (DefaultTableModel) tablaproveedores.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
-            String sql = "SELECT * FROM proveedor WHERE razon_social ILIKE '%" + buscar + "%' ORDER BY cod_proveedor ASC;";
+            String sql = "SELECT * FROM proveedor WHERE razon_social ILIKE '%" + buscar + "%' OR ruc ILIKE '%" + buscar + "%' ORDER BY cod_proveedor ASC;";
             rs = con.Listar(sql);
             String[] fila = new String[5];
             while (rs.next()) {
@@ -620,14 +620,14 @@ public class proveedores extends javax.swing.JDialog {
     private void imprimir() {
 
         try {
-            String sql = "SELECT * FROM v_reporte_productos;";
+            String sql = "SELECT * FROM proveedor ORDER BY cod_proveedor;";
             rs = con.Listar(sql);
             Map parameters = new HashMap();
             parameters.put("", new String(""));
             JasperReport jr = null;
 
             // Cargamos el reporte
-            URL url = getClass().getClassLoader().getResource("reportes/reporte_productos.jasper");
+            URL url = getClass().getClassLoader().getResource("reportes/reporte_proveedores.jasper");
             jr = (JasperReport) JRLoader.loadObject(url);
 
             JasperPrint masterPrint = null;
