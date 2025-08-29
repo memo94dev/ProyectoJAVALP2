@@ -1,23 +1,11 @@
 package formularios;
 
 import java.awt.event.KeyEvent;
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.YES_OPTION;
-import javax.swing.table.DefaultTableModel;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
 import prg.conectDB;
 
 public class acceso extends javax.swing.JDialog {
@@ -36,6 +24,7 @@ public class acceso extends javax.swing.JDialog {
         initComponents();
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
+        txtclave.setEnabled(false);
         setLocationRelativeTo(null); // Centrar ventana en la pantalla
 
     }
@@ -64,6 +53,7 @@ public class acceso extends javax.swing.JDialog {
                 // Bloquear usuario
                 JOptionPane.showMessageDialog(this, "Contraseña incorrecta!");
                 contador++;
+                txtclave.setEnabled(false);
                 if (contador == 1) {
                     JOptionPane.showMessageDialog(this, "Tiene 2 oportunidades mas..");
                 }
@@ -78,9 +68,10 @@ public class acceso extends javax.swing.JDialog {
                     con.sentencia = con.conectar().createStatement();
                     con.sentencia.executeUpdate(sql);
                 }
-                txtusu.setText("");
+                btnCancelar.doClick();
+                /*txtusu.setText("");
                 txtclave.setText("");
-                txtusu.requestFocus();
+                txtusu.requestFocus();*/
             }
 
         } catch (SQLException ex) {
@@ -103,6 +94,8 @@ public class acceso extends javax.swing.JDialog {
             if (encontro == false) {
                 JOptionPane.showMessageDialog(this, "El usuario " + usuario + " no existe!");
                 contadorx++;
+                txtusu.requestFocus();
+                txtusu.selectAll(); // Seleccionar todo el texto del campo usu
                 System.out.println(contadorx);
                 if (contadorx == 3) {
                     System.exit(0);
@@ -131,11 +124,26 @@ public class acceso extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Contacte con el administrador de sistemas");
                 JOptionPane.showMessageDialog(this, "Al celular: 098522011.. o al correo: memo94dev@gmail.com");
             } else {
+                txtclave.setEnabled(true);
                 txtclave.requestFocus();
             }
         } catch (SQLException ex) {
             Logger.getLogger(acceso.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+    }
+
+    // Metodo para validar que los campos no esten vacios al presionar el boton de ingresar
+    private boolean campos_vacios() {
+
+        String usu = txtusu.getText();
+        String pass = txtclave.getText();
+        if (pass.equals("") || usu.equals("")) {
+            JOptionPane.showMessageDialog(this, "Debe completar todos los campos!");
+            txtusu.requestFocus();
+            return true;
+        } 
+        return false;
 
     }
 
@@ -275,16 +283,28 @@ public class acceso extends javax.swing.JDialog {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
 
-        ingresar();
+        if (!campos_vacios()) {
+            ingresar();
+        }
 
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+
+        txtusu.setText("");
+        txtclave.setText("");
+        txtclave.setEnabled(false);
+        txtusu.requestFocus();
+
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
-        // TODO add your handling code here:
+
+        int mensaje = JOptionPane.showConfirmDialog(this, "Desea abandonar el sistema?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
+        if (mensaje == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+
     }//GEN-LAST:event_btnSalir2ActionPerformed
 
     private void txtusuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusuActionPerformed
@@ -295,162 +315,13 @@ public class acceso extends javax.swing.JDialog {
 
     private void txtclaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtclaveActionPerformed
 
+        ingresar();
+
     }//GEN-LAST:event_txtclaveActionPerformed
 
     private void txtclaveKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtclaveKeyPressed
 
-        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-            ingresar();
-        }
-
     }//GEN-LAST:event_txtclaveKeyPressed
-
-    /* Metodo para inhabilitar el boton guardar y las entradas de texto al iniciar la pantalla */
-    private void desa_inicio() {
-
-        /*btnguardar.setEnabled(false);
-        txtcodigo.setEnabled(false);
-        txtdescripcion.setEnabled(false);*/
-    }
-
-    /* Metodo para inhabilitar botones y habilitar botones */
-    private void desa_botones(int a) {
-
-        /* switch (a) {
-            case 1:
-                btnagregar.setEnabled(false);
-                btnmodificar.setEnabled(false);
-                btneliminar.setEnabled(false);
-                btnimprimir.setEnabled(false);
-                btnIngresar.setEnabled(false);
-                break;
-            case 2:
-                btnagregar.setEnabled(true);
-                btnmodificar.setEnabled(true);
-                btneliminar.setEnabled(true);
-                btnimprimir.setEnabled(true);
-                btnIngresar.setEnabled(true);
-                break;
-        }*/
-    }
-
-    /* Metodo para realizar consulta de los codigos existentes y devolver el siguiente codigo a utilizar */
-    private void generar_codigo() {
-
-        /*    try {
-            String sql = "SELECT COALESCE (MAX(cod_ciudad),0)+1 AS cod FROM ciudad;"; // Creamos la consulta SQL.
-            rs = con.Listar(sql); // Utilizamos el metodo listar.
-            rs.next(); // Llamar a los siguientes resultados.
-            txtcodigo.setText(rs.getString("cod")); // Enviar el resultado en el campo de codigo de nuestro formulario.
-        } catch (SQLException ex) {
-            Logger.getLogger(acceso.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-    }
-
-    /* Metodo para validar duplicidad de la descripcion */
-    private void validar_descripcion() {
-
-        /*     try {
-            String descripcion = txtdescripcion.getText().toUpperCase();
-            rs = con.Listar("SELECT * FROM ciudad WHERE descrip_ciudad = '" + descripcion + "'");
-            boolean encontro = rs.next();
-            if (encontro == true) {
-                JOptionPane.showMessageDialog(this, "La descripción de la ciudad '" + descripcion
-                        + "' ya se encuentra registrada.");
-                txtdescripcion.setEnabled(true);
-            } else {
-                btnguardar.setEnabled(true);
-                btnguardar.requestFocus();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(acceso.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
-    }
-
-    // Metodo para guardar nuevo registro en la BDD
-    private void guardar() {
-
-        /* try {
-            String codigo = txtcodigo.getText().trim(); // Obtengo el valor del campo codigo y limpio de espacios
-            String descripcion = txtdescripcion.getText().toUpperCase().trim();
-            String sql = "";
-            if ("agregar".equals(operacion)) {
-                sql = "INSERT INTO ciudad VALUES (" + codigo + ",'" + descripcion + "');";
-                System.out.println(sql);
-                JOptionPane.showMessageDialog(this, "Se ha insertado correctamente: " + descripcion);
-            }
-            if ("modificar".equals(operacion)) {
-                sql = "UPDATE ciudad SET descrip_ciudad = '" + descripcion + "' WHERE cod_ciudad = " + codigo + ";";
-                System.out.println(sql);
-                JOptionPane.showMessageDialog(this, "Se ha modificado correctamente a: " + descripcion);
-            }
-            if ("eliminar".equals(operacion)) {
-                sql = "DELETE FROM ciudad WHERE cod_ciudad = " + codigo + ";";
-                System.out.println(sql);
-                JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente!");
-            }
-
-            con.sentencia = con.conectar().createStatement();
-            con.sentencia.executeUpdate(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(acceso.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-    }
-
-    // Metodo para limpiar campos
-    private void limpiar_campos() {
-
-        /*txtcodigo.setText("");
-        txtdescripcion.setText("");
-        txtbuscar.setText("");*/
-    }
-
-    /* // Metodo para buscar 
-    private boolean buscar() {
-
-       /* try {
-            String codigo = txtcodigo.getText();
-            String sql = "SELECT descrip_ciudad as ciudad FROM ciudad WHERE cod_ciudad = " + codigo;
-            System.out.println(sql);
-            rs = con.Listar(sql);
-            //rs.next();
-            if (!rs.next()) {
-                JOptionPane.showMessageDialog(this, "El codigo ingresado no existe");
-                return false;
-            } else {
-                //rs.next();
-                String resultado = rs.getString("ciudad");
-                System.out.println(resultado);
-                txtdescripcion.setText(resultado);
-                return true;
-                //txtdescripcion.setText(rs.getString("descripcion"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(acceso.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-
-    }*/
-    // Metodo para buscar datos
-    private void buscador() {
-
-        /*try {
-            cursor = (DefaultTableModel) tablaciudad.getModel();
-            String buscar = txtbuscar.getText().toUpperCase().trim();
-            String sql = "SELECT * FROM ciudad WHERE descrip_ciudad LIKE '%" + buscar + "%' ORDER BY cod_ciudad;";
-            rs = con.Listar(sql);
-            String[] fila1 = new String[2];
-
-            while (rs.next()) {
-                fila1[0] = rs.getString("cod_ciudad");
-                fila1[1] = rs.getString("descrip_ciudad");
-                cursor.addRow(fila1);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(acceso.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-    }
 
     /**
      * @param args the command line arguments

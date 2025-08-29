@@ -67,9 +67,11 @@ public class menu extends javax.swing.JFrame {
 
         etiquetausuario.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         etiquetausuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etiquetausuario.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         etiquetafecha.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         etiquetafecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etiquetafecha.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jMenuBar1.setBackground(new java.awt.Color(204, 204, 204));
         jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
