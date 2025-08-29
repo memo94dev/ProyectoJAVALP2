@@ -669,14 +669,14 @@ public class productos extends javax.swing.JDialog {
     private void imprimir() {
 
         try {
-            String sql = "SELECT * FROM v_reporte_clientes;";
+            String sql = "SELECT * FROM v_reporte_productos;";
             rs = con.Listar(sql);
             Map parameters = new HashMap();
             parameters.put("", new String(""));
             JasperReport jr = null;
 
             // Cargamos el reporte
-            URL url = getClass().getClassLoader().getResource("reportes/reporte_clientes.jasper");
+            URL url = getClass().getClassLoader().getResource("reportes/reporte_productos.jasper");
             jr = (JasperReport) JRLoader.loadObject(url);
 
             JasperPrint masterPrint = null;
