@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
@@ -38,7 +37,7 @@ public class productos extends javax.swing.JDialog {
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo("1");
         llenar_combo_medida("1");
-        setLocationRelativeTo(null); // Centrar ventana en la pantalla
+        //setLocationRelativeTo(null); // Centrar ventana en la pantalla
 
     }
 
@@ -644,15 +643,19 @@ public class productos extends javax.swing.JDialog {
         try {
             cursor = (DefaultTableModel) tablaproductos.getModel();
             String buscar = txtbuscar.getText().toUpperCase().trim();
-            String sql = "SELECT * FROM producto WHERE p_descrip ILIKE '%" + buscar + "%' ORDER BY cod_producto;";
+            String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip) AS tipo_producto, CONCAT(p.id_u_medida, '- ', u.u_descrip) AS medida, p.p_descrip, p.precio "
+                    + "FROM producto p "
+                    + "JOIN tipo_producto t ON p.cod_tipo_prod = t.cod_tipo_prod "
+                    + "JOIN u_medida u ON p.id_u_medida = u.id_u_medida "
+                    + "WHERE p.p_descrip ILIKE '%" + buscar + "%'"
+                    + "ORDER BY p.cod_producto ASC;";
             rs = con.Listar(sql);
             String[] fila = new String[5];
-            //System.out.println("Texto buscado: " + buscar);
             while (rs.next()) {
                 fila[0] = rs.getString("cod_producto");
                 fila[1] = rs.getString("p_descrip");
-                fila[2] = rs.getString("cod_tipo_prod");
-                fila[3] = rs.getString("id_u_medida");
+                fila[2] = rs.getString("tipo_producto");
+                fila[3] = rs.getString("medida");
                 fila[4] = rs.getString("precio");
                 cursor.addRow(fila);
             }
@@ -1148,6 +1151,7 @@ public class productos extends javax.swing.JDialog {
                 });
                 dialog.setVisible(true);
                 dialog.setResizable(false);
+                dialog.setLocationRelativeTo(null);
 
             }
         });
