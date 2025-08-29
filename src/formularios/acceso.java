@@ -142,7 +142,7 @@ public class acceso extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Debe completar todos los campos!");
             txtusu.requestFocus();
             return true;
-        } 
+        }
         return false;
 
     }
@@ -315,7 +315,17 @@ public class acceso extends javax.swing.JDialog {
 
     private void txtclaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtclaveActionPerformed
 
-        ingresar();
+        if (txtclave.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Este campo no puede estar vacio!");
+            txtclave.requestFocus();
+            contador ++;
+            System.out.println(contador);
+            if (contador == 3) {
+                System.exit(0);
+            }
+        } else {
+            ingresar();
+        }
 
     }//GEN-LAST:event_txtclaveActionPerformed
 

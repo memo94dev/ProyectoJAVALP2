@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
@@ -109,6 +108,11 @@ public class deposito extends javax.swing.JDialog {
                 btnguardarActionPerformed(evt);
             }
         });
+        btnguardar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnguardarKeyPressed(evt);
+            }
+        });
 
         btncancelar.setText("Cancelar");
         btncancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -182,6 +186,11 @@ public class deposito extends javax.swing.JDialog {
 
         txtbuscar.setDescripcion("Buscar Depósito");
         txtbuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarActionPerformed(evt);
+            }
+        });
 
         labelMetric3.setText("Buscar");
         labelMetric3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -487,7 +496,8 @@ public class deposito extends javax.swing.JDialog {
             ventana.setTitle("Vista Previa");
             ventana.setVisible(true);
             ventana.setSize(1000, 680);
-            ventana.setLocationRelativeTo(null);        } catch (JRException ex) {
+            ventana.setLocationRelativeTo(null);
+        } catch (JRException ex) {
             Logger.getLogger(deposito.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -614,9 +624,23 @@ public class deposito extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnimprimirActionPerformed
 
+    private void btnguardarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnguardarKeyPressed
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnguardar.doClick();
+        }
+
+    }//GEN-LAST:event_btnguardarKeyPressed
+
+    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
+        
+        btnbuscar.doClick();
+        
+    }//GEN-LAST:event_txtbuscarActionPerformed
+
     /**
-     * @param args the command line arguments
-     */
+         * @param args the command line arguments
+         */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

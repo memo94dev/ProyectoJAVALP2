@@ -109,6 +109,11 @@ public class tipo_producto extends javax.swing.JDialog {
                 btnguardarActionPerformed(evt);
             }
         });
+        btnguardar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnguardarKeyPressed(evt);
+            }
+        });
 
         btncancelar.setText("Cancelar");
         btncancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -182,6 +187,11 @@ public class tipo_producto extends javax.swing.JDialog {
 
         txtbuscar.setDescripcion("Buscar T. de Producto");
         txtbuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarActionPerformed(evt);
+            }
+        });
 
         labelMetric3.setText("Buscar");
         labelMetric3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -613,6 +623,20 @@ public class tipo_producto extends javax.swing.JDialog {
         imprimir();
 
     }//GEN-LAST:event_btnimprimirActionPerformed
+
+    private void btnguardarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnguardarKeyPressed
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnguardar.doClick();
+        }
+
+    }//GEN-LAST:event_btnguardarKeyPressed
+
+    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
+        
+        btnbuscar.doClick();
+        
+    }//GEN-LAST:event_txtbuscarActionPerformed
 
     /**
      * @param args the command line arguments

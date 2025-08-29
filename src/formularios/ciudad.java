@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
@@ -109,6 +108,11 @@ public class ciudad extends javax.swing.JDialog {
                 btnguardarActionPerformed(evt);
             }
         });
+        btnguardar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnguardarKeyPressed(evt);
+            }
+        });
 
         btncancelar.setText("Cancelar");
         btncancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -182,6 +186,11 @@ public class ciudad extends javax.swing.JDialog {
 
         txtbuscar.setDescripcion("Buscar Ciudad");
         txtbuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtbuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarActionPerformed(evt);
+            }
+        });
 
         labelMetric3.setText("Buscar");
         labelMetric3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -612,6 +621,20 @@ public class ciudad extends javax.swing.JDialog {
         imprimir();
 
     }//GEN-LAST:event_btnimprimirActionPerformed
+
+    private void txtbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarActionPerformed
+
+        btnbuscar.doClick();
+
+    }//GEN-LAST:event_txtbuscarActionPerformed
+
+    private void btnguardarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnguardarKeyPressed
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnguardar.doClick();
+        }
+
+    }//GEN-LAST:event_btnguardarKeyPressed
 
     /**
      * @param args the command line arguments
