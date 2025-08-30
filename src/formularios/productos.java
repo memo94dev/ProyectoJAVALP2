@@ -37,7 +37,7 @@ public class productos extends javax.swing.JDialog {
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo("1");
         llenar_combo_medida("1");
-        //setLocationRelativeTo(null); // Centrar ventana en la pantalla
+        //setLocationRelativeTo(null); // Centrar ventana en la pantalla, lo pongo al final, en el metodo main
 
     }
 

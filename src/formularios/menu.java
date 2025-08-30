@@ -24,6 +24,8 @@ public class menu extends javax.swing.JFrame {
         etiquetausuario.setText(username);
         con = new conectDB();
         con.conectar();
+        
+        primera_sesion();
 
         // Obtener fecha y formatearla
         Date d = new Date();
@@ -52,6 +54,7 @@ public class menu extends javax.swing.JFrame {
         infocompras = new javax.swing.JMenuItem();
         infoventas = new javax.swing.JMenuItem();
         menupass = new javax.swing.JMenu();
+        confirmarcambiocontra = new javax.swing.JMenuItem();
         menuayuda = new javax.swing.JMenu();
         menusalir = new javax.swing.JMenu();
 
@@ -81,8 +84,10 @@ public class menu extends javax.swing.JFrame {
         jMenuBar1.setPreferredSize(new java.awt.Dimension(66, 70));
 
         menureferenciales.setText("Referenciales");
+        menureferenciales.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         refventas.setText("Ventas");
+        refventas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jMenuItem1.setText("Deposito");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +100,7 @@ public class menu extends javax.swing.JFrame {
         menureferenciales.add(refventas);
 
         refcompras.setText("Compras");
+        refcompras.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         jMenuItem2.setText("Clientes");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -109,12 +115,15 @@ public class menu extends javax.swing.JFrame {
         jMenuBar1.add(menureferenciales);
 
         menucompras.setText("Compras");
+        menucompras.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuBar1.add(menucompras);
 
         menuventas.setText("Ventas");
+        menuventas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuBar1.add(menuventas);
 
         menuinformes.setText("Informes");
+        menuinformes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         infocompras.setText("Informe Compras");
         menuinformes.add(infocompras);
@@ -125,12 +134,24 @@ public class menu extends javax.swing.JFrame {
         jMenuBar1.add(menuinformes);
 
         menupass.setText("Cambio de Contraseña");
+        menupass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        confirmarcambiocontra.setText("Confirmar");
+        confirmarcambiocontra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmarcambiocontraActionPerformed(evt);
+            }
+        });
+        menupass.add(confirmarcambiocontra);
+
         jMenuBar1.add(menupass);
 
         menuayuda.setText("Ayuda");
+        menuayuda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuBar1.add(menuayuda);
 
         menusalir.setText("Salir");
+        menusalir.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuBar1.add(menusalir);
 
         setJMenuBar(jMenuBar1);
@@ -181,6 +202,22 @@ public class menu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void confirmarcambiocontraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarcambiocontraActionPerformed
+        
+        new cambio_contrasena(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_confirmarcambiocontraActionPerformed
+
+    // Metodo para cambiar contrasena en el primer inicio de sesion
+    private void primera_sesion(){
+        
+        if (acceso.cambio.equals("0")) {
+            JOptionPane.showMessageDialog(this, "Debe cambiar su contraseña antes de iniciar sesión!");
+            confirmarcambiocontra.doClick();
+        }
+        
+    }
+    
     // Metodo de inicio
     private void inicio() {
 
@@ -271,6 +308,7 @@ public class menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem confirmarcambiocontra;
     private javax.swing.JLabel etiquetafecha;
     private javax.swing.JLabel etiquetausuario;
     private javax.swing.JMenuItem infocompras;

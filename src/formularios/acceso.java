@@ -14,6 +14,7 @@ public class acceso extends javax.swing.JDialog {
     public static String username;
     public static int usercod;
     public static String nivel;
+    public static String cambio;
     int contador = 0;
     int contadorx = 0;
 
@@ -33,7 +34,7 @@ public class acceso extends javax.swing.JDialog {
 
         try {
             String nick = "";
-            rs = con.Listar("SELECT usu_cod, usu_nombres, usu_nick, usu_nivel "
+            rs = con.Listar("SELECT usu_cod, usu_nombres, usu_nick, usu_nivel, cambio "
                     + "FROM usuario "
                     + "WHERE usu_nick = '" + txtusu.getText() + "' and usu_clave = md5('"
                     + txtclave.getText() + "');"
@@ -42,6 +43,7 @@ public class acceso extends javax.swing.JDialog {
                 username = rs.getString("usu_nombres");
                 usercod = Integer.parseInt(rs.getString("usu_cod"));
                 nivel = rs.getString("usu_nivel");
+                cambio = rs.getString("cambio");
                 nick = rs.getString("usu_nick");
             }
 
