@@ -46,12 +46,14 @@ public class menu extends javax.swing.JFrame {
         menureferenciales = new javax.swing.JMenu();
         refventas = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         refcompras = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         menucompras = new javax.swing.JMenu();
         menuventas = new javax.swing.JMenu();
         menuinformes = new javax.swing.JMenu();
         infocompras = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         infoventas = new javax.swing.JMenuItem();
         menupass = new javax.swing.JMenu();
         confirmarcambiocontra = new javax.swing.JMenuItem();
@@ -89,6 +91,7 @@ public class menu extends javax.swing.JFrame {
         refventas.setText("Ventas");
         refventas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem1.setText("Deposito");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,10 +101,12 @@ public class menu extends javax.swing.JFrame {
         refventas.add(jMenuItem1);
 
         menureferenciales.add(refventas);
+        menureferenciales.add(jSeparator1);
 
         refcompras.setText("Compras");
         refcompras.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItem2.setText("Clientes");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,9 +130,12 @@ public class menu extends javax.swing.JFrame {
         menuinformes.setText("Informes");
         menuinformes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
+        infocompras.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         infocompras.setText("Informe Compras");
         menuinformes.add(infocompras);
+        menuinformes.add(jSeparator2);
 
+        infoventas.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         infoventas.setText("Informe Ventas");
         menuinformes.add(infoventas);
 
@@ -136,6 +144,7 @@ public class menu extends javax.swing.JFrame {
         menupass.setText("Cambio de Contraseña");
         menupass.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
+        confirmarcambiocontra.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         confirmarcambiocontra.setText("Confirmar");
         confirmarcambiocontra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,6 +327,8 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenu menuayuda;
     private javax.swing.JMenu menucompras;
     private javax.swing.JMenu menuinformes;

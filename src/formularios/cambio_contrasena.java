@@ -125,6 +125,11 @@ public class cambio_contrasena extends javax.swing.JDialog {
         btncancelar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         btncancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cancelar.gif"))); // NOI18N
         btncancelar.setText("Cancelar");
+        btncancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncancelarActionPerformed(evt);
+            }
+        });
 
         btnaceptar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         btnaceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/aceptar.png"))); // NOI18N
@@ -209,6 +214,20 @@ public class cambio_contrasena extends javax.swing.JDialog {
 
     }
 
+    // Metodo para verificar campos vacios
+    private boolean campos_vacios() {
+
+        String passactual = txtpassactual.getText();
+        String passnueva = txtpassnueva.getText();
+        String passconfirmar = txtpassconfirmar.getText();
+        if (passactual.equals("") || passnueva.equals("") || passconfirmar.equals("")) {
+            JOptionPane.showMessageDialog(this, "Debes completar todos los campos!");
+            return true;
+        }
+        return false;
+
+    }
+
     private void txtpassactualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpassactualActionPerformed
 
     }//GEN-LAST:event_txtpassactualActionPerformed
@@ -288,18 +307,33 @@ public class cambio_contrasena extends javax.swing.JDialog {
 
     private void btnaceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaceptarActionPerformed
 
-        int mensaje = JOptionPane.showConfirmDialog(this, "Deseas modificar tu contraseña?",
-                "Atención!", JOptionPane.YES_NO_OPTION);
-        if (mensaje == 0) {
-            con.actualizar_datos("usuario", "usu_clave = md5('" + txtpassconfirmar.getText()
-                    + "'), cambio = 1", "usu_cod = " + acceso.usercod, 1);
-            inicio();
-            dispose();
-        } else {
-            inicio();
+        if (!campos_vacios()) {
+            int mensaje = JOptionPane.showConfirmDialog(this, "Deseas modificar tu contraseña?",
+                    "Atención!", JOptionPane.YES_NO_OPTION);
+            if (mensaje == 0) {
+                con.actualizar_datos("usuario", "usu_clave = md5('" + txtpassconfirmar.getText()
+                        + "'), cambio = 1", "usu_cod = " + acceso.usercod, 1);
+                inicio();
+                dispose();
+            } else {
+                inicio();
+            }
         }
 
     }//GEN-LAST:event_btnaceptarActionPerformed
+
+    private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
+
+        inicio();
+        /*int mensaje = JOptionPane.showConfirmDialog(this, "Deseas salir sin actualizar tu contraseña?",
+                "Atención!", JOptionPane.YES_NO_OPTION);
+        if (mensaje == 0) {
+            dispose();
+        } else {
+            inicio();
+        }*/
+
+    }//GEN-LAST:event_btncancelarActionPerformed
 
     /**
      * @param args the command line arguments
