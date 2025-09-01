@@ -685,6 +685,7 @@ public class proveedores extends javax.swing.JDialog {
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
 
+        limpiar_campos();
         operacion = 1;
         desa_botones(1);
         generar_codigo();

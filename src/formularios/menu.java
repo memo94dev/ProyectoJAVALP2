@@ -55,6 +55,7 @@ public class menu extends javax.swing.JFrame {
         refcompras = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         menucompras = new javax.swing.JMenu();
+        registrarcompras = new javax.swing.JMenuItem();
         menuventas = new javax.swing.JMenu();
         menuinformes = new javax.swing.JMenu();
         infocompras = new javax.swing.JMenuItem();
@@ -127,6 +128,16 @@ public class menu extends javax.swing.JFrame {
 
         menucompras.setText("Compras");
         menucompras.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        registrarcompras.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        registrarcompras.setText("Registrar Compras");
+        registrarcompras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registrarcomprasActionPerformed(evt);
+            }
+        });
+        menucompras.add(registrarcompras);
+
         jMenuBar1.add(menucompras);
 
         menuventas.setText("Ventas");
@@ -243,6 +254,12 @@ public class menu extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_solicitardocayudaActionPerformed
+
+    private void registrarcomprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarcomprasActionPerformed
+        
+        new compras(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_registrarcomprasActionPerformed
 
     // Metodo para cambiar contrasena en el primer inicio de sesion
     private void primera_sesion(){
@@ -365,6 +382,7 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenu menuventas;
     private javax.swing.JMenu refcompras;
     private javax.swing.JMenu refventas;
+    private javax.swing.JMenuItem registrarcompras;
     private javax.swing.JMenuItem solicitardocayuda;
     // End of variables declaration//GEN-END:variables
 }
