@@ -24,8 +24,9 @@ public class acceso extends javax.swing.JDialog {
         initComponents();
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
+        txtusu.requestFocus();
         txtclave.setEnabled(false);
-        setLocationRelativeTo(null); // Centrar ventana en la pantalla
+        //setLocationRelativeTo(null); // Centrar ventana en la pantalla
 
     }
 
@@ -178,7 +179,7 @@ public class acceso extends javax.swing.JDialog {
             }
         });
 
-        labelMetric1.setText("Código: ");
+        labelMetric1.setText("Usuario:");
         labelMetric1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
 
         labelMetric2.setText("Contraseña:");
@@ -376,6 +377,7 @@ public class acceso extends javax.swing.JDialog {
                 });
                 dialog.setVisible(true);
                 dialog.setResizable(false);
+                dialog.setLocationRelativeTo(null);
 
             }
         });

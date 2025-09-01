@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.YES_OPTION;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
@@ -37,7 +36,7 @@ public class clientes extends javax.swing.JDialog {
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo("1");
-        setLocationRelativeTo(null); // Centrar ventana en la pantalla
+        //setLocationRelativeTo(null); // Centrar ventana en la pantalla, lo llevo al metodo main
 
     }
 
@@ -599,7 +598,7 @@ public class clientes extends javax.swing.JDialog {
                 fila[2] = rs.getString("cli_nombre");
                 fila[3] = rs.getString("cli_apellido");
                 fila[4] = rs.getString("cli_direccion");
-                fila[5] = "0" + rs.getString("cli_telefono");
+                fila[5] = "0" + rs.getString("cli_telefono"); // Concateno el cero ya que en la BDD no guarda el cero a la izquierda por ser la columna de tipo entero
                 cursor.addRow(fila);
             }
         } catch (SQLException ex) {
@@ -653,15 +652,19 @@ public class clientes extends javax.swing.JDialog {
 
     // Metodo para habilitar campos dentro del metodo txtdocumento
     private void habilitarCampos() {
+        
         txtnombre.setEnabled(true);
         txtnombre.requestFocus();
         txtdocumento.setEnabled(false);
+        
     }
 
     // Metodo para mostrar mensaje dentro del metodo txtdocumento
     private void mostrarErrorDocumento() {
+        
         txtdocumento.requestFocus();
         txtdocumento.selectAll();
+        
     }
 
     // Metodo para buscar datos
@@ -1149,6 +1152,8 @@ public class clientes extends javax.swing.JDialog {
                 });
                 dialog.setVisible(true);
                 dialog.setResizable(false);
+                dialog.setLocationRelativeTo(null); // Centrar ventana en la pantalla
+
 
             }
         });

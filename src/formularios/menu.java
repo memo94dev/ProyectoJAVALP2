@@ -1,8 +1,13 @@
 package formularios;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import prg.conectDB;
 
@@ -58,6 +63,7 @@ public class menu extends javax.swing.JFrame {
         menupass = new javax.swing.JMenu();
         confirmarcambiocontra = new javax.swing.JMenuItem();
         menuayuda = new javax.swing.JMenu();
+        solicitardocayuda = new javax.swing.JMenuItem();
         menusalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -157,6 +163,16 @@ public class menu extends javax.swing.JFrame {
 
         menuayuda.setText("Ayuda");
         menuayuda.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        solicitardocayuda.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        solicitardocayuda.setText("Ver el Manual de Inicio de Sesión");
+        solicitardocayuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solicitardocayudaActionPerformed(evt);
+            }
+        });
+        menuayuda.add(solicitardocayuda);
+
         jMenuBar1.add(menuayuda);
 
         menusalir.setText("Salir");
@@ -216,6 +232,17 @@ public class menu extends javax.swing.JFrame {
         new cambio_contrasena(this, true).setVisible(true);
         
     }//GEN-LAST:event_confirmarcambiocontraActionPerformed
+
+    private void solicitardocayudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitardocayudaActionPerformed
+        
+        try {
+            File path = new File("C:\\Users\\memo_\\Documents\\NetBeansProjects\\Proyecto\\src\\ayuda\\Manual de Inicio de Sesion.pdf");
+            Desktop.getDesktop().open(path);
+        } catch (IOException ex) {
+            Logger.getLogger(menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_solicitardocayudaActionPerformed
 
     // Metodo para cambiar contrasena en el primer inicio de sesion
     private void primera_sesion(){
@@ -338,5 +365,6 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenu menuventas;
     private javax.swing.JMenu refcompras;
     private javax.swing.JMenu refventas;
+    private javax.swing.JMenuItem solicitardocayuda;
     // End of variables declaration//GEN-END:variables
 }
