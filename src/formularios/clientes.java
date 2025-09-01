@@ -599,7 +599,7 @@ public class clientes extends javax.swing.JDialog {
                 fila[2] = rs.getString("cli_nombre");
                 fila[3] = rs.getString("cli_apellido");
                 fila[4] = rs.getString("cli_direccion");
-                fila[5] = rs.getString("cli_telefono");
+                fila[5] = "0" + rs.getString("cli_telefono");
                 cursor.addRow(fila);
             }
         } catch (SQLException ex) {
@@ -777,6 +777,7 @@ public class clientes extends javax.swing.JDialog {
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
 
+        limpiar_campos();
         operacion = 1;
         desa_botones(1);
         generar_codigo();
