@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -27,6 +28,8 @@ public class compras extends javax.swing.JDialog {
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
     int operacion = 0; // Bandera para definir la accion que se va a realizar (insert, update, delete)
+    int total = 0;
+    DecimalFormat formateador = new DecimalFormat("###,###,###");
 
     public compras(java.awt.Frame parent, boolean modal) {
 
@@ -64,10 +67,10 @@ public class compras extends javax.swing.JDialog {
         tablacompra = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         btnagregar = new javax.swing.JButton();
-        btnmodificar = new javax.swing.JButton();
         btngrabar = new javax.swing.JButton();
         btncancelar = new javax.swing.JButton();
         btnSalir = new org.edisoncor.gui.button.ButtonNice();
+        btnanular = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         labelCodigo = new org.edisoncor.gui.label.LabelMetric();
         txtcodigo = new org.edisoncor.gui.textField.TextFieldRectBackground();
@@ -85,6 +88,9 @@ public class compras extends javax.swing.JDialog {
         labelDireccion = new org.edisoncor.gui.label.LabelMetric();
         labelCiudad = new org.edisoncor.gui.label.LabelMetric();
         combodeposito = new javax.swing.JComboBox<>();
+        txttotal = new javax.swing.JTextField();
+        labelTelefono2 = new org.edisoncor.gui.label.LabelMetric();
+        labelApellido1 = new org.edisoncor.gui.label.LabelMetric();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -243,13 +249,6 @@ public class compras extends javax.swing.JDialog {
             }
         });
 
-        btnmodificar.setText("Modificar");
-        btnmodificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnmodificarActionPerformed(evt);
-            }
-        });
-
         btngrabar.setText("Grabar");
         btngrabar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,32 +279,39 @@ public class compras extends javax.swing.JDialog {
             }
         });
 
+        btnanular.setText("Anular");
+        btnanular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnanularActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addContainerGap()
                 .addComponent(btnagregar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnmodificar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGap(18, 18, 18)
                 .addComponent(btngrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(18, 18, 18)
+                .addComponent(btnanular, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btncancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnagregar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnmodificar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btngrabar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btncancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnanular, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 13, Short.MAX_VALUE))
         );
 
@@ -404,18 +410,19 @@ public class compras extends javax.swing.JDialog {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txthora, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(labelDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelNombre1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(labelNombre2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txthora, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -531,11 +538,24 @@ public class compras extends javax.swing.JDialog {
                     .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combodeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(combodeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        txttotal.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txttotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txttotalActionPerformed(evt);
+            }
+        });
+
+        labelTelefono2.setText("Gs.:");
+        labelTelefono2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        labelApellido1.setText("Total Compra:");
+        labelApellido1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -544,13 +564,20 @@ public class compras extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelTelefono2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelApellido1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -565,7 +592,14 @@ public class compras extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelApellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelTelefono2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
 
@@ -631,6 +665,10 @@ public class compras extends javax.swing.JDialog {
         txtfecha.setEnabled(false);
         txthora.setEnabled(false);
         btnaddproducto.setEnabled(false);
+        btnagregar.setEnabled(true);
+        btncancelar.setEnabled(false);
+        btnSalir.setEnabled(true);
+        txttotal.setEnabled(false);
 
     }
 
@@ -640,14 +678,15 @@ public class compras extends javax.swing.JDialog {
         switch (a) {
             case 1:
                 btnagregar.setEnabled(false);
-                btnmodificar.setEnabled(false);
                 btnSalir.setEnabled(false);
+                btncancelar.setEnabled(true);
+                btnanular.setEnabled(false);
                 break;
             case 2:
                 btnagregar.setEnabled(true);
-                btnmodificar.setEnabled(true);
                 btnSalir.setEnabled(true);
                 btngrabar.setEnabled(false);
+                btnanular.setEnabled(true);
                 break;
         }
 
@@ -691,25 +730,72 @@ public class compras extends javax.swing.JDialog {
     // Metodo para guardar nuevo registro en la BDD
     private void guardar() {
 
-        /*String codigo = txtcodigoproducto.getText().trim();
-        String nombre = txtnombre.getText().toUpperCase().trim();
-        String documento = txtusuario.getText().trim();
-        String apellido = txtproveedor.getText().toUpperCase().trim();
-        String direccion = txtfactura.getText().toUpperCase().trim();
-        String telefono = txtprecio.getText().trim();
-        String ciudad = (String) combodeposito.getSelectedItem();
+        String codigo = txtcodigoproducto.getText().trim();
+        String codigoCompra = txtcodigo.getText().trim();
+        String codigoproveedor = txtcodigoproveedor.getText().trim();
+        String factura = txtfactura.getText().trim();
+        String fecha = txtfecha.getText().toUpperCase().trim();
+        String hora = txthora.getText().trim();
+        String deposito = (String) combodeposito.getSelectedItem();
+        // Grabar cabecera de compra
         if (operacion == 1) {
-            con.insertar_datos("clientes", "id_cliente, ci_ruc, cli_nombre, cli_apellido, cli_direccion, cli_telefono, cod_ciudad",
-                    codigo + ", '"
-                    + documento + "', '"
-                    + nombre + "', '"
-                    + apellido + "', '"
-                    + direccion + "', '"
-                    + telefono + "', "
-                    + "(SELECT SPLIT_PART('" + ciudad + "','-',1)::integer)",
+            String estado = "activo";
+            String monto = txttotal.getText();
+            String montoreal = monto.replace(".", "");
+            con.insertar_datos("compra", 
+            "cod_compra, cod_proveedor, nro_factura, fecha, estado, cod_deposito, hora, total_compra",
+                    codigoCompra + ", "
+                    + codigoproveedor + ", '"
+                    + factura + "', "
+                    + "(SELECT ('" + fecha + "')::date), '"
+                    + estado + "', "
+                    + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
+                    + "(SELECT ('" + hora + "')::time), "
+                    + montoreal,
                     1);
+        // Grabar detalle de compra
+        for(int a = 0; a < tablacompra.getRowCount(); a++){
+            con.insertar_datos("detalle_compra", 
+                    "cod_producto, cod_compra, cod_deposito, precio, cantidad", 
+                    tablacompra.getValueAt(a, 0) + ", "
+                    + codigoCompra + ", "
+                    + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
+                    + tablacompra.getValueAt(a, 2) + ", "
+                    + tablacompra.getValueAt(a, 3)                    
+                    , 2);
         }
-        if (operacion == 2) {
+        // Grabar o actualizar stock
+            for (int b = 0; b < tablacompra.getRowCount(); b++) {
+                try {
+                    rs = con.Listar("SELECT * FROM stock WHERE cod_producto = " + tablacompra.getValueAt(b, 0) + "AND cod_deposito = "
+                            + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer)");
+                    boolean encontro = rs.next();
+                    if (encontro == false) {
+                        con.insertar_datos("stock", 
+                        "cod_producto, cod_deposito, cantidad, cajas", 
+                        tablacompra.getValueAt(b, 0) + ", "
+                        + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
+                        + tablacompra.getValueAt(b, 3) + ", "
+                        + tablacompra.getValueAt(b, 3) + "/12"                        
+                        , 2);
+                    }else{
+                        String sql = "UPDATE stock SET cantidad = cantidad + " + tablacompra.getValueAt(b, 3)
+                                + ", cajas = ((SELECT cantidad FROM stock WHERE cod_deposito = (SELECT SPLIT_PART('" + deposito + "','-',1)::integer) AND cod_producto = " 
+                                + tablacompra.getValueAt(b, 0) + ") + "+ tablacompra.getValueAt(b, 3) +") / 12" // Obtener la cantidad total de productos de la base de datos con una subconsulta
+                                + "WHERE cod_producto = " + tablacompra.getValueAt(b, 0)
+                                + " AND cod_deposito = " 
+                                + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer)";
+                        System.out.println(sql);
+                        con.sentencia = con.conectar().createStatement();
+                        con.sentencia.executeUpdate(sql);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        
+        }
+        /*if (operacion == 2) {
             con.actualizar_datos("clientes",
                     "ci_ruc = '" + documento
                     + "', cli_nombre = '" + nombre
@@ -725,12 +811,14 @@ public class compras extends javax.swing.JDialog {
     private void limpiar_campos() {
 
         txtcodigoproducto.setText("");
+        txtcodigo.setText("");
         txtproducto.setText("");
         txtcantidad.setText("");
         txtcodigoproveedor.setText("");
         txtproveedor.setText("");
         txtfactura.setText("");
         txtprecio.setText("");
+        txttotal.setText("");
         //txttotal.setText("");
 
     }
@@ -738,23 +826,33 @@ public class compras extends javax.swing.JDialog {
     // Metodo para cargar datos en la tabla con datos de la BDD
     private void cargar_tabla() {
 
-        /*try {
-            cursor = (DefaultTableModel) tablacompra.getModel();
-            String sql = "SELECT * FROM clientes ORDER BY id_cliente ASC;";
-            rs = con.Listar(sql);
-            String[] fila = new String[6];
-            while (rs.next()) {
-                fila[0] = rs.getString("id_cliente");
-                fila[1] = rs.getString("ci_ruc");
-                fila[2] = rs.getString("cli_nombre");
-                fila[3] = rs.getString("cli_apellido");
-                fila[4] = rs.getString("cli_direccion");
-                fila[5] = "0" + rs.getString("cli_telefono"); // Concateno el cero ya que en la BDD no guarda el cero a la izquierda por ser la columna de tipo entero
-                cursor.addRow(fila);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        cursor = (DefaultTableModel) tablacompra.getModel();
+        int subtotal = 0;
+        subtotal = Integer.parseInt(txtcantidad.getText()) * Integer.parseInt(txtprecio.getText());
+        total = total + subtotal;
+        txttotal.setText(formateador.format(total));
+        String campo[] = new String[]{txtcodigoproducto.getText(), txtproducto.getText(),
+            txtprecio.getText(), txtcantidad.getText()};
+        
+        cursor.addRow(campo);
+
+        nuevo_producto();
+        btngrabar.setEnabled(true);
+
+    }
+    
+    // Metodo para agregar nuevo producto
+    private void nuevo_producto(){
+        
+        txtcodigoproducto.setText("");
+        txtproducto.setText("");
+        txtcantidad.setText("");
+        txtprecio.setText("");
+        txtcodigoproducto.setEnabled(true);
+        txtprecio.setEnabled(false);
+        txtcantidad.setEnabled(false);
+        txtcodigoproducto.requestFocus();
+        
     }
 
     // Metodo para cargar combobox
@@ -1045,8 +1143,8 @@ public class compras extends javax.swing.JDialog {
     private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
 
         txtprecio.setEnabled(false);
-        btngrabar.setEnabled(true);
-        btngrabar.requestFocus();
+        txtcantidad.setEnabled(true);
+        txtcantidad.requestFocus();
 
     }//GEN-LAST:event_txtprecioActionPerformed
 
@@ -1123,11 +1221,29 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtcantidadActionPerformed
 
     private void txtcantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcantidadKeyPressed
-        // TODO add your handling code here:
+        
+        if (evt.getKeyCode() == 10) {
+            String cantidad = txtcantidad.getText().trim();
+            if (cantidad.isEmpty() || cantidad.equals("0")) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad valida!");
+                txtcantidad.requestFocus();
+            }else{
+                cargar_tabla();
+            }
+        }
+        
     }//GEN-LAST:event_txtcantidadKeyPressed
 
     private void txtcantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcantidadKeyTyped
-        // TODO add your handling code here:
+        
+        int k = evt.getKeyChar();
+        if ((k >= 32 && k <= 45) || (k >= 58 && k <= 126)) {
+            evt.setKeyChar((char) KeyEvent.VK_CLEAR);
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(this, "Solo puede ingresar numeros");
+            txtcantidad.requestFocus();
+        }
+        
     }//GEN-LAST:event_txtcantidadKeyTyped
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
@@ -1141,12 +1257,11 @@ public class compras extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnagregarActionPerformed
 
-    private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnmodificarActionPerformed
-
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
-        // TODO add your handling code here:
+        
+        guardar();
+        btncancelar.doClick();
+        
     }//GEN-LAST:event_btngrabarActionPerformed
 
     private void btngrabarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btngrabarKeyPressed
@@ -1158,11 +1273,22 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_btngrabarKeyTyped
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
-        // TODO add your handling code here:
+        
+        limpiar_campos();
+        limpiar_tabla();
+        desa_inicio();
+        
     }//GEN-LAST:event_btncancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
+        
+        int mensaje = JOptionPane.showConfirmDialog(this, "Desea salir?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
+        if (mensaje == JOptionPane.YES_OPTION) {
+            //System.exit(WIDTH); // Para cerrar totalmente el sistema. Con codigo 1(confuso)
+            //System.exit(0); // Mejor practica, cierra el programa con codigo o(correcto)
+            dispose(); // Para cerrar ventanas de opciones o formularios sin parar el sistema.
+        }
+        
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void combodepositoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodepositoKeyPressed
@@ -1194,8 +1320,34 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtcodigoproveedorKeyPressed
 
     private void txtcodigoproductoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoproductoKeyPressed
-        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            JTextField[] tfParam = new JTextField[3];
+            tfParam[0] = txtcodigoproducto;
+            tfParam[1] = txtproducto;
+            tfParam[2] = txtprecio;
+
+            VentanaBuscar buscarproducto = new VentanaBuscar("SELECT cod_producto, p_descrip, precio FROM producto WHERE p_descrip ILIKE ",
+                    new String[]{"Codigo", "Producto", "Precio",}, 3, tfParam);
+            buscarproducto.setTitle("Buscar Producto");
+            buscarproducto.setVisible(true);
+
+            txtcodigoproducto.setEnabled(false);
+            txtproducto.setEnabled(false);
+            txtprecio.setEnabled(true);
+            txtcantidad.setEnabled(true);
+            txtcantidad.requestFocus();
+        }
+
     }//GEN-LAST:event_txtcodigoproductoKeyPressed
+
+    private void txttotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txttotalActionPerformed
+
+    private void btnanularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnanularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnanularActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1257,9 +1409,9 @@ public class compras extends javax.swing.JDialog {
     private org.edisoncor.gui.button.ButtonNice btnSalir;
     private javax.swing.JButton btnaddproducto;
     private javax.swing.JButton btnagregar;
+    private javax.swing.JButton btnanular;
     private javax.swing.JButton btncancelar;
     private javax.swing.JButton btngrabar;
-    private javax.swing.JButton btnmodificar;
     private javax.swing.JComboBox<String> combodeposito;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -1268,6 +1420,7 @@ public class compras extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private org.edisoncor.gui.label.LabelMetric labelApellido;
+    private org.edisoncor.gui.label.LabelMetric labelApellido1;
     private org.edisoncor.gui.label.LabelMetric labelCiudad;
     private org.edisoncor.gui.label.LabelMetric labelCodigo;
     private org.edisoncor.gui.label.LabelMetric labelDireccion;
@@ -1277,6 +1430,7 @@ public class compras extends javax.swing.JDialog {
     private org.edisoncor.gui.label.LabelMetric labelNombre2;
     private org.edisoncor.gui.label.LabelMetric labelTelefono;
     private org.edisoncor.gui.label.LabelMetric labelTelefono1;
+    private org.edisoncor.gui.label.LabelMetric labelTelefono2;
     private org.edisoncor.gui.panel.PanelCurves panelCurves1;
     private org.edisoncor.gui.panel.PanelNice panelNice1;
     private javax.swing.JTable tablacompra;
@@ -1290,6 +1444,7 @@ public class compras extends javax.swing.JDialog {
     private org.edisoncor.gui.textField.TextFieldRectBackground txtprecio;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtproducto;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtproveedor;
+    private javax.swing.JTextField txttotal;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtusuario;
     // End of variables declaration//GEN-END:variables
 }
