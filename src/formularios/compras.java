@@ -23,14 +23,14 @@ import prg.VentanaBuscar;
 import prg.conectDB;
 
 public class compras extends javax.swing.JDialog {
-
+    
     conectDB con; // Traer la clase de conexion
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
     int operacion = 0; // Bandera para definir la accion que se va a realizar (insert, update, delete)
     int total = 0;
     DecimalFormat formateador = new DecimalFormat("###,###,###");
-
+    
     public compras(java.awt.Frame parent, boolean modal) {
 
         //super(parent, modal); // Se superpone a otras ventanas u objetos
@@ -46,7 +46,7 @@ public class compras extends javax.swing.JDialog {
         setLocationRelativeTo(null); // Centrar ventana en la pantalla, lo llevo al metodo main
 
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -228,7 +228,7 @@ public class compras extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Código", "Producto", "Precio", "Cantidad"
+                "Código", "Producto", "Precio", "Cantidad", "Cod_depo"
             }
         ));
         tablacompra.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -238,6 +238,11 @@ public class compras extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(tablacompra);
+        if (tablacompra.getColumnModel().getColumnCount() > 0) {
+            tablacompra.getColumnModel().getColumn(4).setMinWidth(0);
+            tablacompra.getColumnModel().getColumn(4).setPreferredWidth(0);
+            tablacompra.getColumnModel().getColumn(4).setMaxWidth(0);
+        }
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
         jPanel3.setOpaque(false);
@@ -315,7 +320,7 @@ public class compras extends javax.swing.JDialog {
                 .addGap(0, 13, Short.MAX_VALUE))
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Usuario"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("General"));
         jPanel4.setOpaque(false);
 
         labelCodigo.setText("Código: ");
@@ -326,6 +331,11 @@ public class compras extends javax.swing.JDialog {
         txtcodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtcodigoActionPerformed(evt);
+            }
+        });
+        txtcodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtcodigoKeyPressed(evt);
             }
         });
 
@@ -595,7 +605,7 @@ public class compras extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(labelApellido1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelTelefono2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -623,7 +633,7 @@ public class compras extends javax.swing.JDialog {
 
     // Metodo para traer la fecha de la Base de Datos
     private void fecha() {
-
+        
         try {
             rs = con.Listar("SELECT TO_CHAR(CURRENT_DATE, 'DD/MM/YYYY') AS fecha;");
             rs.next();
@@ -631,12 +641,12 @@ public class compras extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     // Metodo para traer la hora de la Base de Datos
     private void hora() {
-
+        
         try {
             rs = con.Listar("SELECT TO_CHAR(CURRENT_TIMESTAMP, 'HH12:MI:SS') AS hora;");
             rs.next();
@@ -644,12 +654,12 @@ public class compras extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     /* Metodo para inhabilitar el boton guardar y las entradas de texto al iniciar la pantalla */
     private void desa_inicio() {
-
+        
         btngrabar.setEnabled(false);
         txtcodigoproducto.setEnabled(false);
         txtproducto.setEnabled(false);
@@ -667,14 +677,15 @@ public class compras extends javax.swing.JDialog {
         btnaddproducto.setEnabled(false);
         btnagregar.setEnabled(true);
         btncancelar.setEnabled(false);
+        btnanular.setEnabled(true);
         btnSalir.setEnabled(true);
         txttotal.setEnabled(false);
-
+        
     }
 
     /* Metodo para inhabilitar botones y habilitar botones */
     private void desa_botones(int a) {
-
+        
         switch (a) {
             case 1:
                 btnagregar.setEnabled(false);
@@ -689,12 +700,12 @@ public class compras extends javax.swing.JDialog {
                 btnanular.setEnabled(true);
                 break;
         }
-
+        
     }
 
     /* Metodo para realizar consulta de los codigos existentes y devolver el siguiente codigo de compra a utilizar */
     private void generar_codigo() {
-
+        
         try {
             String sql = "SELECT COALESCE (MAX(cod_compra),0)+1 AS cod FROM compra;"; // Creamos la consulta SQL.
             rs = con.Listar(sql); // Utilizamos el metodo listar.
@@ -703,12 +714,12 @@ public class compras extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     /* Metodo para validar duplicidad de valores en la BDD */
     private boolean validar_documento() {
-
+        
         try {
             String doc = txtusuario.getText().trim();
             rs = con.Listar("SELECT * FROM clientes WHERE ci_ruc = '" + doc + "'");
@@ -729,7 +740,7 @@ public class compras extends javax.swing.JDialog {
 
     // Metodo para guardar nuevo registro en la BDD
     private void guardar() {
-
+        
         String codigo = txtcodigoproducto.getText().trim();
         String codigoCompra = txtcodigo.getText().trim();
         String codigoproveedor = txtcodigoproveedor.getText().trim();
@@ -742,8 +753,8 @@ public class compras extends javax.swing.JDialog {
             String estado = "activo";
             String monto = txttotal.getText();
             String montoreal = monto.replace(".", "");
-            con.insertar_datos("compra", 
-            "cod_compra, cod_proveedor, nro_factura, fecha, estado, cod_deposito, hora, total_compra",
+            con.insertar_datos("compra",
+                    "cod_compra, cod_proveedor, nro_factura, fecha, estado, cod_deposito, hora, total_compra",
                     codigoCompra + ", "
                     + codigoproveedor + ", '"
                     + factura + "', "
@@ -753,37 +764,37 @@ public class compras extends javax.swing.JDialog {
                     + "(SELECT ('" + hora + "')::time), "
                     + montoreal,
                     1);
-        // Grabar detalle de compra
-        for(int a = 0; a < tablacompra.getRowCount(); a++){
-            con.insertar_datos("detalle_compra", 
-                    "cod_producto, cod_compra, cod_deposito, precio, cantidad", 
-                    tablacompra.getValueAt(a, 0) + ", "
-                    + codigoCompra + ", "
-                    + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
-                    + tablacompra.getValueAt(a, 2) + ", "
-                    + tablacompra.getValueAt(a, 3)                    
-                    , 2);
-        }
-        // Grabar o actualizar stock
+            // Grabar detalle de compra
+            for (int a = 0; a < tablacompra.getRowCount(); a++) {
+                con.insertar_datos("detalle_compra",
+                        "cod_producto, cod_compra, cod_deposito, precio, cantidad",
+                        tablacompra.getValueAt(a, 0) + ", "
+                        + codigoCompra + ", "
+                        + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
+                        + tablacompra.getValueAt(a, 2) + ", "
+                        + tablacompra.getValueAt(a, 3),
+                         2);
+            }
+            // Grabar o actualizar stock
             for (int b = 0; b < tablacompra.getRowCount(); b++) {
                 try {
                     rs = con.Listar("SELECT * FROM stock WHERE cod_producto = " + tablacompra.getValueAt(b, 0) + "AND cod_deposito = "
                             + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer)");
                     boolean encontro = rs.next();
                     if (encontro == false) {
-                        con.insertar_datos("stock", 
-                        "cod_producto, cod_deposito, cantidad, cajas", 
-                        tablacompra.getValueAt(b, 0) + ", "
-                        + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
-                        + tablacompra.getValueAt(b, 3) + ", "
-                        + tablacompra.getValueAt(b, 3) + "/12"                        
-                        , 2);
-                    }else{
+                        con.insertar_datos("stock",
+                                "cod_producto, cod_deposito, cantidad, cajas",
+                                tablacompra.getValueAt(b, 0) + ", "
+                                + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
+                                + tablacompra.getValueAt(b, 3) + ", "
+                                + tablacompra.getValueAt(b, 3) + "/12",
+                                 2);
+                    } else {
                         String sql = "UPDATE stock SET cantidad = cantidad + " + tablacompra.getValueAt(b, 3)
-                                + ", cajas = ((SELECT cantidad FROM stock WHERE cod_deposito = (SELECT SPLIT_PART('" + deposito + "','-',1)::integer) AND cod_producto = " 
-                                + tablacompra.getValueAt(b, 0) + ") + "+ tablacompra.getValueAt(b, 3) +") / 12" // Obtener la cantidad total de productos de la base de datos con una subconsulta
+                                + ", cajas = ((SELECT cantidad FROM stock WHERE cod_deposito = (SELECT SPLIT_PART('" + deposito + "','-',1)::integer) AND cod_producto = "
+                                + tablacompra.getValueAt(b, 0) + ") + " + tablacompra.getValueAt(b, 3) + ") / 12" // Obtener la cantidad total de productos de la base de datos con una subconsulta
                                 + "WHERE cod_producto = " + tablacompra.getValueAt(b, 0)
-                                + " AND cod_deposito = " 
+                                + " AND cod_deposito = "
                                 + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer)";
                         System.out.println(sql);
                         con.sentencia = con.conectar().createStatement();
@@ -793,23 +804,34 @@ public class compras extends javax.swing.JDialog {
                     Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        
+            
         }
-        /*if (operacion == 2) {
-            con.actualizar_datos("clientes",
-                    "ci_ruc = '" + documento
-                    + "', cli_nombre = '" + nombre
-                    + "', cli_apellido = '" + apellido
-                    + "', cli_direccion = '" + direccion
-                    + "', cli_telefono = '" + telefono
-                    + "', cod_ciudad = (SELECT SPLIT_PART('" + ciudad + "','-',1)::integer)",
-                    "id_cliente = " + codigo, 1);
-        }*/
+        if (operacion == 2) {
+            String estado = "anulado";
+            System.out.println(codigo);
+            String codigo_anular = txtcodigo.getText().trim();
+            con.actualizar_datos("compra",
+                    "estado = '" + estado + "' ",
+                    "cod_compra = " + codigo_anular, 3);
+            
+            for (int c = 0; c < tablacompra.getRowCount(); c++) {
+                try {
+                    String sql = "UPDATE stock SET cantidad = cantidad - " + tablacompra.getValueAt(c, 3)
+                            + ", cajas = cantidad / 12 WHERE cod_producto = " + tablacompra.getValueAt(c, 0)
+                            + " AND cod_deposito = " + tablacompra.getValueAt(c, 4);
+                    System.out.println(sql);
+                    con.sentencia = con.conectar().createStatement();
+                    con.sentencia.executeUpdate(sql);
+                } catch (SQLException ex) {
+                    Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
 
     // Metodo para limpiar campos
     private void limpiar_campos() {
-
+        
         txtcodigoproducto.setText("");
         txtcodigo.setText("");
         txtproducto.setText("");
@@ -825,7 +847,7 @@ public class compras extends javax.swing.JDialog {
 
     // Metodo para cargar datos en la tabla con datos de la BDD
     private void cargar_tabla() {
-
+        
         cursor = (DefaultTableModel) tablacompra.getModel();
         int subtotal = 0;
         subtotal = Integer.parseInt(txtcantidad.getText()) * Integer.parseInt(txtprecio.getText());
@@ -835,14 +857,14 @@ public class compras extends javax.swing.JDialog {
             txtprecio.getText(), txtcantidad.getText()};
         
         cursor.addRow(campo);
-
+        
         nuevo_producto();
         btngrabar.setEnabled(true);
-
+        
     }
-    
+
     // Metodo para agregar nuevo producto
-    private void nuevo_producto(){
+    private void nuevo_producto() {
         
         txtcodigoproducto.setText("");
         txtproducto.setText("");
@@ -857,7 +879,7 @@ public class compras extends javax.swing.JDialog {
 
     // Metodo para cargar combobox
     private void llenar_combo(String orden) {
-
+        
         try {
             String sql = "SELECT CONCAT (cod_deposito, '- ', descrip) AS deposito FROM deposito ORDER BY cod_deposito = " + orden + "DESC;";
             rs = con.Listar(sql);
@@ -869,22 +891,22 @@ public class compras extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     // Metodo para limpiar valores de la tabla
     private void limpiar_tabla() {
-
+        
         cursor = (DefaultTableModel) tablacompra.getModel();
         while (cursor.getRowCount() > 0) {
             cursor.removeRow(0);
         }
-
+        
     }
 
     // Metodo para validar documento para que no se dupliquen al editar
     private String buscar(String codigo) {
-
+        
         try {
             String sql = "SELECT ci_ruc FROM clientes WHERE id_cliente = " + codigo;
             rs = con.Listar(sql);
@@ -895,7 +917,7 @@ public class compras extends javax.swing.JDialog {
             Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-
+        
     }
 
     // Metodo para habilitar campos dentro del metodo txtdocumento
@@ -908,10 +930,10 @@ public class compras extends javax.swing.JDialog {
 
     // Metodo para mostrar mensaje dentro del metodo txtdocumento
     private void mostrarErrorDocumento() {
-
+        
         txtusuario.requestFocus();
         txtusuario.selectAll();
-
+        
     }
 
     // Metodo para buscar datos
@@ -939,7 +961,7 @@ public class compras extends javax.swing.JDialog {
 
     // Metodo imprimir Reporte
     private void imprimir() {
-
+        
         try {
             String sql = "SELECT * FROM v_reporte_clientes;";
             rs = con.Listar(sql);
@@ -950,7 +972,7 @@ public class compras extends javax.swing.JDialog {
             // Cargamos el reporte
             URL url = getClass().getClassLoader().getResource("reportes/reporte_clientes.jasper");
             jr = (JasperReport) JRLoader.loadObject(url);
-
+            
             JasperPrint masterPrint = null;
             JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
             masterPrint = JasperFillManager.fillReport(jr, parameters, jrRS);
@@ -964,12 +986,12 @@ public class compras extends javax.swing.JDialog {
         } catch (JRException ex) {
             Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     // Ver datos
     private void ver_datos() {
-
+        
         int fila = tablacompra.getSelectedRow();
         txtcodigoproducto.setText(tablacompra.getValueAt(fila, 0).toString());
         txtusuario.setText(tablacompra.getValueAt(fila, 1).toString());
@@ -978,7 +1000,7 @@ public class compras extends javax.swing.JDialog {
         //combociudad.setEnabled(true);
         txtfactura.setText(tablacompra.getValueAt(fila, 4).toString());
         txtprecio.setText(tablacompra.getValueAt(fila, 5).toString());
-
+        
         String codigo = tablacompra.getValueAt(fila, 0).toString();
         //System.out.println("Codigo del cliente: " + codigo);
 
@@ -997,7 +1019,59 @@ public class compras extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+    }
 
+    // Metodo para anular
+    private void accion_anular() {
+        
+        try {
+            String codigo = txtcodigo.getText().trim();
+            rs = con.Listar("SELECT CONCAT (d.cod_deposito, '- ', d.descrip) AS deposito, p.razon_social, c.* FROM compra c, proveedor p, deposito d WHERE c.cod_proveedor = p.cod_proveedor AND c.cod_deposito = d.cod_deposito AND c.cod_compra = " + codigo);
+            boolean encontro = rs.next();
+            if (encontro == true) {
+                txtfactura.setText(rs.getString("nro_factura"));
+                txtcodigoproveedor.setText(rs.getString("cod_proveedor"));
+                txtproveedor.setText(rs.getString("razon_social"));
+                combodeposito.addItem(rs.getString("deposito"));
+                cargar_tabla_anular();
+                txtcodigo.setEnabled(false);
+                operacion = 2;
+                btngrabar.setEnabled(true);
+                btngrabar.requestFocus();
+            } else {
+                JOptionPane.showMessageDialog(this, "No existe el codigo de compras ingresado!");
+                txtcodigo.selectAll();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    // Metodo para cargar tabla con detalles de la compra a anular
+    private void cargar_tabla_anular() {
+        
+        try {
+            String codigo = txtcodigo.getText();
+            cursor = (DefaultTableModel) tablacompra.getModel();
+            rs = con.Listar("SELECT dt.cod_producto, p.p_descrip, dt.precio, dt.cantidad, dt.cod_deposito"
+                    + " FROM detalle_compra dt, producto p"
+                    + " WHERE dt.cod_producto = p.cod_producto"
+                    + " AND dt.cod_compra = " + codigo + ";");
+            String [] fila = new String[5];
+            while (rs.next()) {
+                fila [0] = rs.getString("cod_producto");
+                fila [1] = rs.getString("p_descrip");
+                fila [2] = rs.getString("precio");
+                fila [3] = rs.getString("cantidad");
+                fila [4] = rs.getString("cod_deposito");
+                cursor.addRow(fila);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     private void txtcodigoproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoproductoActionPerformed
@@ -1048,17 +1122,17 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtusuarioActionPerformed
 
     private void txtusuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtusuarioKeyPressed
-
+        
         String codigo = txtcodigoproducto.getText().trim();
         String documento = txtusuario.getText().trim();
-
+        
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (documento.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Complete este campo!");
                 txtusuario.requestFocus();
                 return;
             }
-
+            
             if (operacion == 1) {
                 // Modo guardar: validar si el documento ya existe
                 if (!validar_documento()) {
@@ -1074,7 +1148,7 @@ public class compras extends javax.swing.JDialog {
                     txtcodigoproducto.requestFocus();
                     return;
                 }
-
+                
                 if (documento.equals(documentoActual)) {
                     // Documento no cambió, no validar
                     habilitarCampos();
@@ -1088,12 +1162,12 @@ public class compras extends javax.swing.JDialog {
                 }
             }
         }
-
+        
 
     }//GEN-LAST:event_txtusuarioKeyPressed
 
     private void txtproveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtproveedorActionPerformed
-
+        
         txtproveedor.setEnabled(false);
         combodeposito.setEnabled(true);
         combodeposito.requestFocus();
@@ -1101,7 +1175,7 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtproveedorActionPerformed
 
     private void txtproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtproveedorKeyTyped
-
+        
         char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
             getToolkit().beep();
@@ -1113,7 +1187,7 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtproveedorKeyTyped
 
     private void combodepositoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodepositoKeyTyped
-
+        
         combodeposito.setEnabled(false);
         txtfactura.setEnabled(true);
         txtfactura.requestFocus();
@@ -1121,7 +1195,7 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_combodepositoKeyTyped
 
     private void combodepositoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combodepositoMouseClicked
-
+        
         combodeposito.setEnabled(false);
         txtfactura.setEnabled(true);
         txtfactura.requestFocus();
@@ -1129,7 +1203,7 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_combodepositoMouseClicked
 
     private void txtprecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtprecioKeyTyped
-
+        
         int k = evt.getKeyChar();
         if ((k >= 32 && k <= 45) || (k >= 58 && k <= 126)) {
             evt.setKeyChar((char) KeyEvent.VK_CLEAR);
@@ -1141,7 +1215,7 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtprecioKeyTyped
 
     private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
-
+        
         txtprecio.setEnabled(false);
         txtcantidad.setEnabled(true);
         txtcantidad.requestFocus();
@@ -1149,7 +1223,7 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtprecioActionPerformed
 
     private void txtfacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfacturaActionPerformed
-
+        
         String factura = txtfactura.getText().trim();
         if (factura.equals("")) {
             JOptionPane.showMessageDialog(this, "Ingrese un numero de factura!");
@@ -1163,7 +1237,7 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtfacturaActionPerformed
 
     private void tablacompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablacompraMouseClicked
-
+        
         ver_datos();
 
     }//GEN-LAST:event_tablacompraMouseClicked
@@ -1227,7 +1301,7 @@ public class compras extends javax.swing.JDialog {
             if (cantidad.isEmpty() || cantidad.equals("0")) {
                 JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad valida!");
                 txtcantidad.requestFocus();
-            }else{
+            } else {
                 cargar_tabla();
             }
         }
@@ -1247,7 +1321,7 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtcantidadKeyTyped
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
-
+        
         operacion = 1;
         generar_codigo();
         desa_botones(1);
@@ -1292,7 +1366,7 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void combodepositoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodepositoKeyPressed
-
+        
         combodeposito.setEnabled(false);
         JOptionPane.showMessageDialog(this, "Pulsa un Enter para seleccionar los Productos!");
         txtcodigoproducto.setEnabled(true);
@@ -1301,17 +1375,17 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_combodepositoKeyPressed
 
     private void txtcodigoproveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoproveedorKeyPressed
-
+        
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextField[] tfParam = new JTextField[2];
             tfParam[0] = txtcodigoproveedor;
             tfParam[1] = txtproveedor;
-
+            
             VentanaBuscar buscarproveedor = new VentanaBuscar("SELECT cod_proveedor, razon_social FROM proveedor WHERE razon_social ILIKE ",
                     new String[]{"Codigo", "Proveedor",}, 2, tfParam);
             buscarproveedor.setTitle("Buscar Proveedor");
             buscarproveedor.setVisible(true);
-
+            
             txtcodigoproveedor.setEnabled(false);
             txtfactura.setEnabled(true);
             txtfactura.requestFocus();
@@ -1320,18 +1394,18 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtcodigoproveedorKeyPressed
 
     private void txtcodigoproductoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoproductoKeyPressed
-
+        
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextField[] tfParam = new JTextField[3];
             tfParam[0] = txtcodigoproducto;
             tfParam[1] = txtproducto;
             tfParam[2] = txtprecio;
-
+            
             VentanaBuscar buscarproducto = new VentanaBuscar("SELECT cod_producto, p_descrip, precio FROM producto WHERE p_descrip ILIKE ",
                     new String[]{"Codigo", "Producto", "Precio",}, 3, tfParam);
             buscarproducto.setTitle("Buscar Producto");
             buscarproducto.setVisible(true);
-
+            
             txtcodigoproducto.setEnabled(false);
             txtproducto.setEnabled(false);
             txtprecio.setEnabled(true);
@@ -1346,8 +1420,38 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txttotalActionPerformed
 
     private void btnanularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnanularActionPerformed
-        // TODO add your handling code here:
+        
+        JOptionPane.showMessageDialog(this, "Ingrese el codigo de compra que desea anular");
+        txtcodigo.setEnabled(true);
+        txtcodigo.requestFocus();
+        desa_botones(1);
+        
     }//GEN-LAST:event_btnanularActionPerformed
+
+    private void txtcodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoKeyPressed
+        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String codigo = txtcodigo.getText().trim();
+            if (codigo.isEmpty() || codigo.equals("0")) {
+                JOptionPane.showMessageDialog(this, "Ingresa un codigo valido para anular!");
+            } else {
+                try {
+                    rs = con.Listar("SELECT * FROM compra WHERE cod_compra = " + codigo
+                            + "AND estado = 'anulado'");
+                    boolean encontro = rs.next();
+                    if (encontro == true) {
+                        JOptionPane.showMessageDialog(this, "La compra con el codigo ingresado ya ha sido anulada!");
+                        btncancelar.doClick();
+                    } else {
+                        accion_anular();
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_txtcodigoKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1363,21 +1467,21 @@ public class compras extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
+                    
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(compras.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(compras.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(compras.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(compras.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
