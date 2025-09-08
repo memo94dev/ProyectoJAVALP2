@@ -398,7 +398,7 @@ public class stock extends javax.swing.JDialog {
 
         txtcodigo.setText("");
         txtproducto.setText("");
-        buttonGroup1.clearSelection(); // Deseleccionar todos los check buttons
+        //buttonGroup1.clearSelection(); // Deseleccionar todos los check buttons
 
     }
 
@@ -425,10 +425,10 @@ public class stock extends javax.swing.JDialog {
         }
 
     }
-    
+
     // Metodo para cargar tabla por deposito
-    private void cargar_tabla_deposito(){
-        
+    private void cargar_tabla_deposito() {
+
         try {
             cursor = (DefaultTableModel) tablastock.getModel();
             String sql = "SELECT d.cod_deposito, d.descrip, p.cod_producto, p.p_descrip, s.cantidad, s.cajas "
@@ -449,12 +449,12 @@ public class stock extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(stock.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     // Metodo para cargar tabla por producto
-    private void cargar_tabla_producto(){
-        
+    private void cargar_tabla_producto() {
+
         try {
             cursor = (DefaultTableModel) tablastock.getModel();
             String sql = "SELECT d.cod_deposito, d.descrip, p.cod_producto, p.p_descrip, s.cantidad, s.cajas "
@@ -475,7 +475,7 @@ public class stock extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(stock.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     // Metodo para cargar combobox
@@ -580,10 +580,10 @@ public class stock extends javax.swing.JDialog {
         }
 
     }
-    
+
     // Metodo para buscar y validar todos los productos
-    private void validar_todos(){
-        
+    private void validar_todos() {
+
         try {
             rs = con.Listar("SELECT d.cod_deposito, d.descrip, p.cod_producto, p.p_descrip, s.cantidad, s.cajas "
                     + "FROM stock s, deposito d, producto p "
@@ -591,18 +591,18 @@ public class stock extends javax.swing.JDialog {
             boolean encontro = rs.next();
             if (encontro == false) {
                 JOptionPane.showMessageDialog(this, "No existen productos en stock!");
-            }else{
+            } else {
                 cargar_tabla();
             }
         } catch (SQLException ex) {
             Logger.getLogger(stock.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        
+        }
+
     }
-    
+
     // Metodo para buscar por deposito
-    private void validar_deposito(){
-        
+    private void validar_deposito() {
+
         try {
             rs = con.Listar("SELECT d.cod_deposito, d.descrip, p.cod_producto, p.p_descrip, s.cantidad, s.cajas "
                     + "FROM stock s, deposito d, producto p "
@@ -613,18 +613,18 @@ public class stock extends javax.swing.JDialog {
             boolean encontro = rs.next();
             if (encontro == false) {
                 JOptionPane.showMessageDialog(this, "No existen productos en el deposito!");
-            }else{
+            } else {
                 cargar_tabla_deposito();
             }
         } catch (SQLException ex) {
             Logger.getLogger(stock.class.getName()).log(Level.SEVERE, null, ex);
-        }    
-        
+        }
+
     }
-    
+
     // Metodo para buscar por producto
-    private void validar_producto(){
-        
+    private void validar_producto() {
+
         try {
             rs = con.Listar("SELECT d.cod_deposito, d.descrip, p.cod_producto, p.p_descrip, s.cantidad, s.cajas "
                     + "FROM stock s, deposito d, producto p "
@@ -635,13 +635,13 @@ public class stock extends javax.swing.JDialog {
             boolean encontro = rs.next();
             if (encontro == false) {
                 JOptionPane.showMessageDialog(this, "No existe el producto!");
-            }else{
+            } else {
                 cargar_tabla_producto();
             }
         } catch (SQLException ex) {
             Logger.getLogger(stock.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
+        }
+
     }
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -674,6 +674,8 @@ public class stock extends javax.swing.JDialog {
         if (operacion == 3) {
             validar_producto();
         }
+        btnbuscar.setEnabled(false);
+
 
     }//GEN-LAST:event_btnbuscarActionPerformed
 
@@ -716,6 +718,7 @@ public class stock extends javax.swing.JDialog {
     private void checktodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checktodosActionPerformed
 
         limpiar_tabla();
+        limpiar_campos();
         operacion = 1;
         btnbuscar.setEnabled(true);
         btnbuscar.requestFocus();
@@ -724,7 +727,9 @@ public class stock extends javax.swing.JDialog {
 
     private void checkproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkproductoActionPerformed
 
+        JOptionPane.showMessageDialog(this, "Presione enter para seleccionar un producto!");
         limpiar_tabla();
+        limpiar_campos();
         operacion = 3;
         txtcodigo.setEnabled(true);
         txtcodigo.requestFocus();
@@ -734,6 +739,7 @@ public class stock extends javax.swing.JDialog {
     private void checkdepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkdepositoActionPerformed
 
         limpiar_tabla();
+        limpiar_campos();
         operacion = 2;
         combodepo.setEnabled(true);
         combodepo.requestFocus();
@@ -763,7 +769,7 @@ public class stock extends javax.swing.JDialog {
     }//GEN-LAST:event_txtcodigoKeyPressed
 
     private void btnbuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnbuscarKeyPressed
-        
+
         if (operacion == 1) {
             validar_todos();
         }
@@ -773,7 +779,8 @@ public class stock extends javax.swing.JDialog {
         if (operacion == 3) {
             validar_producto();
         }
-        
+        btnbuscar.setEnabled(false);
+
     }//GEN-LAST:event_btnbuscarKeyPressed
 
     /**
