@@ -714,6 +714,9 @@ public class stock extends javax.swing.JDialog {
             btnbuscar.setEnabled(true);
             btnbuscar.requestFocus();
 
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe presionar ENTER para abrir el buscador!");
+            txtcodigo.setText("");
         }
 
     }//GEN-LAST:event_txtcodigoKeyPressed
