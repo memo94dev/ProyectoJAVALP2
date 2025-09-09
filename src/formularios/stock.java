@@ -35,11 +35,9 @@ public class stock extends javax.swing.JDialog {
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
 
-        //cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         inicio(); // Metodo de inicio de la pantalla
         limpiar_campos();
         llenar_combo("1");
-        //setLocationRelativeTo(null); // Centrar ventana en la pantalla, lo pongo al final, en el metodo main
 
     }
 
@@ -61,6 +59,7 @@ public class stock extends javax.swing.JDialog {
         checktodos = new javax.swing.JCheckBox();
         checkdeposito = new javax.swing.JCheckBox();
         checkproducto = new javax.swing.JCheckBox();
+        btnimprimir = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         labelCodigo = new org.edisoncor.gui.label.LabelMetric();
         txtcodigo = new org.edisoncor.gui.textField.TextFieldRectBackground();
@@ -181,6 +180,13 @@ public class stock extends javax.swing.JDialog {
             }
         });
 
+        btnimprimir.setText("Imprimir");
+        btnimprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnimprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -188,22 +194,24 @@ public class stock extends javax.swing.JDialog {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(checktodos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(checktodos)
                     .addComponent(checkproducto)
-                    .addComponent(checkdeposito))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnimprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(checkdeposito)))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addContainerGap()
                 .addComponent(checktodos)
                 .addGap(27, 27, 27)
                 .addComponent(checkproducto)
                 .addGap(28, 28, 28)
                 .addComponent(checkdeposito)
+                .addGap(18, 18, 18)
+                .addComponent(btnimprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -366,31 +374,11 @@ public class stock extends javax.swing.JDialog {
     private void inicio() {
 
         btnbuscar.setEnabled(false);
+        btnimprimir.setEnabled(false);
         txtcodigo.setEnabled(false);
         txtproducto.setEnabled(false);
         combodepo.setEnabled(false);
 
-    }
-
-    /* Metodo para inhabilitar botones y habilitar botones */
-    private void desa_botones(int a) {
-
-        /*switch (a) {
-            case 1:
-                btnagregar.setEnabled(false);
-                btnmodificar.setEnabled(false);
-                btneliminar.setEnabled(false);
-                btnimprimir.setEnabled(false);
-                btnSalir.setEnabled(false);
-                break;
-            case 2:
-                btnagregar.setEnabled(true);
-                btnmodificar.setEnabled(true);
-                btneliminar.setEnabled(true);
-                btnimprimir.setEnabled(true);
-                btnSalir.setEnabled(true);
-                break;
-        }*/
     }
 
     // Metodo para limpiar campos
@@ -398,11 +386,11 @@ public class stock extends javax.swing.JDialog {
 
         txtcodigo.setText("");
         txtproducto.setText("");
-        //buttonGroup1.clearSelection(); // Deseleccionar todos los check buttons
+        //buttonGroup1.clearSelection(); // Deseleccionar todos los check buttons - Se agrega en el boton de limpiar 
 
     }
 
-    // Metodo para cargar datos en la tabla con datos de la BDD
+    // Metodo para cargar datos en la tabla - filtro todos
     private void cargar_tabla() {
 
         try {
@@ -505,53 +493,7 @@ public class stock extends javax.swing.JDialog {
 
     }
 
-    // Metodo para validar producto para que no se dupliquen
-    private String buscar(String codigo) {
-
-        try {
-            String sql = "SELECT p_descrip FROM producto WHERE cod_producto = " + codigo;
-            rs = con.Listar(sql);
-            if (rs.next()) {
-                String ds = rs.getString("p_descrip").trim();;
-                System.out.println("Se encuentra el producto en la BDD: " + ds);
-                return ds;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(stock.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-
-    }
-
-    // Metodo para buscar datos
-    private void buscador() {
-
-        try {
-            cursor = (DefaultTableModel) tablastock.getModel();
-            String buscar = txtcodigo.getText().toUpperCase().trim();
-            String sql = "SELECT p.cod_producto, CONCAT(p.cod_tipo_prod, '- ', t.t_p_descrip) AS tipo_producto, CONCAT(p.id_u_medida, '- ', u.u_descrip) AS medida, p.p_descrip, p.precio "
-                    + "FROM producto p "
-                    + "JOIN tipo_producto t ON p.cod_tipo_prod = t.cod_tipo_prod "
-                    + "JOIN u_medida u ON p.id_u_medida = u.id_u_medida "
-                    + "WHERE p.p_descrip ILIKE '%" + buscar + "%'"
-                    + "ORDER BY p.cod_producto ASC;";
-            rs = con.Listar(sql);
-            String[] fila = new String[5];
-            while (rs.next()) {
-                fila[0] = rs.getString("cod_producto");
-                fila[1] = rs.getString("p_descrip");
-                fila[2] = rs.getString("tipo_producto");
-                fila[3] = rs.getString("medida");
-                fila[4] = rs.getString("precio");
-                cursor.addRow(fila);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(stock.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    // Metodo imprimir Reporte
+    // Metodo imprimir Reporte - Falta pulir para la impresion segun el filtro
     private void imprimir() {
 
         try {
@@ -675,7 +617,7 @@ public class stock extends javax.swing.JDialog {
             validar_producto();
         }
         btnbuscar.setEnabled(false);
-
+        btnimprimir.setEnabled(true);
 
     }//GEN-LAST:event_btnbuscarActionPerformed
 
@@ -685,6 +627,7 @@ public class stock extends javax.swing.JDialog {
         limpiar_campos();
         limpiar_tabla();
         btnbuscar.setEnabled(false);
+        buttonGroup1.clearSelection();
 
     }//GEN-LAST:event_btnlimpiarActionPerformed
 
@@ -722,6 +665,9 @@ public class stock extends javax.swing.JDialog {
         operacion = 1;
         btnbuscar.setEnabled(true);
         btnbuscar.requestFocus();
+        
+        txtcodigo.setEnabled(false);
+        combodepo.setEnabled(false);
 
     }//GEN-LAST:event_checktodosActionPerformed
 
@@ -733,6 +679,8 @@ public class stock extends javax.swing.JDialog {
         operacion = 3;
         txtcodigo.setEnabled(true);
         txtcodigo.requestFocus();
+        
+        combodepo.setEnabled(false);
 
     }//GEN-LAST:event_checkproductoActionPerformed
 
@@ -743,6 +691,8 @@ public class stock extends javax.swing.JDialog {
         operacion = 2;
         combodepo.setEnabled(true);
         combodepo.requestFocus();
+        
+        txtcodigo.setEnabled(false);
 
     }//GEN-LAST:event_checkdepositoActionPerformed
 
@@ -782,6 +732,10 @@ public class stock extends javax.swing.JDialog {
         btnbuscar.setEnabled(false);
 
     }//GEN-LAST:event_btnbuscarKeyPressed
+
+    private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnimprimirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -846,13 +800,13 @@ public class stock extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonNice btnSalir;
     private javax.swing.JButton btnbuscar;
+    private javax.swing.JButton btnimprimir;
     private javax.swing.JButton btnlimpiar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox checkdeposito;
     private javax.swing.JCheckBox checkproducto;
     private javax.swing.JCheckBox checktodos;
     private javax.swing.JComboBox<String> combodepo;
-    private javax.swing.JComboBox<String> combodeposito;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
