@@ -156,6 +156,7 @@ public class stock extends javax.swing.JDialog {
         buttonGroup1.add(checktodos);
         checktodos.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         checktodos.setText("Todos");
+        checktodos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         checktodos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checktodosActionPerformed(evt);
@@ -165,6 +166,7 @@ public class stock extends javax.swing.JDialog {
         buttonGroup1.add(checkdeposito);
         checkdeposito.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         checkdeposito.setText("Por Depósito");
+        checkdeposito.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         checkdeposito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkdepositoActionPerformed(evt);
@@ -174,6 +176,7 @@ public class stock extends javax.swing.JDialog {
         buttonGroup1.add(checkproducto);
         checkproducto.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         checkproducto.setText("Por Producto");
+        checkproducto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         checkproducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkproductoActionPerformed(evt);
@@ -668,6 +671,7 @@ public class stock extends javax.swing.JDialog {
         
         txtcodigo.setEnabled(false);
         combodepo.setEnabled(false);
+        btnimprimir.setEnabled(false);
 
     }//GEN-LAST:event_checktodosActionPerformed
 
@@ -681,6 +685,7 @@ public class stock extends javax.swing.JDialog {
         txtcodigo.requestFocus();
         
         combodepo.setEnabled(false);
+        btnimprimir.setEnabled(false);
 
     }//GEN-LAST:event_checkproductoActionPerformed
 
@@ -693,6 +698,7 @@ public class stock extends javax.swing.JDialog {
         combodepo.requestFocus();
         
         txtcodigo.setEnabled(false);
+        btnimprimir.setEnabled(false);
 
     }//GEN-LAST:event_checkdepositoActionPerformed
 
