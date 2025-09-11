@@ -27,6 +27,7 @@ public class stock extends javax.swing.JDialog {
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
     int operacion = 0; // Bandera para definir la accion que se va a realizar (todos, por depo, por producto)
+    String sql;
 
     public stock(java.awt.Frame parent, boolean modal) {
 
@@ -381,6 +382,7 @@ public class stock extends javax.swing.JDialog {
         txtcodigo.setEnabled(false);
         txtproducto.setEnabled(false);
         combodepo.setEnabled(false);
+        operacion = 0;
 
     }
 
@@ -588,6 +590,35 @@ public class stock extends javax.swing.JDialog {
         }
 
     }
+    
+    // Metodo imprimir Reporte
+    private void imprimir(String a) {
+
+        try {
+            rs = con.Listar(a);
+            Map parameters = new HashMap();
+            parameters.put("", new String(""));
+            JasperReport jr = null;
+
+            // Cargamos el reporte
+            URL url = getClass().getClassLoader().getResource("reportes/informe_productos.jasper");
+            jr = (JasperReport) JRLoader.loadObject(url);
+
+            JasperPrint masterPrint = null;
+            JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
+            masterPrint = JasperFillManager.fillReport(jr, parameters, jrRS);
+
+            // Generar ventana para mostrar el reporte
+            JasperViewer ventana = new JasperViewer(masterPrint, false);
+            ventana.setTitle("Vista Previa");
+            ventana.setVisible(true);
+            ventana.setSize(1000, 680);
+            ventana.setLocationRelativeTo(null);
+        } catch (JRException ex) {
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
 
@@ -729,21 +760,34 @@ public class stock extends javax.swing.JDialog {
 
     private void btnbuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnbuscarKeyPressed
 
-        if (operacion == 1) {
-            validar_todos();
-        }
-        if (operacion == 2) {
-            validar_deposito();
-        }
-        if (operacion == 3) {
-            validar_producto();
-        }
-        btnbuscar.setEnabled(false);
+        btnbuscar.doClick();
 
     }//GEN-LAST:event_btnbuscarKeyPressed
 
     private void btnimprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnimprimirActionPerformed
-        // TODO add your handling code here:
+        
+        String codigo = txtcodigo.getText();
+        if (operacion == 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione un parametro para la consulta");
+        }else{
+            if (operacion == 1) {
+                sql = "SELECT * FROM v_reporte_productos;";
+                imprimir(sql);
+                inicio();
+            }
+            if (operacion == 3) {
+                sql = "SELECT * FROM v_reporte_productos WHERE cod_producto = " + codigo;
+                imprimir(sql);
+                inicio();
+            }
+            if (operacion == 2) {
+                sql = "SELECT * FROM v_reporte_productos WHERE cod_deposito = "
+                + "(SELECT SPLIT_PART('" + combodepo.getSelectedItem() + "','-',1)::integer)";
+                imprimir(sql);
+                inicio();
+            }
+        }
+        
     }//GEN-LAST:event_btnimprimirActionPerformed
 
     /**

@@ -350,6 +350,7 @@ public class informes extends javax.swing.JDialog {
         combodepar.setEnabled(false);
         txtdesde.setEnabled(false);
         txthasta.setEnabled(false);
+        opcion = 0;
 
     }
     
