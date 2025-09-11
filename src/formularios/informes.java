@@ -1,11 +1,21 @@
 package formularios;
 
 import com.sun.glass.events.KeyEvent;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import prg.conectDB;
 
 /**
@@ -16,15 +26,17 @@ public class informes extends javax.swing.JDialog {
 
     conectDB con;
     ResultSet rs;
-    int contador = 0;
+    String sql;
+    int opcion = 0;
 
     public informes(java.awt.Frame parent, boolean modal) {
         //super(parent, modal);
         initComponents();
-
         con = new conectDB();
         con.conectar();
         inicio();
+        llenar_combo("0");
+        llenar_combo_depar("0");
 
     }
 
@@ -68,12 +80,32 @@ public class informes extends javax.swing.JDialog {
         labelCodigo3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         txtdesde.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtdesde.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtdesdeKeyPressed(evt);
+            }
+        });
 
         txthasta.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txthasta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txthastaKeyPressed(evt);
+            }
+        });
 
         combodepar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        combodepar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                combodeparKeyPressed(evt);
+            }
+        });
 
         combociudad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        combociudad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                combociudadKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -151,6 +183,11 @@ public class informes extends javax.swing.JDialog {
                 btnconsultarActionPerformed(evt);
             }
         });
+        btnconsultar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnconsultarKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -179,14 +216,29 @@ public class informes extends javax.swing.JDialog {
         buttonGroup1.add(checkcodigo);
         checkcodigo.setText("Por Código");
         checkcodigo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        checkcodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkcodigoActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(checkciudad);
         checkciudad.setText("Por Ciudad");
         checkciudad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        checkciudad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkciudadActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(checkdepar);
         checkdepar.setText("Por Depar.");
         checkdepar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        checkdepar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkdeparActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -254,9 +306,44 @@ public class informes extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Metodo para llenar combo de ciudades
+    private void llenar_combo(String orden) {
+
+        try {
+            String sql = "SELECT CONCAT (cod_ciudad, '-', descrip_ciudad) AS ciudad FROM ciudad ORDER BY cod_ciudad = " + orden + "ASC;";
+            rs = con.Listar(sql);
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    combociudad.addItem(rs.getString("ciudad"));
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    // Metodo para llenar combo de departamentos
+    private void llenar_combo_depar(String orden) {
+
+        try {
+            String sql = "SELECT CONCAT (cod_depar, '-', depar_descrip) AS depar FROM departamentos ORDER BY cod_depar = " + orden + "ASC;";
+            rs = con.Listar(sql);
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    combodepar.addItem(rs.getString("depar"));
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
     // Metodo de inicio para habilitar campos necesarios
     private void inicio() {
 
+        buttonGroup1.clearSelection();
         txtdesde.setText("");
         txthasta.setText("");
         combociudad.setEnabled(false);
@@ -265,36 +352,171 @@ public class informes extends javax.swing.JDialog {
         txthasta.setEnabled(false);
 
     }
+    
+    // Metodo imprimir Reporte
+    private void imprimir(String a) {
+
+        try {
+            rs = con.Listar(a);
+            Map parameters = new HashMap();
+            parameters.put("", new String(""));
+            JasperReport jr = null;
+
+            // Cargamos el reporte
+            URL url = getClass().getClassLoader().getResource("reportes/informe_clientes.jasper");
+            jr = (JasperReport) JRLoader.loadObject(url);
+
+            JasperPrint masterPrint = null;
+            JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
+            masterPrint = JasperFillManager.fillReport(jr, parameters, jrRS);
+
+            // Generar ventana para mostrar el reporte
+            JasperViewer ventana = new JasperViewer(masterPrint, false);
+            ventana.setTitle("Vista Previa");
+            ventana.setVisible(true);
+            ventana.setSize(1000, 680);
+            ventana.setLocationRelativeTo(null);
+        } catch (JRException ex) {
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     private void btnconsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconsultarActionPerformed
 
-        /*if (!campos_vacios()) {
-            int mensaje = JOptionPane.showConfirmDialog(this, "Deseas modificar tu contraseña?",
-                    "Atención!", JOptionPane.YES_NO_OPTION);
-            if (mensaje == 0) {
-                con.actualizar_datos("usuario", "usu_clave = md5('" + txtpassconfirmar.getText()
-                        + "'), cambio = 1", "usu_cod = " + acceso.usercod, 1);
-                inicio();
-                dispose();
-            } else {
+        String desde = txtdesde.getText();
+        String hasta = txthasta.getText();
+        if (opcion == 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione un parametro para la consulta");
+        }else{
+            if (opcion == 1) {
+                sql = "SELECT * FROM v_reporte_clientes WHERE id_cliente BETWEEN " + desde 
+                        + " AND " + hasta + " ORDER BY id_cliente ASC;";
+                imprimir(sql);
                 inicio();
             }
-        }*/
+            if (opcion == 2) {
+                sql = "SELECT * FROM v_reporte_clientes WHERE cod_ciudad = "
+                + "(SELECT SPLIT_PART ('" + combociudad.getSelectedItem() + "','-',1)::integer)"
+                + " ORDER BY id_cliente;";
+                imprimir(sql);
+                inicio();
+            }
+            if (opcion == 3) {
+                sql = "SELECT * FROM v_reporte_clientes WHERE cod_depar = "
+                + "(SELECT SPLIT_PART ('" + combodepar.getSelectedItem() + "','-',1)::integer)"
+                + " ORDER BY id_cliente;";
+                imprimir(sql);
+                inicio();
+            }
+        }
 
     }//GEN-LAST:event_btnconsultarActionPerformed
 
     private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
 
         inicio();
-        /*int mensaje = JOptionPane.showConfirmDialog(this, "Deseas salir sin actualizar tu contraseña?",
+        int mensaje = JOptionPane.showConfirmDialog(this, "Deseas salir sin actualizar tu contraseña?",
                 "Atención!", JOptionPane.YES_NO_OPTION);
         if (mensaje == 0) {
             dispose();
         } else {
             inicio();
-        }*/
+        }
 
     }//GEN-LAST:event_btnsalirActionPerformed
+
+    private void txtdesdeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdesdeKeyPressed
+        
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+            String desde = txtdesde.getText().trim();
+            if (desde.equals("") || desde.equals(" ")) {
+                JOptionPane.showMessageDialog(this, "Este campo no puede estar vacio!");
+                txtdesde.requestFocus();
+            } else {
+                txthasta.setEnabled(true);
+                txthasta.requestFocus();
+            }
+        }
+        
+    }//GEN-LAST:event_txtdesdeKeyPressed
+
+    private void txthastaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txthastaKeyPressed
+        
+        if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
+            String hasta = txthasta.getText().trim();
+            if (hasta.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Este campo no puede estar vacio!");
+                txthasta.requestFocus();
+            } else {
+                btnconsultar.requestFocus();
+            }
+        }
+        
+    }//GEN-LAST:event_txthastaKeyPressed
+
+    private void checkcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkcodigoActionPerformed
+        
+        opcion = 1;
+        txtdesde.setEnabled(true);
+        txtdesde.requestFocus();
+        
+        combociudad.setEnabled(false);
+        combodepar.setEnabled(false);
+        
+    }//GEN-LAST:event_checkcodigoActionPerformed
+
+    private void checkciudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkciudadActionPerformed
+        
+        opcion = 2;
+        combociudad.setEnabled(true);
+        combociudad.requestFocus();
+        
+        txtdesde.setText("");
+        txtdesde.setEnabled(false);
+        txthasta.setText("");
+        txthasta.setEnabled(false);
+        combodepar.setEnabled(false);
+        
+    }//GEN-LAST:event_checkciudadActionPerformed
+
+    private void checkdeparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkdeparActionPerformed
+        
+        opcion = 3;
+        combodepar.setEnabled(true);
+        combodepar.requestFocus();
+        
+        txtdesde.setText("");
+        txtdesde.setEnabled(false);
+        txthasta.setText("");
+        txthasta.setEnabled(false);
+        combociudad.setEnabled(false);
+        
+    }//GEN-LAST:event_checkdeparActionPerformed
+
+    private void combociudadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combociudadKeyPressed
+        
+        if (evt.getKeyCode() == 10) {
+            btnconsultar.requestFocus();
+        }
+        
+    }//GEN-LAST:event_combociudadKeyPressed
+
+    private void combodeparKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodeparKeyPressed
+        
+        if (evt.getKeyCode() == 10) {
+            btnconsultar.requestFocus();
+        }
+        
+    }//GEN-LAST:event_combodeparKeyPressed
+
+    private void btnconsultarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnconsultarKeyPressed
+        
+        if (evt.getKeyCode() == 10) {
+            btnconsultar.doClick();
+        }
+        
+    }//GEN-LAST:event_btnconsultarKeyPressed
 
     /**
      * @param args the command line arguments
@@ -335,7 +557,6 @@ public class informes extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
-                //dialog.setLocationRelativeTo(null);
                 dialog.setResizable(false);
                 dialog.setLocationRelativeTo(null);
 
