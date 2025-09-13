@@ -62,7 +62,7 @@ public class ventas extends javax.swing.JDialog {
         txtprecio = new org.edisoncor.gui.textField.TextFieldRectBackground();
         txtcantidad = new org.edisoncor.gui.textField.TextFieldRectBackground();
         labelTelefono1 = new org.edisoncor.gui.label.LabelMetric();
-        btnaddproducto = new javax.swing.JButton();
+        btnmas = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablacompra = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -173,7 +173,12 @@ public class ventas extends javax.swing.JDialog {
         labelTelefono1.setText("Cantidad:");
         labelTelefono1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        btnaddproducto.setText("+");
+        btnmas.setText("+");
+        btnmas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnmasKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -199,7 +204,7 @@ public class ventas extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnaddproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnmas, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -218,7 +223,7 @@ public class ventas extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnaddproducto, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
+                    .addComponent(btnmas, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -564,7 +569,7 @@ public class ventas extends javax.swing.JDialog {
         labelTelefono2.setText("Gs.:");
         labelTelefono2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        labelApellido1.setText("Total Compra:");
+        labelApellido1.setText("Total Ventas:");
         labelApellido1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -583,22 +588,22 @@ public class ventas extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -610,7 +615,7 @@ public class ventas extends javax.swing.JDialog {
                             .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelTelefono2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         panelCurves1.add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -621,7 +626,7 @@ public class ventas extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelNice1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE)
+            .addComponent(panelNice1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -674,7 +679,7 @@ public class ventas extends javax.swing.JDialog {
         txtfactura.setEnabled(false);
         txtfecha.setEnabled(false);
         txthora.setEnabled(false);
-        btnaddproducto.setEnabled(false);
+        btnmas.setEnabled(false);
         btnagregar.setEnabled(true);
         btncancelar.setEnabled(false);
         btnanular.setEnabled(true);
@@ -716,26 +721,19 @@ public class ventas extends javax.swing.JDialog {
         }
         
     }
-
-    /* Metodo para validar duplicidad de valores en la BDD */
-    private boolean validar_documento() {
+    
+    /* Metodo para generar numero de factura segun el ultimo registro de la BDD */
+    private void generar_factura() {
         
         try {
-            String doc = txtusuario.getText().trim();
-            rs = con.Listar("SELECT * FROM clientes WHERE ci_ruc = '" + doc + "'");
-            //boolean encontro = rs.next();
-            if (rs.next()) {
-                String nombre = rs.getString("cli_nombre");
-                String apellido = rs.getString("cli_apellido");
-                JOptionPane.showMessageDialog(this, "El documento ingresado '" + doc
-                        + "' ya ha sido registrado para: " + nombre + " " + apellido);
-                return true; // Documento duplicado
-            }
+            String sql = "SELECT COALESCE (MAX(nro_factura),0)+1 AS factura FROM venta;"; // Creamos la consulta SQL.
+            rs = con.Listar(sql); // Utilizamos el metodo listar.
+            rs.next(); // Llamar a los siguientes resultados.
+            txtfactura.setText(rs.getString("factura")); // Enviar el resultado en el campo de codigo de nuestro formulario.
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false; // Documento no duplicado
-
+        
     }
 
     // Metodo para guardar nuevo registro en la BDD
@@ -841,7 +839,7 @@ public class ventas extends javax.swing.JDialog {
         txtfactura.setText("");
         txtprecio.setText("");
         txttotal.setText("");
-        //txttotal.setText("");
+        txttotal.setText("");
 
     }
 
@@ -870,10 +868,10 @@ public class ventas extends javax.swing.JDialog {
         txtproducto.setText("");
         txtcantidad.setText("");
         txtprecio.setText("");
-        txtcodigoproducto.setEnabled(true);
+        //txtcodigoproducto.setEnabled(true);
         txtprecio.setEnabled(false);
         txtcantidad.setEnabled(false);
-        txtcodigoproducto.requestFocus();
+        btnmas.requestFocus();
         
     }
 
@@ -901,38 +899,6 @@ public class ventas extends javax.swing.JDialog {
         while (cursor.getRowCount() > 0) {
             cursor.removeRow(0);
         }
-        
-    }
-
-    // Metodo para validar documento para que no se dupliquen al editar
-    private String buscar(String codigo) {
-        
-        try {
-            String sql = "SELECT ci_ruc FROM clientes WHERE id_cliente = " + codigo;
-            rs = con.Listar(sql);
-            if (rs.next()) {
-                return rs.getString("ci_ruc").trim();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-        
-    }
-
-    // Metodo para habilitar campos dentro del metodo txtdocumento
-    private void habilitarCampos() {
-
-        /* txtnombre.setEnabled(true);
-        txtnombre.requestFocus();
-        txtusuario.setEnabled(false);*/
-    }
-
-    // Metodo para mostrar mensaje dentro del metodo txtdocumento
-    private void mostrarErrorDocumento() {
-        
-        txtusuario.requestFocus();
-        txtusuario.selectAll();
         
     }
 
@@ -1082,14 +1048,6 @@ public class ventas extends javax.swing.JDialog {
 
     private void txtfacturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfacturaKeyPressed
 
-        /*if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-            String factura = txtfactura.getText().trim();
-            if (factura.equals("")) {
-                JOptionPane.showMessageDialog(this, "Ingrese un numero de factura!");
-                txtfactura.requestFocus();
-            }
-        }*/
-
     }//GEN-LAST:event_txtfacturaKeyPressed
 
     private void txtprecioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtprecioKeyPressed
@@ -1101,47 +1059,6 @@ public class ventas extends javax.swing.JDialog {
     }//GEN-LAST:event_txtusuarioActionPerformed
 
     private void txtusuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtusuarioKeyPressed
-        
-        String codigo = txtcodigoproducto.getText().trim();
-        String documento = txtusuario.getText().trim();
-        
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (documento.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Complete este campo!");
-                txtusuario.requestFocus();
-                return;
-            }
-            
-            if (operacion == 1) {
-                // Modo guardar: validar si el documento ya existe
-                if (!validar_documento()) {
-                    habilitarCampos();
-                } else {
-                    mostrarErrorDocumento();
-                }
-            } else {
-                // Modo edición
-                String documentoActual = buscar(codigo);
-                if (documentoActual == null) {
-                    JOptionPane.showMessageDialog(this, "El código ingresado no existe");
-                    txtcodigoproducto.requestFocus();
-                    return;
-                }
-                
-                if (documento.equals(documentoActual)) {
-                    // Documento no cambió, no validar
-                    habilitarCampos();
-                } else {
-                    // Documento cambió, validar
-                    if (!validar_documento()) {
-                        habilitarCampos();
-                    } else {
-                        mostrarErrorDocumento();
-                    }
-                }
-            }
-        }
-        
 
     }//GEN-LAST:event_txtusuarioKeyPressed
 
@@ -1195,9 +1112,9 @@ public class ventas extends javax.swing.JDialog {
 
     private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
         
-        txtprecio.setEnabled(false);
+        /*txtprecio.setEnabled(false);
         txtcantidad.setEnabled(true);
-        txtcantidad.requestFocus();
+        txtcantidad.requestFocus();*/
 
     }//GEN-LAST:event_txtprecioActionPerformed
 
@@ -1302,9 +1219,9 @@ public class ventas extends javax.swing.JDialog {
         operacion = 1;
         generar_codigo();
         desa_botones(1);
-        JOptionPane.showMessageDialog(this, "Pulsa un Enter para agregar un Proveedor!");
-        txtcodigoproveedor.setEnabled(true);
-        txtcodigoproveedor.requestFocus();
+        JOptionPane.showMessageDialog(this, "Pulsa un Enter para agregar un Producto!");
+        btnmas.setEnabled(true);
+        btnmas.requestFocus();
 
     }//GEN-LAST:event_btnagregarActionPerformed
 
@@ -1328,6 +1245,7 @@ public class ventas extends javax.swing.JDialog {
         limpiar_campos();
         limpiar_tabla();
         desa_inicio();
+        total = 0;
         
     }//GEN-LAST:event_btncancelarActionPerformed
 
@@ -1364,15 +1282,16 @@ public class ventas extends javax.swing.JDialog {
             buscarproveedor.setVisible(true);
             
             txtcodigoproveedor.setEnabled(false);
-            txtfactura.setEnabled(true);
-            txtfactura.requestFocus();
+            generar_factura();
+            combodeposito.setEnabled(true);
+            combodeposito.requestFocus();
         }
 
     }//GEN-LAST:event_txtcodigoproveedorKeyPressed
 
     private void txtcodigoproductoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoproductoKeyPressed
         
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        /*if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextField[] tfParam = new JTextField[3];
             tfParam[0] = txtcodigoproducto;
             tfParam[1] = txtproducto;
@@ -1389,7 +1308,7 @@ public class ventas extends javax.swing.JDialog {
             txtcantidad.setEnabled(true);
             txtcantidad.requestFocus();
         }
-
+*/
     }//GEN-LAST:event_txtcodigoproductoKeyPressed
 
     private void txttotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttotalActionPerformed
@@ -1429,6 +1348,28 @@ public class ventas extends javax.swing.JDialog {
         }
         
     }//GEN-LAST:event_txtcodigoKeyPressed
+
+    private void btnmasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnmasKeyPressed
+        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            JTextField[] tfParam = new JTextField[3];
+            tfParam[0] = txtcodigoproducto;
+            tfParam[1] = txtproducto;
+            tfParam[2] = txtprecio;
+            
+            VentanaBuscar buscarproducto = new VentanaBuscar("SELECT cod_producto, p_descrip, ROUND(precio * 1.25) AS precio FROM producto WHERE p_descrip ILIKE ",
+                    new String[]{"Codigo", "Producto", "Precio",}, 3, tfParam);
+            buscarproducto.setTitle("Buscar Producto");
+            buscarproducto.setVisible(true);
+            
+            txtcodigoproducto.setEnabled(false);
+            txtproducto.setEnabled(false);
+            txtprecio.setEnabled(false);
+            txtcantidad.setEnabled(true);
+            txtcantidad.requestFocus();
+        }
+        
+    }//GEN-LAST:event_btnmasKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1492,11 +1433,11 @@ public class ventas extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonNice btnSalir;
-    private javax.swing.JButton btnaddproducto;
     private javax.swing.JButton btnagregar;
     private javax.swing.JButton btnanular;
     private javax.swing.JButton btncancelar;
     private javax.swing.JButton btngrabar;
+    private javax.swing.JButton btnmas;
     private javax.swing.JComboBox<String> combodeposito;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

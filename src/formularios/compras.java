@@ -555,6 +555,7 @@ public class compras extends javax.swing.JDialog {
         );
 
         txttotal.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txttotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txttotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txttotalActionPerformed(evt);
@@ -883,61 +884,6 @@ public class compras extends javax.swing.JDialog {
         
     }
 
-    // Metodo para validar documento para que no se dupliquen al editar
-    private String buscar(String codigo) {
-        
-        try {
-            String sql = "SELECT ci_ruc FROM clientes WHERE id_cliente = " + codigo;
-            rs = con.Listar(sql);
-            if (rs.next()) {
-                return rs.getString("ci_ruc").trim();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-        
-    }
-
-    // Metodo para habilitar campos dentro del metodo txtdocumento
-    private void habilitarCampos() {
-
-        /* txtnombre.setEnabled(true);
-        txtnombre.requestFocus();
-        txtusuario.setEnabled(false);*/
-    }
-
-    // Metodo para mostrar mensaje dentro del metodo txtdocumento
-    private void mostrarErrorDocumento() {
-        
-        txtusuario.requestFocus();
-        txtusuario.selectAll();
-        
-    }
-
-    // Metodo para buscar datos
-    private void buscador() {
-
-        /* try {
-            cursor = (DefaultTableModel) tablacompra.getModel();
-            String buscar = txtbuscar.getText().toUpperCase().trim();
-            String sql = "SELECT * FROM clientes WHERE ci_ruc LIKE '%" + buscar + "%' OR cli_nombre ILIKE '%" + buscar + "%' ORDER BY id_cliente;";
-            rs = con.Listar(sql);
-            String[] fila = new String[6];
-            while (rs.next()) {
-                fila[0] = rs.getString("id_cliente");
-                fila[1] = rs.getString("ci_ruc");
-                fila[2] = rs.getString("cli_nombre");
-                fila[3] = rs.getString("cli_apellido");
-                fila[4] = rs.getString("cli_direccion");
-                fila[5] = rs.getString("cli_telefono");
-                cursor.addRow(fila);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-    }
-
     // Metodo imprimir Reporte
     private void imprimir() {
         
@@ -1057,25 +1003,6 @@ public class compras extends javax.swing.JDialog {
 
     private void txtcodigoproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoproductoActionPerformed
 
-        /* boolean encontrado = buscar();
-        if (!encontrado) {
-            txtcodigo.requestFocus(); // vuelve el foco al campo código
-            txtcodigo.selectAll();    // selecciona el texto para que el usuario pueda reemplazarlo
-            return;                   // corta la ejecución del resto del método
-        }
-        if ("eliminar".equals(operacion)) {
-            //buscar_deposito();
-            txtnombre.setEnabled(false);
-            txtcodigo.setEnabled(false);
-            btnguardar.setEnabled(true);
-            btnguardar.requestFocus();
-        } else {
-            //buscar_deposito();
-            txtcodigo.setEnabled(false);
-            txtnombre.setEnabled(true);
-            txtnombre.requestFocus();
-        }
-         */
     }//GEN-LAST:event_txtcodigoproductoActionPerformed
 
     private void txtproveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtproveedorKeyPressed
@@ -1083,14 +1010,6 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtproveedorKeyPressed
 
     private void txtfacturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfacturaKeyPressed
-
-        /*if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
-            String factura = txtfactura.getText().trim();
-            if (factura.equals("")) {
-                JOptionPane.showMessageDialog(this, "Ingrese un numero de factura!");
-                txtfactura.requestFocus();
-            }
-        }*/
 
     }//GEN-LAST:event_txtfacturaKeyPressed
 
