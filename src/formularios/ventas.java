@@ -1047,9 +1047,7 @@ public class ventas extends javax.swing.JDialog {
                 txtfactura.setText(rs.getString("nro_factura"));
                 txtcodigocliente.setText(rs.getString("id_cliente"));
                 txtcliente.setText(rs.getString("nombre"));
-                //combodeposito.addItem(rs.getString("deposito")); // Para agregar valores al combobox
-                //combodeposito.setSelectedItem(rs.getString("deposito")); // Para seleccionar un valor del combobox
-                //System.out.println("Deposito: " + rs.getString("deposito"));
+                txttotal.setText(rs.getString("total_venta"));
                 cargar_tabla_anular();
                 txtcodigo.setEnabled(false);
                 operacion = 2;
@@ -1071,16 +1069,14 @@ public class ventas extends javax.swing.JDialog {
         try {
             String codigo = txtcodigo.getText();
             cursor = (DefaultTableModel) tablaventa.getModel();
-            rs = con.Listar("SELECT dt.cod_producto, p.p_descrip, dt.precio, dt.cantidad, dt.cod_deposito"
-                    + " FROM detalle_compra dt, producto p"
-                    + " WHERE dt.cod_producto = p.cod_producto"
-                    + " AND dt.cod_compra = " + codigo + ";");
+            rs = con.Listar("SELECT dt.cod_producto, p.p_descrip, dt.det_precio_unit, dt.det_cantidad, dt.cod_deposito "
+                    + "FROM det_venta dt, producto p WHERE dt.cod_producto = p.cod_producto AND dt.cod_venta = " + codigo + ";");
             String[] fila = new String[5];
             while (rs.next()) {
                 fila[0] = rs.getString("cod_producto");
                 fila[1] = rs.getString("p_descrip");
-                fila[2] = rs.getString("precio");
-                fila[3] = rs.getString("cantidad");
+                fila[2] = rs.getString("det_precio_unit");
+                fila[3] = rs.getString("det_cantidad");
                 fila[4] = rs.getString("cod_deposito");
                 cursor.addRow(fila);
             }
@@ -1426,7 +1422,7 @@ public class ventas extends javax.swing.JDialog {
                             + "AND estado = 'anulado'");
                     boolean encontro = rs.next();
                     if (encontro == true) {
-                        JOptionPane.showMessageDialog(this, "La compra con el codigo ingresado ya ha sido anulada!");
+                        JOptionPane.showMessageDialog(this, "La venta con el codigo ingresado ya ha sido anulada!");
                         btncancelar.doClick();
                     } else {
                         accion_anular();

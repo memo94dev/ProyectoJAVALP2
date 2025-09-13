@@ -960,6 +960,7 @@ public class compras extends javax.swing.JDialog {
                 txtproveedor.setText(rs.getString("razon_social"));
                 //combodeposito.addItem(rs.getString("deposito")); // Para agregar valores al combobox
                 combodeposito.setSelectedItem(rs.getString("deposito")); // Para seleccionar un valor del combobox
+                txttotal.setText(rs.getString("total_compra"));
                 //System.out.println("Deposito: " + rs.getString("deposito"));
                 cargar_tabla_anular();
                 txtcodigo.setEnabled(false);
