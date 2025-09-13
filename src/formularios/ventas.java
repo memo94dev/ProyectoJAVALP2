@@ -874,7 +874,7 @@ public class ventas extends javax.swing.JDialog {
                 String codigo_anular = txtcodigo.getText().trim();
                 con.actualizar_datos("venta",
                         "estado = '" + estado + "' ",
-                        "cod_compra = " + codigo_anular, 3);
+                        "cod_venta = " + codigo_anular, 3);
 
                 for (int c = 0; c < tablaventa.getRowCount(); c++) {
                     try {
@@ -1040,14 +1040,15 @@ public class ventas extends javax.swing.JDialog {
 
         try {
             String codigo = txtcodigo.getText().trim();
-            rs = con.Listar("SELECT CONCAT (d.cod_deposito, '- ', d.descrip) AS deposito, p.razon_social, c.* FROM compra c, proveedor p, deposito d WHERE c.cod_proveedor = p.cod_proveedor AND c.cod_deposito = d.cod_deposito AND c.cod_compra = " + codigo);
+            rs = con.Listar("SELECT CONCAT(c.cli_nombre, ' ' , c.cli_apellido) AS nombre, c.ci_ruc, v.* "
+                    + "FROM venta v, clientes c WHERE v.id_cliente = c.id_cliente AND v.cod_venta = " + codigo);
             boolean encontro = rs.next();
             if (encontro == true) {
                 txtfactura.setText(rs.getString("nro_factura"));
-                txtcodigocliente.setText(rs.getString("cod_proveedor"));
-                txtcliente.setText(rs.getString("razon_social"));
+                txtcodigocliente.setText(rs.getString("id_cliente"));
+                txtcliente.setText(rs.getString("nombre"));
                 //combodeposito.addItem(rs.getString("deposito")); // Para agregar valores al combobox
-                combodeposito.setSelectedItem(rs.getString("deposito")); // Para seleccionar un valor del combobox
+                //combodeposito.setSelectedItem(rs.getString("deposito")); // Para seleccionar un valor del combobox
                 //System.out.println("Deposito: " + rs.getString("deposito"));
                 cargar_tabla_anular();
                 txtcodigo.setEnabled(false);
@@ -1055,7 +1056,7 @@ public class ventas extends javax.swing.JDialog {
                 btngrabar.setEnabled(true);
                 btngrabar.requestFocus();
             } else {
-                JOptionPane.showMessageDialog(this, "No existe el codigo de compras ingresado!");
+                JOptionPane.showMessageDialog(this, "No existe el codigo de ventas ingresado!");
                 txtcodigo.selectAll();
             }
         } catch (SQLException ex) {
@@ -1421,7 +1422,7 @@ public class ventas extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Ingresa un codigo valido para anular!");
             } else {
                 try {
-                    rs = con.Listar("SELECT * FROM compra WHERE cod_compra = " + codigo
+                    rs = con.Listar("SELECT * FROM venta WHERE cod_venta = " + codigo
                             + "AND estado = 'anulado'");
                     boolean encontro = rs.next();
                     if (encontro == true) {
