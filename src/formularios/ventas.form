@@ -74,7 +74,7 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" attributes="0">
@@ -105,11 +105,11 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jPanel2" max="32767" attributes="0"/>
+                              <Component id="jPanel5" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                           <Component id="jScrollPane1" min="-2" pref="160" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -123,7 +123,7 @@
                               </Group>
                               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="64" max="32767" attributes="0"/>
+                          <EmptySpace pref="62" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -291,7 +291,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="tablacompra">
+                    <Component class="javax.swing.JTable" name="tablaventa">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Tahoma" size="18" style="0"/>
@@ -342,7 +342,7 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablacompraMouseClicked"/>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaventaMouseClicked"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -598,25 +598,34 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="labelNombre" min="-2" pref="100" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="txtcodigoproveedor" min="-2" pref="59" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtproveedor" pref="202" max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                                              <Component id="labelNombre" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="txtcodigocliente" min="-2" pref="59" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="txtcliente" min="-2" pref="202" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="labelDireccion" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="factuno" min="-2" pref="46" max="-2" attributes="0"/>
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="factdos" min="-2" pref="46" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Component id="txtfactura" min="-2" pref="144" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="labelCiudad" min="-2" max="-2" attributes="0"/>
-                                          <Component id="labelDireccion" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                                      <Component id="labelCiudad" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="txtfactura" pref="266" max="32767" attributes="0"/>
-                                          <Component id="combodeposito" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="combodeposito" min="-2" pref="266" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace pref="33" max="32767" attributes="0"/>
@@ -629,20 +638,22 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="labelNombre" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                  <Component id="txtcodigoproveedor" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                  <Component id="txtproveedor" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="txtcodigocliente" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="txtcliente" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="combodeposito" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="labelCiudad" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="labelDireccion" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                                   <Component id="txtfactura" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="factuno" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="factdos" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="combodeposito" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
-                                  <Component id="labelCiudad" min="-2" pref="36" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -650,13 +661,13 @@
                   <SubComponents>
                     <Component class="org.edisoncor.gui.label.LabelMetric" name="labelNombre">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Proveedor:"/>
+                        <Property name="text" type="java.lang.String" value="Cliente:"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Arial" size="18" style="1"/>
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtcodigoproveedor">
+                    <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtcodigocliente">
                       <Properties>
                         <Property name="descripcion" type="java.lang.String" value="C&#xf3;d."/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -664,26 +675,26 @@
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtcodigoproveedorActionPerformed"/>
-                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtcodigoproveedorKeyPressed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtcodigoclienteActionPerformed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtcodigoclienteKeyPressed"/>
                       </Events>
                     </Component>
-                    <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtproveedor">
+                    <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtcliente">
                       <Properties>
-                        <Property name="descripcion" type="java.lang.String" value="Raz&#xf3;n Social"/>
+                        <Property name="descripcion" type="java.lang.String" value="Nombre"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Arial" size="18" style="1"/>
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtproveedorActionPerformed"/>
-                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtproveedorKeyPressed"/>
-                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtproveedorKeyTyped"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtclienteActionPerformed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtclienteKeyPressed"/>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtclienteKeyTyped"/>
                       </Events>
                     </Component>
                     <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="txtfactura">
                       <Properties>
-                        <Property name="descripcion" type="java.lang.String" value="N&#xfa;mero de Factura"/>
+                        <Property name="descripcion" type="java.lang.String" value="Nro. Factura"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Arial" size="18" style="1"/>
                         </Property>
@@ -696,14 +707,6 @@
                     <Component class="org.edisoncor.gui.label.LabelMetric" name="labelDireccion">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Nr. Factura:"/>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Arial" size="18" style="1"/>
-                        </Property>
-                      </Properties>
-                    </Component>
-                    <Component class="org.edisoncor.gui.label.LabelMetric" name="labelCiudad">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Dep&#xf3;sito:"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Arial" size="18" style="1"/>
                         </Property>
@@ -733,6 +736,38 @@
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                       </AuxValues>
+                    </Component>
+                    <Component class="org.edisoncor.gui.label.LabelMetric" name="labelCiudad">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Dep&#xf3;sito:"/>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Arial" size="18" style="1"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="factuno">
+                      <Properties>
+                        <Property name="descripcion" type="java.lang.String" value="000"/>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Arial" size="18" style="1"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="factunoActionPerformed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="factunoKeyPressed"/>
+                      </Events>
+                    </Component>
+                    <Component class="org.edisoncor.gui.textField.TextFieldRectBackground" name="factdos">
+                      <Properties>
+                        <Property name="descripcion" type="java.lang.String" value="000"/>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Arial" size="18" style="1"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="factdosActionPerformed"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="factdosKeyPressed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

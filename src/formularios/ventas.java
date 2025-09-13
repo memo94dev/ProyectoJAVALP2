@@ -23,14 +23,14 @@ import prg.VentanaBuscar;
 import prg.conectDB;
 
 public class ventas extends javax.swing.JDialog {
-    
+
     conectDB con; // Traer la clase de conexion
     ResultSet rs; // Resultados de SQL definidos en conecDB
     javax.swing.table.DefaultTableModel cursor; // Cursor para recorrer la tabla
     int operacion = 0; // Bandera para definir la accion que se va a realizar (insert, update, delete)
     int total = 0;
     DecimalFormat formateador = new DecimalFormat("###,###,###");
-    
+
     public ventas(java.awt.Frame parent, boolean modal) {
 
         //super(parent, modal); // Se superpone a otras ventanas u objetos
@@ -46,7 +46,7 @@ public class ventas extends javax.swing.JDialog {
         setLocationRelativeTo(null); // Centrar ventana en la pantalla, lo llevo al metodo main
 
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -64,7 +64,7 @@ public class ventas extends javax.swing.JDialog {
         labelTelefono1 = new org.edisoncor.gui.label.LabelMetric();
         btnmas = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablacompra = new javax.swing.JTable();
+        tablaventa = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         btnagregar = new javax.swing.JButton();
         btngrabar = new javax.swing.JButton();
@@ -82,12 +82,14 @@ public class ventas extends javax.swing.JDialog {
         labelNombre2 = new org.edisoncor.gui.label.LabelMetric();
         jPanel5 = new javax.swing.JPanel();
         labelNombre = new org.edisoncor.gui.label.LabelMetric();
-        txtcodigoproveedor = new org.edisoncor.gui.textField.TextFieldRectBackground();
-        txtproveedor = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        txtcodigocliente = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        txtcliente = new org.edisoncor.gui.textField.TextFieldRectBackground();
         txtfactura = new org.edisoncor.gui.textField.TextFieldRectBackground();
         labelDireccion = new org.edisoncor.gui.label.LabelMetric();
-        labelCiudad = new org.edisoncor.gui.label.LabelMetric();
         combodeposito = new javax.swing.JComboBox<>();
+        labelCiudad = new org.edisoncor.gui.label.LabelMetric();
+        factuno = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        factdos = new org.edisoncor.gui.textField.TextFieldRectBackground();
         txttotal = new javax.swing.JTextField();
         labelTelefono2 = new org.edisoncor.gui.label.LabelMetric();
         labelApellido1 = new org.edisoncor.gui.label.LabelMetric();
@@ -227,8 +229,8 @@ public class ventas extends javax.swing.JDialog {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        tablacompra.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        tablacompra.setModel(new javax.swing.table.DefaultTableModel(
+        tablaventa.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tablaventa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -236,17 +238,17 @@ public class ventas extends javax.swing.JDialog {
                 "Código", "Producto", "Precio", "Cantidad", "Cod_depo"
             }
         ));
-        tablacompra.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tablacompra.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaventa.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tablaventa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablacompraMouseClicked(evt);
+                tablaventaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tablacompra);
-        if (tablacompra.getColumnModel().getColumnCount() > 0) {
-            tablacompra.getColumnModel().getColumn(4).setMinWidth(0);
-            tablacompra.getColumnModel().getColumn(4).setPreferredWidth(0);
-            tablacompra.getColumnModel().getColumn(4).setMaxWidth(0);
+        jScrollPane1.setViewportView(tablaventa);
+        if (tablaventa.getColumnModel().getColumnCount() > 0) {
+            tablaventa.getColumnModel().getColumn(4).setMinWidth(0);
+            tablaventa.getColumnModel().getColumn(4).setPreferredWidth(0);
+            tablaventa.getColumnModel().getColumn(4).setMaxWidth(0);
         }
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Acciones"));
@@ -444,39 +446,39 @@ public class ventas extends javax.swing.JDialog {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Cliente"));
         jPanel5.setOpaque(false);
 
-        labelNombre.setText("Proveedor:");
+        labelNombre.setText("Cliente:");
         labelNombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        txtcodigoproveedor.setDescripcion("Cód.");
-        txtcodigoproveedor.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtcodigoproveedor.addActionListener(new java.awt.event.ActionListener() {
+        txtcodigocliente.setDescripcion("Cód.");
+        txtcodigocliente.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtcodigocliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtcodigoproveedorActionPerformed(evt);
+                txtcodigoclienteActionPerformed(evt);
             }
         });
-        txtcodigoproveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtcodigocliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtcodigoproveedorKeyPressed(evt);
+                txtcodigoclienteKeyPressed(evt);
             }
         });
 
-        txtproveedor.setDescripcion("Razón Social");
-        txtproveedor.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtproveedor.addActionListener(new java.awt.event.ActionListener() {
+        txtcliente.setDescripcion("Nombre");
+        txtcliente.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtcliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtproveedorActionPerformed(evt);
+                txtclienteActionPerformed(evt);
             }
         });
-        txtproveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtcliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtproveedorKeyPressed(evt);
+                txtclienteKeyPressed(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtproveedorKeyTyped(evt);
+                txtclienteKeyTyped(evt);
             }
         });
 
-        txtfactura.setDescripcion("Número de Factura");
+        txtfactura.setDescripcion("Nro. Factura");
         txtfactura.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         txtfactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -491,9 +493,6 @@ public class ventas extends javax.swing.JDialog {
 
         labelDireccion.setText("Nr. Factura:");
         labelDireccion.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-
-        labelCiudad.setText("Depósito:");
-        labelCiudad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         combodeposito.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         combodeposito.setForeground(new java.awt.Color(102, 102, 102));
@@ -517,27 +516,64 @@ public class ventas extends javax.swing.JDialog {
             }
         });
 
+        labelCiudad.setText("Depósito:");
+        labelCiudad.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        factuno.setDescripcion("000");
+        factuno.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        factuno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                factunoActionPerformed(evt);
+            }
+        });
+        factuno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                factunoKeyPressed(evt);
+            }
+        });
+
+        factdos.setDescripcion("000");
+        factdos.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        factdos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                factdosActionPerformed(evt);
+            }
+        });
+        factdos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                factdosKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtcodigoproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtproveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtcodigocliente, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(factuno, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(factdos, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtfactura, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                            .addComponent(combodeposito, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(combodeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -546,17 +582,19 @@ public class ventas extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtcodigoproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtproveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtcodigocliente, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(combodeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(factuno, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(factdos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
         );
 
         txttotal.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -602,10 +640,10 @@ public class ventas extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -616,7 +654,7 @@ public class ventas extends javax.swing.JDialog {
                             .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelTelefono2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         panelCurves1.add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -639,7 +677,7 @@ public class ventas extends javax.swing.JDialog {
 
     // Metodo para traer la fecha de la Base de Datos
     private void fecha() {
-        
+
         try {
             rs = con.Listar("SELECT TO_CHAR(CURRENT_DATE, 'DD/MM/YYYY') AS fecha;");
             rs.next();
@@ -647,12 +685,12 @@ public class ventas extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     // Metodo para traer la hora de la Base de Datos
     private void hora() {
-        
+
         try {
             rs = con.Listar("SELECT TO_CHAR(CURRENT_TIMESTAMP, 'HH12:MI:SS') AS hora;");
             rs.next();
@@ -660,12 +698,12 @@ public class ventas extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /* Metodo para inhabilitar el boton guardar y las entradas de texto al iniciar la pantalla */
     private void desa_inicio() {
-        
+
         btngrabar.setEnabled(false);
         txtcodigoproducto.setEnabled(false);
         txtproducto.setEnabled(false);
@@ -673,8 +711,8 @@ public class ventas extends javax.swing.JDialog {
         txtprecio.setEnabled(false);
         txtusuario.setEnabled(false);
         txtcodigo.setEnabled(false);
-        txtproveedor.setEnabled(false);
-        txtcodigoproveedor.setEnabled(false);
+        txtcliente.setEnabled(false);
+        txtcodigocliente.setEnabled(false);
         txtfactura.setEnabled(false);
         combodeposito.setEnabled(false);
         txtfactura.setEnabled(false);
@@ -686,12 +724,15 @@ public class ventas extends javax.swing.JDialog {
         btnanular.setEnabled(true);
         btnSalir.setEnabled(true);
         txttotal.setEnabled(false);
-        
+
+        factuno.setEnabled(false);
+        factdos.setEnabled(false);
+
     }
 
     /* Metodo para inhabilitar botones y habilitar botones */
     private void desa_botones(int a) {
-        
+
         switch (a) {
             case 1:
                 btnagregar.setEnabled(false);
@@ -706,165 +747,193 @@ public class ventas extends javax.swing.JDialog {
                 btnanular.setEnabled(true);
                 break;
         }
-        
+
     }
 
-    /* Metodo para realizar consulta de los codigos existentes y devolver el siguiente codigo de compra a utilizar */
+    /* Metodo para realizar consulta de los codigos existentes y devolver el siguiente codigo de venta a utilizar */
     private void generar_codigo() {
-        
+
         try {
             String sql = "SELECT COALESCE (MAX(cod_venta),0)+1 AS cod FROM venta;"; // Creamos la consulta SQL.
             rs = con.Listar(sql); // Utilizamos el metodo listar.
             rs.next(); // Llamar a los siguientes resultados.
             txtcodigo.setText(rs.getString("cod")); // Enviar el resultado en el campo de codigo de nuestro formulario.
+
+            // Formatear para codigo de factura
+            /*String depo = combodeposito.getSelectedItem().toString();
+            int numeroDepo = Integer.parseInt(depo.split("- ")[0]);
+            String fac2 = String.format("%03d", numeroDepo);
+            factdos.setText(fac2);*/
+            int codigo = Integer.parseInt(rs.getString("cod"));
+            String codFormateado = String.format("%03d", codigo);
+            factuno.setText(codFormateado); // Enviar el resultado en el campo de codigo de nuestro formulario.
+
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
+
     /* Metodo para generar numero de factura segun el ultimo registro de la BDD */
     private void generar_factura() {
-        
+
         try {
             String sql = "SELECT COALESCE (MAX(nro_factura),0)+1 AS factura FROM venta;"; // Creamos la consulta SQL.
             rs = con.Listar(sql); // Utilizamos el metodo listar.
             rs.next(); // Llamar a los siguientes resultados.
-            txtfactura.setText(rs.getString("factura")); // Enviar el resultado en el campo de codigo de nuestro formulario.
+
+            // Formatear para codigo de factura
+            String depo = combodeposito.getSelectedItem().toString();
+            int numeroDepo = Integer.parseInt(depo.split("- ")[0]);
+            String fac2 = String.format("%03d", numeroDepo);
+            factdos.setText(fac2);
+
+            int factura = Integer.parseInt(rs.getString("factura"));
+            String idFormateado = String.format("%07d", factura);
+            txtfactura.setText(idFormateado); // Enviar el resultado en el campo de codigo de nuestro formulario.
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     // Metodo para guardar nuevo registro en la BDD
     private void guardar() {
-        
+
         String codigo = txtcodigoproducto.getText().trim();
-        String codigoCompra = txtcodigo.getText().trim();
-        String codigoproveedor = txtcodigoproveedor.getText().trim();
+        String codigoVenta = txtcodigo.getText().trim();
+        String codigocliente = txtcodigocliente.getText().trim();
         String factura = txtfactura.getText().trim();
         String fecha = txtfecha.getText().toUpperCase().trim();
         String hora = txthora.getText().trim();
         String deposito = (String) combodeposito.getSelectedItem();
-        // Grabar cabecera de compra
-        if (operacion == 1) {
-            String estado = "activo";
-            String monto = txttotal.getText();
-            String montoreal = monto.replace(".", "");
-            con.insertar_datos("compra",
-                    "cod_compra, cod_proveedor, nro_factura, fecha, estado, cod_deposito, hora, total_compra",
-                    codigoCompra + ", "
-                    + codigoproveedor + ", '"
-                    + factura + "', "
-                    + "(SELECT ('" + fecha + "')::date), '"
-                    + estado + "', "
-                    + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
-                    + "(SELECT ('" + hora + "')::time), "
-                    + montoreal,
-                    1);
-            // Grabar detalle de compra
-            for (int a = 0; a < tablacompra.getRowCount(); a++) {
-                con.insertar_datos("detalle_compra",
-                        "cod_producto, cod_compra, cod_deposito, precio, cantidad",
-                        tablacompra.getValueAt(a, 0) + ", "
-                        + codigoCompra + ", "
-                        + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
-                        + tablacompra.getValueAt(a, 2) + ", "
-                        + tablacompra.getValueAt(a, 3),
-                         2);
-            }
-            // Grabar o actualizar stock
-            for (int b = 0; b < tablacompra.getRowCount(); b++) {
-                try {
-                    rs = con.Listar("SELECT * FROM stock WHERE cod_producto = " + tablacompra.getValueAt(b, 0) + "AND cod_deposito = "
-                            + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer)");
-                    boolean encontro = rs.next();
-                    if (encontro == false) {
-                        con.insertar_datos("stock",
+        
+        int mensaje = JOptionPane.showConfirmDialog(this, "Desea realizar la accion?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
+        if (mensaje == JOptionPane.YES_OPTION) {
+
+            // Grabar cabecera de compra
+            if (operacion == 1) {
+                String estado = "activo";
+                String monto = txttotal.getText();
+                String montoreal = monto.replace(".", "");
+                con.insertar_datos("venta",
+                        "cod_venta, id_cliente, fecha, total_venta, estado, hora, nro_factura",
+                        codigoVenta + ", "
+                        + codigocliente + ", "
+                        + "(SELECT ('" + fecha + "')::date), "
+                        + montoreal + ", '"
+                        + estado + "', "
+                        + "(SELECT ('" + hora + "')::time), "
+                        + factura,
+                        1);
+                // Grabar detalle de venta
+                for (int a = 0; a < tablaventa.getRowCount(); a++) {
+                    con.insertar_datos("det_venta",
+                            "cod_producto, cod_venta, cod_deposito, det_precio_unit, det_cantidad",
+                            tablaventa.getValueAt(a, 0) + ", "
+                            + codigoVenta + ", "
+                            + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
+                            + tablaventa.getValueAt(a, 2) + ", "
+                            + tablaventa.getValueAt(a, 3),
+                            2);
+                }
+                // Grabar o actualizar stock
+                for (int b = 0; b < tablaventa.getRowCount(); b++) {
+                    try {
+                        rs = con.Listar("SELECT * FROM stock WHERE cod_producto = " + tablaventa.getValueAt(b, 0) + "AND cod_deposito = "
+                                + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer)");
+                        boolean encontro = rs.next();
+                        if (encontro == false) {
+                            /*con.insertar_datos("stock",
                                 "cod_producto, cod_deposito, cantidad, cajas",
-                                tablacompra.getValueAt(b, 0) + ", "
+                                tablaventa.getValueAt(b, 0) + ", "
                                 + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer), "
-                                + tablacompra.getValueAt(b, 3) + ", "
-                                + tablacompra.getValueAt(b, 3) + "/12",
-                                 2);
-                    } else {
-                        String sql = "UPDATE stock SET cantidad = cantidad + " + tablacompra.getValueAt(b, 3)
-                                + ", cajas = ((SELECT cantidad FROM stock WHERE cod_deposito = (SELECT SPLIT_PART('" + deposito + "','-',1)::integer) AND cod_producto = "
-                                + tablacompra.getValueAt(b, 0) + ") + " + tablacompra.getValueAt(b, 3) + ") / 12" // Obtener la cantidad total de productos de la base de datos con una subconsulta
-                                + "WHERE cod_producto = " + tablacompra.getValueAt(b, 0)
-                                + " AND cod_deposito = "
-                                + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer)";
+                                + tablaventa.getValueAt(b, 3) + ", "
+                                + tablaventa.getValueAt(b, 3) + "/12",
+                                2);*/
+                            JOptionPane.showMessageDialog(this, "No hay stock de productos en existencia!");
+                        } else {
+                            String sql = "UPDATE stock SET cantidad = cantidad - " + tablaventa.getValueAt(b, 3)
+                                    + ", cajas = cantidad - " + tablaventa.getValueAt(b, 3) + ") / 12"
+                                    + " WHERE cod_producto = " + tablaventa.getValueAt(b, 0)
+                                    + " AND cod_deposito = "
+                                    + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer)";
+                            System.out.println(sql);
+                            con.sentencia = con.conectar().createStatement();
+                            con.sentencia.executeUpdate(sql);
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+            if (operacion == 2) {
+                String estado = "anulado";
+                System.out.println(codigo);
+                String codigo_anular = txtcodigo.getText().trim();
+                con.actualizar_datos("venta",
+                        "estado = '" + estado + "' ",
+                        "cod_compra = " + codigo_anular, 3);
+
+                for (int c = 0; c < tablaventa.getRowCount(); c++) {
+                    try {
+                        String sql = "UPDATE stock SET cantidad = cantidad + " + tablaventa.getValueAt(c, 3)
+                                + ", cajas = (cantidad + " + tablaventa.getValueAt(c, 3) + ") / 12 WHERE cod_producto = " + tablaventa.getValueAt(c, 0)
+                                + " AND cod_deposito = " + tablaventa.getValueAt(c, 4);
                         System.out.println(sql);
                         con.sentencia = con.conectar().createStatement();
                         con.sentencia.executeUpdate(sql);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
-        }
-        if (operacion == 2) {
-            String estado = "anulado";
-            System.out.println(codigo);
-            String codigo_anular = txtcodigo.getText().trim();
-            con.actualizar_datos("compra",
-                    "estado = '" + estado + "' ",
-                    "cod_compra = " + codigo_anular, 3);
-            
-            for (int c = 0; c < tablacompra.getRowCount(); c++) {
-                try {
-                    String sql = "UPDATE stock SET cantidad = cantidad - " + tablacompra.getValueAt(c, 3)
-                            + ", cajas = cantidad / 12 WHERE cod_producto = " + tablacompra.getValueAt(c, 0)
-                            + " AND cod_deposito = " + tablacompra.getValueAt(c, 4);
-                    System.out.println(sql);
-                    con.sentencia = con.conectar().createStatement();
-                    con.sentencia.executeUpdate(sql);
-                } catch (SQLException ex) {
-                    Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        }else{
+            btncancelar.doClick();
         }
     }
 
     // Metodo para limpiar campos
     private void limpiar_campos() {
-        
+
         txtcodigoproducto.setText("");
         txtcodigo.setText("");
         txtproducto.setText("");
         txtcantidad.setText("");
-        txtcodigoproveedor.setText("");
-        txtproveedor.setText("");
+        txtcodigocliente.setText("");
+        txtcliente.setText("");
         txtfactura.setText("");
         txtprecio.setText("");
         txttotal.setText("");
         txttotal.setText("");
 
+        factuno.setText("");
+        factdos.setText("");
+
     }
 
     // Metodo para cargar datos en la tabla con datos de la BDD
     private void cargar_tabla() {
-        
-        cursor = (DefaultTableModel) tablacompra.getModel();
+
+        cursor = (DefaultTableModel) tablaventa.getModel();
         int subtotal = 0;
         subtotal = Integer.parseInt(txtcantidad.getText()) * Integer.parseInt(txtprecio.getText());
         total = total + subtotal;
         txttotal.setText(formateador.format(total));
         String campo[] = new String[]{txtcodigoproducto.getText(), txtproducto.getText(),
             txtprecio.getText(), txtcantidad.getText()};
-        
+
         cursor.addRow(campo);
-        
+
         nuevo_producto();
-        btngrabar.setEnabled(true);
-        
+        //btngrabar.setEnabled(true);
+
     }
 
     // Metodo para agregar nuevo producto
     private void nuevo_producto() {
-        
+
         txtcodigoproducto.setText("");
         txtproducto.setText("");
         txtcantidad.setText("");
@@ -873,12 +942,12 @@ public class ventas extends javax.swing.JDialog {
         txtprecio.setEnabled(false);
         txtcantidad.setEnabled(false);
         btnmas.requestFocus();
-        
+
     }
 
     // Metodo para cargar combobox
     private void llenar_combo(String orden) {
-        
+
         try {
             String sql = "SELECT CONCAT (cod_deposito, '- ', descrip) AS deposito FROM deposito ORDER BY cod_deposito = " + orden + "DESC;";
             rs = con.Listar(sql);
@@ -890,22 +959,22 @@ public class ventas extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     // Metodo para limpiar valores de la tabla
     private void limpiar_tabla() {
-        
-        cursor = (DefaultTableModel) tablacompra.getModel();
+
+        cursor = (DefaultTableModel) tablaventa.getModel();
         while (cursor.getRowCount() > 0) {
             cursor.removeRow(0);
         }
-        
+
     }
 
     // Metodo imprimir Reporte
     private void imprimir() {
-        
+
         try {
             String sql = "SELECT * FROM v_reporte_clientes;";
             rs = con.Listar(sql);
@@ -916,7 +985,7 @@ public class ventas extends javax.swing.JDialog {
             // Cargamos el reporte
             URL url = getClass().getClassLoader().getResource("reportes/reporte_clientes.jasper");
             jr = (JasperReport) JRLoader.loadObject(url);
-            
+
             JasperPrint masterPrint = null;
             JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
             masterPrint = JasperFillManager.fillReport(jr, parameters, jrRS);
@@ -930,22 +999,22 @@ public class ventas extends javax.swing.JDialog {
         } catch (JRException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     // Ver datos
     private void ver_datos() {
-        
-        int fila = tablacompra.getSelectedRow();
-        txtcodigoproducto.setText(tablacompra.getValueAt(fila, 0).toString());
-        txtusuario.setText(tablacompra.getValueAt(fila, 1).toString());
+
+        int fila = tablaventa.getSelectedRow();
+        txtcodigoproducto.setText(tablaventa.getValueAt(fila, 0).toString());
+        txtusuario.setText(tablaventa.getValueAt(fila, 1).toString());
         //txtnombre.setText(tablacompra.getValueAt(fila, 2).toString());
-        txtproveedor.setText(tablacompra.getValueAt(fila, 3).toString());
+        txtcliente.setText(tablaventa.getValueAt(fila, 3).toString());
         //combociudad.setEnabled(true);
-        txtfactura.setText(tablacompra.getValueAt(fila, 4).toString());
-        txtprecio.setText(tablacompra.getValueAt(fila, 5).toString());
-        
-        String codigo = tablacompra.getValueAt(fila, 0).toString();
+        txtfactura.setText(tablaventa.getValueAt(fila, 4).toString());
+        txtprecio.setText(tablaventa.getValueAt(fila, 5).toString());
+
+        String codigo = tablaventa.getValueAt(fila, 0).toString();
         //System.out.println("Codigo del cliente: " + codigo);
 
         try {
@@ -963,20 +1032,20 @@ public class ventas extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     // Metodo para anular
     private void accion_anular() {
-        
+
         try {
             String codigo = txtcodigo.getText().trim();
             rs = con.Listar("SELECT CONCAT (d.cod_deposito, '- ', d.descrip) AS deposito, p.razon_social, c.* FROM compra c, proveedor p, deposito d WHERE c.cod_proveedor = p.cod_proveedor AND c.cod_deposito = d.cod_deposito AND c.cod_compra = " + codigo);
             boolean encontro = rs.next();
             if (encontro == true) {
                 txtfactura.setText(rs.getString("nro_factura"));
-                txtcodigoproveedor.setText(rs.getString("cod_proveedor"));
-                txtproveedor.setText(rs.getString("razon_social"));
+                txtcodigocliente.setText(rs.getString("cod_proveedor"));
+                txtcliente.setText(rs.getString("razon_social"));
                 //combodeposito.addItem(rs.getString("deposito")); // Para agregar valores al combobox
                 combodeposito.setSelectedItem(rs.getString("deposito")); // Para seleccionar un valor del combobox
                 //System.out.println("Deposito: " + rs.getString("deposito"));
@@ -992,32 +1061,46 @@ public class ventas extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     // Metodo para cargar tabla con detalles de la compra a anular
     private void cargar_tabla_anular() {
-        
+
         try {
             String codigo = txtcodigo.getText();
-            cursor = (DefaultTableModel) tablacompra.getModel();
+            cursor = (DefaultTableModel) tablaventa.getModel();
             rs = con.Listar("SELECT dt.cod_producto, p.p_descrip, dt.precio, dt.cantidad, dt.cod_deposito"
                     + " FROM detalle_compra dt, producto p"
                     + " WHERE dt.cod_producto = p.cod_producto"
                     + " AND dt.cod_compra = " + codigo + ";");
-            String [] fila = new String[5];
+            String[] fila = new String[5];
             while (rs.next()) {
-                fila [0] = rs.getString("cod_producto");
-                fila [1] = rs.getString("p_descrip");
-                fila [2] = rs.getString("precio");
-                fila [3] = rs.getString("cantidad");
-                fila [4] = rs.getString("cod_deposito");
+                fila[0] = rs.getString("cod_producto");
+                fila[1] = rs.getString("p_descrip");
+                fila[2] = rs.getString("precio");
+                fila[3] = rs.getString("cantidad");
+                fila[4] = rs.getString("cod_deposito");
                 cursor.addRow(fila);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
+    }
+
+    // Metodo para verificar existencia de productos en stock
+    private void verificar_existencia() {
+        try {
+            //SELECT cantidad FROM stock WHERE cod_deposito = 1 AND cod_producto = 1 AND cantidad >= 11
+            String codigoprod = txtcodigoproducto.getText().trim();
+            String cantidad = txtcantidad.getText().trim();
+            rs = con.Listar("SELECT cantidad FROM stock WHERE cod_deposito = 1 AND cod_producto = 1 AND cantidad >= " + cantidad);
+            boolean encontro = rs.next();
+        } catch (SQLException ex) {
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     private void txtcodigoproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoproductoActionPerformed
@@ -1043,9 +1126,9 @@ public class ventas extends javax.swing.JDialog {
          */
     }//GEN-LAST:event_txtcodigoproductoActionPerformed
 
-    private void txtproveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtproveedorKeyPressed
+    private void txtclienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtclienteKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtproveedorKeyPressed
+    }//GEN-LAST:event_txtclienteKeyPressed
 
     private void txtfacturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfacturaKeyPressed
 
@@ -1063,36 +1146,34 @@ public class ventas extends javax.swing.JDialog {
 
     }//GEN-LAST:event_txtusuarioKeyPressed
 
-    private void txtproveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtproveedorActionPerformed
-        
-        txtproveedor.setEnabled(false);
+    private void txtclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtclienteActionPerformed
+
+        txtcliente.setEnabled(false);
         combodeposito.setEnabled(true);
         combodeposito.requestFocus();
 
-    }//GEN-LAST:event_txtproveedorActionPerformed
+    }//GEN-LAST:event_txtclienteActionPerformed
 
-    private void txtproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtproveedorKeyTyped
-        
+    private void txtclienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtclienteKeyTyped
+
         char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(this, "Solo puede ingresar letras");
-            txtproveedor.requestFocus();
+            txtcliente.requestFocus();
         }
 
-    }//GEN-LAST:event_txtproveedorKeyTyped
+    }//GEN-LAST:event_txtclienteKeyTyped
 
     private void combodepositoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodepositoKeyTyped
-        
+
         combodeposito.setEnabled(false);
-        txtfactura.setEnabled(true);
-        txtfactura.requestFocus();
 
     }//GEN-LAST:event_combodepositoKeyTyped
 
     private void combodepositoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combodepositoMouseClicked
-        
+
         combodeposito.setEnabled(false);
         txtfactura.setEnabled(true);
         txtfactura.requestFocus();
@@ -1100,7 +1181,7 @@ public class ventas extends javax.swing.JDialog {
     }//GEN-LAST:event_combodepositoMouseClicked
 
     private void txtprecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtprecioKeyTyped
-        
+
         int k = evt.getKeyChar();
         if ((k >= 32 && k <= 45) || (k >= 58 && k <= 126)) {
             evt.setKeyChar((char) KeyEvent.VK_CLEAR);
@@ -1112,7 +1193,7 @@ public class ventas extends javax.swing.JDialog {
     }//GEN-LAST:event_txtprecioKeyTyped
 
     private void txtprecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtprecioActionPerformed
-        
+
         /*txtprecio.setEnabled(false);
         txtcantidad.setEnabled(true);
         txtcantidad.requestFocus();*/
@@ -1120,7 +1201,7 @@ public class ventas extends javax.swing.JDialog {
     }//GEN-LAST:event_txtprecioActionPerformed
 
     private void txtfacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfacturaActionPerformed
-        
+
         String factura = txtfactura.getText().trim();
         if (factura.equals("")) {
             JOptionPane.showMessageDialog(this, "Ingrese un numero de factura!");
@@ -1133,9 +1214,9 @@ public class ventas extends javax.swing.JDialog {
 
     }//GEN-LAST:event_txtfacturaActionPerformed
 
-    private void tablacompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablacompraMouseClicked
- 
-    }//GEN-LAST:event_tablacompraMouseClicked
+    private void tablaventaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaventaMouseClicked
+
+    }//GEN-LAST:event_tablaventaMouseClicked
 
     private void combodepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combodepositoActionPerformed
         // TODO add your handling code here:
@@ -1169,9 +1250,9 @@ public class ventas extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtproductoKeyTyped
 
-    private void txtcodigoproveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoproveedorActionPerformed
+    private void txtcodigoclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoclienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtcodigoproveedorActionPerformed
+    }//GEN-LAST:event_txtcodigoclienteActionPerformed
 
     private void txthoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txthoraActionPerformed
         // TODO add your handling code here:
@@ -1190,21 +1271,22 @@ public class ventas extends javax.swing.JDialog {
     }//GEN-LAST:event_txtcantidadActionPerformed
 
     private void txtcantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcantidadKeyPressed
-        
+
         if (evt.getKeyCode() == 10) {
             String cantidad = txtcantidad.getText().trim();
             if (cantidad.isEmpty() || cantidad.equals("0")) {
                 JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad valida!");
                 txtcantidad.requestFocus();
             } else {
+                //verificar_existencia();
                 cargar_tabla();
             }
         }
-        
+
     }//GEN-LAST:event_txtcantidadKeyPressed
 
     private void txtcantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcantidadKeyTyped
-        
+
         int k = evt.getKeyChar();
         if ((k >= 32 && k <= 45) || (k >= 58 && k <= 126)) {
             evt.setKeyChar((char) KeyEvent.VK_CLEAR);
@@ -1212,29 +1294,34 @@ public class ventas extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Solo puede ingresar numeros");
             txtcantidad.requestFocus();
         }
-        
+
     }//GEN-LAST:event_txtcantidadKeyTyped
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
-        
+
         operacion = 1;
         generar_codigo();
         desa_botones(1);
-        JOptionPane.showMessageDialog(this, "Pulsa un Enter para agregar un Producto!");
-        btnmas.setEnabled(true);
-        btnmas.requestFocus();
+        JOptionPane.showMessageDialog(this, "Para empezar elija un depósito!");
+        combodeposito.setEnabled(true);
+        combodeposito.requestFocus();
+        //txtcodigocliente.setEnabled(true);
 
     }//GEN-LAST:event_btnagregarActionPerformed
 
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
-        
+
         guardar();
         btncancelar.doClick();
-        
+
     }//GEN-LAST:event_btngrabarActionPerformed
 
     private void btngrabarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btngrabarKeyPressed
-        // TODO add your handling code here:
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btngrabar.doClick();
+        }
+
     }//GEN-LAST:event_btngrabarKeyPressed
 
     private void btngrabarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btngrabarKeyTyped
@@ -1242,56 +1329,57 @@ public class ventas extends javax.swing.JDialog {
     }//GEN-LAST:event_btngrabarKeyTyped
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
-        
+
         limpiar_campos();
         limpiar_tabla();
         desa_inicio();
         total = 0;
-        
+
     }//GEN-LAST:event_btncancelarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        
+
         int mensaje = JOptionPane.showConfirmDialog(this, "Desea salir?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
         if (mensaje == JOptionPane.YES_OPTION) {
             //System.exit(WIDTH); // Para cerrar totalmente el sistema. Con codigo 1(confuso)
             //System.exit(0); // Mejor practica, cierra el programa con codigo o(correcto)
             dispose(); // Para cerrar ventanas de opciones o formularios sin parar el sistema.
         }
-        
+
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void combodepositoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodepositoKeyPressed
-        
-        combodeposito.setEnabled(false);
-        JOptionPane.showMessageDialog(this, "Pulsa un Enter para seleccionar los Productos!");
-        txtcodigoproducto.setEnabled(true);
-        txtcodigoproducto.requestFocus();
+
+        JOptionPane.showMessageDialog(this, "Pulse un ENTER para seleccionar un producto");
+        generar_factura();
+        btnmas.setEnabled(true);
+        btnmas.requestFocus();
+        txtcodigocliente.setEnabled(true);
 
     }//GEN-LAST:event_combodepositoKeyPressed
 
-    private void txtcodigoproveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoproveedorKeyPressed
-        
+    private void txtcodigoclienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoclienteKeyPressed
+
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextField[] tfParam = new JTextField[2];
-            tfParam[0] = txtcodigoproveedor;
-            tfParam[1] = txtproveedor;
-            
-            VentanaBuscar buscarproveedor = new VentanaBuscar("SELECT cod_proveedor, razon_social FROM proveedor WHERE razon_social ILIKE ",
-                    new String[]{"Codigo", "Proveedor",}, 2, tfParam);
-            buscarproveedor.setTitle("Buscar Proveedor");
+            tfParam[0] = txtcodigocliente;
+            tfParam[1] = txtcliente;
+
+            VentanaBuscar buscarproveedor = new VentanaBuscar("SELECT id_cliente, CONCAT(cli_nombre, ' ', cli_apellido) AS nombre, ci_ruc FROM clientes WHERE ci_ruc LIKE ",
+                    new String[]{"ID", "Nombre", "Documento",}, 3, tfParam);
+            buscarproveedor.setTitle("Buscar Cliente");
             buscarproveedor.setVisible(true);
-            
-            txtcodigoproveedor.setEnabled(false);
-            generar_factura();
-            combodeposito.setEnabled(true);
-            combodeposito.requestFocus();
+
+            txtcodigocliente.setEnabled(false);
+            //generar_factura();
+            btngrabar.setEnabled(true);
+            btngrabar.requestFocus();
         }
 
-    }//GEN-LAST:event_txtcodigoproveedorKeyPressed
+    }//GEN-LAST:event_txtcodigoclienteKeyPressed
 
     private void txtcodigoproductoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoproductoKeyPressed
-        
+
         /*if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             JTextField[] tfParam = new JTextField[3];
             tfParam[0] = txtcodigoproducto;
@@ -1309,7 +1397,7 @@ public class ventas extends javax.swing.JDialog {
             txtcantidad.setEnabled(true);
             txtcantidad.requestFocus();
         }
-*/
+         */
     }//GEN-LAST:event_txtcodigoproductoKeyPressed
 
     private void txttotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttotalActionPerformed
@@ -1317,16 +1405,16 @@ public class ventas extends javax.swing.JDialog {
     }//GEN-LAST:event_txttotalActionPerformed
 
     private void btnanularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnanularActionPerformed
-        
+
         JOptionPane.showMessageDialog(this, "Ingrese el codigo de compra que desea anular");
         txtcodigo.setEnabled(true);
         txtcodigo.requestFocus();
         desa_botones(1);
-        
+
     }//GEN-LAST:event_btnanularActionPerformed
 
     private void txtcodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoKeyPressed
-        
+
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String codigo = txtcodigo.getText().trim();
             if (codigo.isEmpty() || codigo.equals("0")) {
@@ -1347,30 +1435,47 @@ public class ventas extends javax.swing.JDialog {
                 }
             }
         }
-        
+
     }//GEN-LAST:event_txtcodigoKeyPressed
 
     private void btnmasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnmasKeyPressed
-        
+
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            JTextField[] tfParam = new JTextField[3];
+            JTextField[] tfParam = new JTextField[4];
             tfParam[0] = txtcodigoproducto;
             tfParam[1] = txtproducto;
-            tfParam[2] = txtprecio;
-            
-            VentanaBuscar buscarproducto = new VentanaBuscar("SELECT cod_producto, p_descrip, ROUND(precio * 1.25) AS precio FROM producto WHERE p_descrip ILIKE ",
-                    new String[]{"Codigo", "Producto", "Precio",}, 3, tfParam);
+            tfParam[3] = txtprecio;
+
+            VentanaBuscar buscarproducto = new VentanaBuscar("SELECT cod_producto, p_descrip, precio, ROUND(precio * 1.25) AS precio FROM producto WHERE p_descrip ILIKE ",
+                    new String[]{"Codigo", "Producto", "Precio de Compra", "Precio de Venta",}, 4, tfParam);
             buscarproducto.setTitle("Buscar Producto");
             buscarproducto.setVisible(true);
-            
+
             txtcodigoproducto.setEnabled(false);
             txtproducto.setEnabled(false);
             txtprecio.setEnabled(false);
             txtcantidad.setEnabled(true);
             txtcantidad.requestFocus();
+
         }
-        
+
     }//GEN-LAST:event_btnmasKeyPressed
+
+    private void factunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_factunoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_factunoActionPerformed
+
+    private void factunoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_factunoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_factunoKeyPressed
+
+    private void factdosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_factdosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_factdosActionPerformed
+
+    private void factdosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_factdosKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_factdosKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1386,21 +1491,21 @@ public class ventas extends javax.swing.JDialog {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(ventas.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(ventas.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(ventas.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ventas.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -1440,6 +1545,8 @@ public class ventas extends javax.swing.JDialog {
     private javax.swing.JButton btngrabar;
     private javax.swing.JButton btnmas;
     private javax.swing.JComboBox<String> combodeposito;
+    private org.edisoncor.gui.textField.TextFieldRectBackground factdos;
+    private org.edisoncor.gui.textField.TextFieldRectBackground factuno;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1460,17 +1567,17 @@ public class ventas extends javax.swing.JDialog {
     private org.edisoncor.gui.label.LabelMetric labelTelefono2;
     private org.edisoncor.gui.panel.PanelCurves panelCurves1;
     private org.edisoncor.gui.panel.PanelNice panelNice1;
-    private javax.swing.JTable tablacompra;
+    private javax.swing.JTable tablaventa;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtcantidad;
+    private org.edisoncor.gui.textField.TextFieldRectBackground txtcliente;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtcodigo;
+    private org.edisoncor.gui.textField.TextFieldRectBackground txtcodigocliente;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtcodigoproducto;
-    private org.edisoncor.gui.textField.TextFieldRectBackground txtcodigoproveedor;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtfactura;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtfecha;
     private org.edisoncor.gui.textField.TextFieldRectBackground txthora;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtprecio;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtproducto;
-    private org.edisoncor.gui.textField.TextFieldRectBackground txtproveedor;
     private javax.swing.JTextField txttotal;
     private org.edisoncor.gui.textField.TextFieldRectBackground txtusuario;
     // End of variables declaration//GEN-END:variables
