@@ -807,7 +807,7 @@ public class ventas extends javax.swing.JDialog {
         String fecha = txtfecha.getText().toUpperCase().trim();
         String hora = txthora.getText().trim();
         String deposito = (String) combodeposito.getSelectedItem();
-        
+
         int mensaje = JOptionPane.showConfirmDialog(this, "Desea realizar la accion?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
         if (mensaje == JOptionPane.YES_OPTION) {
 
@@ -889,7 +889,7 @@ public class ventas extends javax.swing.JDialog {
                     }
                 }
             }
-        }else{
+        } else {
             btncancelar.doClick();
         }
     }
@@ -1091,9 +1091,20 @@ public class ventas extends javax.swing.JDialog {
         try {
             //SELECT cantidad FROM stock WHERE cod_deposito = 1 AND cod_producto = 1 AND cantidad >= 11
             String codigoprod = txtcodigoproducto.getText().trim();
-            String cantidad = txtcantidad.getText().trim();
-            rs = con.Listar("SELECT cantidad FROM stock WHERE cod_deposito = 1 AND cod_producto = 1 AND cantidad >= " + cantidad);
-            boolean encontro = rs.next();
+            int cantidad = Integer.parseInt(txtcantidad.getText().trim()); //(SELECT SPLIT_PART('" + depo + "','-',1)::integer)
+            String depo = combodeposito.getSelectedItem().toString();
+            rs = con.Listar("SELECT * FROM stock WHERE cod_deposito = (SELECT SPLIT_PART('" + depo + "','-',1)::integer) "
+                    + "AND cod_producto = " + codigoprod); //+ " AND cantidad >= " + cantidad);
+            rs.next();
+            int cant = Integer.parseInt(rs.getString("cantidad"));
+            //boolean encontro = rs.next();
+            if (cant < cantidad) {
+                System.out.println("No hay stock suficiente!!!!");
+                JOptionPane.showMessageDialog(this, "Solo dispone de " + cant+ " en stock!");
+                btnmas.requestFocus();
+            }else{
+                cargar_tabla();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1275,8 +1286,8 @@ public class ventas extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "Debe ingresar una cantidad valida!");
                 txtcantidad.requestFocus();
             } else {
-                //verificar_existencia();
-                cargar_tabla();
+                verificar_existencia();
+                //cargar_tabla();
             }
         }
 
