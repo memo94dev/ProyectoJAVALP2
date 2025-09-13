@@ -322,7 +322,7 @@ public class informes extends javax.swing.JDialog {
         }
 
     }
-    
+
     // Metodo para llenar combo de departamentos
     private void llenar_combo_depar(String orden) {
 
@@ -339,7 +339,7 @@ public class informes extends javax.swing.JDialog {
         }
 
     }
-    
+
     // Metodo de inicio para habilitar campos necesarios
     private void inicio() {
 
@@ -353,7 +353,7 @@ public class informes extends javax.swing.JDialog {
         opcion = 0;
 
     }
-    
+
     // Metodo imprimir Reporte
     private void imprimir(String a) {
 
@@ -389,24 +389,29 @@ public class informes extends javax.swing.JDialog {
         String hasta = txthasta.getText();
         if (opcion == 0) {
             JOptionPane.showMessageDialog(this, "Seleccione un parametro para la consulta");
-        }else{
+        } else {
             if (opcion == 1) {
-                sql = "SELECT * FROM v_reporte_clientes WHERE id_cliente BETWEEN " + desde 
-                        + " AND " + hasta + " ORDER BY id_cliente ASC;";
-                imprimir(sql);
-                inicio();
+                if (desde.isEmpty() || hasta.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Debe completar los codigos desde y hasta!");
+                    txtdesde.requestFocus();
+                } else {
+                    sql = "SELECT * FROM v_reporte_clientes WHERE id_cliente BETWEEN " + desde
+                            + " AND " + hasta + " ORDER BY id_cliente ASC;";
+                    imprimir(sql);
+                    inicio();
+                }
             }
             if (opcion == 2) {
                 sql = "SELECT * FROM v_reporte_clientes WHERE cod_ciudad = "
-                + "(SELECT SPLIT_PART ('" + combociudad.getSelectedItem() + "','-',1)::integer)"
-                + " ORDER BY id_cliente;";
+                        + "(SELECT SPLIT_PART ('" + combociudad.getSelectedItem() + "','-',1)::integer)"
+                        + " ORDER BY id_cliente;";
                 imprimir(sql);
                 inicio();
             }
             if (opcion == 3) {
                 sql = "SELECT * FROM v_reporte_clientes WHERE cod_depar = "
-                + "(SELECT SPLIT_PART ('" + combodepar.getSelectedItem() + "','-',1)::integer)"
-                + " ORDER BY id_cliente;";
+                        + "(SELECT SPLIT_PART ('" + combodepar.getSelectedItem() + "','-',1)::integer)"
+                        + " ORDER BY id_cliente;";
                 imprimir(sql);
                 inicio();
             }
@@ -428,7 +433,7 @@ public class informes extends javax.swing.JDialog {
     }//GEN-LAST:event_btnsalirActionPerformed
 
     private void txtdesdeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdesdeKeyPressed
-        
+
         if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
             String desde = txtdesde.getText().trim();
             if (desde.equals("") || desde.equals(" ")) {
@@ -439,11 +444,11 @@ public class informes extends javax.swing.JDialog {
                 txthasta.requestFocus();
             }
         }
-        
+
     }//GEN-LAST:event_txtdesdeKeyPressed
 
     private void txthastaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txthastaKeyPressed
-        
+
         if (evt.getKeyChar() == KeyEvent.VK_ENTER) {
             String hasta = txthasta.getText().trim();
             if (hasta.isEmpty()) {
@@ -453,70 +458,70 @@ public class informes extends javax.swing.JDialog {
                 btnconsultar.requestFocus();
             }
         }
-        
+
     }//GEN-LAST:event_txthastaKeyPressed
 
     private void checkcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkcodigoActionPerformed
-        
+
         opcion = 1;
         txtdesde.setEnabled(true);
         txtdesde.requestFocus();
-        
+
         combociudad.setEnabled(false);
         combodepar.setEnabled(false);
-        
+
     }//GEN-LAST:event_checkcodigoActionPerformed
 
     private void checkciudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkciudadActionPerformed
-        
+
         opcion = 2;
         combociudad.setEnabled(true);
         combociudad.requestFocus();
-        
+
         txtdesde.setText("");
         txtdesde.setEnabled(false);
         txthasta.setText("");
         txthasta.setEnabled(false);
         combodepar.setEnabled(false);
-        
+
     }//GEN-LAST:event_checkciudadActionPerformed
 
     private void checkdeparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkdeparActionPerformed
-        
+
         opcion = 3;
         combodepar.setEnabled(true);
         combodepar.requestFocus();
-        
+
         txtdesde.setText("");
         txtdesde.setEnabled(false);
         txthasta.setText("");
         txthasta.setEnabled(false);
         combociudad.setEnabled(false);
-        
+
     }//GEN-LAST:event_checkdeparActionPerformed
 
     private void combociudadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combociudadKeyPressed
-        
+
         if (evt.getKeyCode() == 10) {
             btnconsultar.requestFocus();
         }
-        
+
     }//GEN-LAST:event_combociudadKeyPressed
 
     private void combodeparKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodeparKeyPressed
-        
+
         if (evt.getKeyCode() == 10) {
             btnconsultar.requestFocus();
         }
-        
+
     }//GEN-LAST:event_combodeparKeyPressed
 
     private void btnconsultarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnconsultarKeyPressed
-        
+
         if (evt.getKeyCode() == 10) {
             btnconsultar.doClick();
         }
-        
+
     }//GEN-LAST:event_btnconsultarKeyPressed
 
     /**

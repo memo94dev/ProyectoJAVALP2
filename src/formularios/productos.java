@@ -33,6 +33,7 @@ public class productos extends javax.swing.JDialog {
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
 
+        setLocationRelativeTo(null);
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo("1");
@@ -1152,7 +1153,7 @@ public class productos extends javax.swing.JDialog {
                 });
                 dialog.setVisible(true);
                 dialog.setResizable(false);
-                dialog.setLocationRelativeTo(null);
+                //dialog.setLocationRelativeTo(null);
 
             }
         });

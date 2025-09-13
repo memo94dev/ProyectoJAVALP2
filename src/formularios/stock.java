@@ -36,6 +36,7 @@ public class stock extends javax.swing.JDialog {
         con = new conectDB(); // Instancia de la clase de conexion
         con.conectar(); // Metodo de conexion de la clase conecDB
 
+        setLocationRelativeTo(null);
         inicio(); // Metodo de inicio de la pantalla
         limpiar_campos();
         llenar_combo("1");
@@ -844,7 +845,7 @@ public class stock extends javax.swing.JDialog {
                 });
                 dialog.setVisible(true);
                 dialog.setResizable(false);
-                dialog.setLocationRelativeTo(null);
+                //dialog.setLocationRelativeTo(null);
 
             }
         });

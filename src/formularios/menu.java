@@ -49,23 +49,39 @@ public class menu extends javax.swing.JFrame {
         etiquetafecha = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menureferenciales = new javax.swing.JMenu();
-        refventas = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        formularios = new javax.swing.JMenu();
+        itemclientes = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        itemciudad = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        itemdeposito = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        itemmedidas = new javax.swing.JMenuItem();
+        jSeparator7 = new javax.swing.JPopupMenu.Separator();
+        itemproductos = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        itemproveedores = new javax.swing.JMenuItem();
+        jSeparator9 = new javax.swing.JPopupMenu.Separator();
+        itemstock = new javax.swing.JMenuItem();
+        jSeparator10 = new javax.swing.JPopupMenu.Separator();
+        itemtproductos = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        refcompras = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
         menucompras = new javax.swing.JMenu();
         registrarcompras = new javax.swing.JMenuItem();
         menuventas = new javax.swing.JMenu();
+        registrarventa = new javax.swing.JMenuItem();
         menuinformes = new javax.swing.JMenu();
         infocompras = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        infoventas = new javax.swing.JMenuItem();
+        infoclientes = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        infoventas1 = new javax.swing.JMenuItem();
         menupass = new javax.swing.JMenu();
         confirmarcambiocontra = new javax.swing.JMenuItem();
         menuayuda = new javax.swing.JMenu();
         solicitardocayuda = new javax.swing.JMenuItem();
         menusalir = new javax.swing.JMenu();
+        salirdelsistema = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,36 +111,98 @@ public class menu extends javax.swing.JFrame {
         menureferenciales.setText("Referenciales");
         menureferenciales.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        refventas.setText("Ventas");
-        refventas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        formularios.setText("Formularios");
+        formularios.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jMenuItem1.setText("Deposito");
-        jMenuItem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        itemclientes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        itemclientes.setText("Clientes");
+        itemclientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemclientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                itemclientesActionPerformed(evt);
             }
         });
-        refventas.add(jMenuItem1);
+        formularios.add(itemclientes);
+        formularios.add(jSeparator4);
 
-        menureferenciales.add(refventas);
+        itemciudad.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        itemciudad.setText("Ciudad");
+        itemciudad.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemciudad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemciudadActionPerformed(evt);
+            }
+        });
+        formularios.add(itemciudad);
+        formularios.add(jSeparator5);
+
+        itemdeposito.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        itemdeposito.setText("Depósito");
+        itemdeposito.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemdeposito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemdepositoActionPerformed(evt);
+            }
+        });
+        formularios.add(itemdeposito);
+        formularios.add(jSeparator6);
+
+        itemmedidas.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        itemmedidas.setText("Medidas");
+        itemmedidas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemmedidas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemmedidasActionPerformed(evt);
+            }
+        });
+        formularios.add(itemmedidas);
+        formularios.add(jSeparator7);
+
+        itemproductos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        itemproductos.setText("Productos");
+        itemproductos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemproductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemproductosActionPerformed(evt);
+            }
+        });
+        formularios.add(itemproductos);
+        formularios.add(jSeparator8);
+
+        itemproveedores.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        itemproveedores.setText("Proveedores");
+        itemproveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemproveedores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemproveedoresActionPerformed(evt);
+            }
+        });
+        formularios.add(itemproveedores);
+        formularios.add(jSeparator9);
+
+        itemstock.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        itemstock.setText("Stock");
+        itemstock.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemstock.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemstockActionPerformed(evt);
+            }
+        });
+        formularios.add(itemstock);
+        formularios.add(jSeparator10);
+
+        itemtproductos.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        itemtproductos.setText("Tipo de Productos");
+        itemtproductos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemtproductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemtproductosActionPerformed(evt);
+            }
+        });
+        formularios.add(itemtproductos);
+
+        menureferenciales.add(formularios);
         menureferenciales.add(jSeparator1);
-
-        refcompras.setText("Compras");
-        refcompras.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
-        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jMenuItem2.setText("Clientes");
-        jMenuItem2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        refcompras.add(jMenuItem2);
-
-        menureferenciales.add(refcompras);
 
         jMenuBar1.add(menureferenciales);
 
@@ -144,6 +222,16 @@ public class menu extends javax.swing.JFrame {
 
         menuventas.setText("Ventas");
         menuventas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        registrarventa.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        registrarventa.setText("Registrar Venta");
+        registrarventa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registrarventaActionPerformed(evt);
+            }
+        });
+        menuventas.add(registrarventa);
+
         jMenuBar1.add(menuventas);
 
         menuinformes.setText("Informes");
@@ -154,9 +242,20 @@ public class menu extends javax.swing.JFrame {
         menuinformes.add(infocompras);
         menuinformes.add(jSeparator2);
 
-        infoventas.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        infoventas.setText("Informe Ventas");
-        menuinformes.add(infoventas);
+        infoclientes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        infoclientes.setText("Informe Ventas");
+        menuinformes.add(infoclientes);
+        menuinformes.add(jSeparator3);
+
+        infoventas1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        infoventas1.setText("Informe de Clientes");
+        infoventas1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        infoventas1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                infoventas1ActionPerformed(evt);
+            }
+        });
+        menuinformes.add(infoventas1);
 
         jMenuBar1.add(menuinformes);
 
@@ -190,6 +289,16 @@ public class menu extends javax.swing.JFrame {
 
         menusalir.setText("Salir");
         menusalir.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        salirdelsistema.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        salirdelsistema.setText("Salir");
+        salirdelsistema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirdelsistemaActionPerformed(evt);
+            }
+        });
+        menusalir.add(salirdelsistema);
+
         jMenuBar1.add(menusalir);
 
         setJMenuBar(jMenuBar1);
@@ -228,17 +337,17 @@ public class menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void itemdepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemdepositoActionPerformed
 
         new deposito(this, true).setVisible(true);
 
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_itemdepositoActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void itemclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemclientesActionPerformed
 
         new clientes(this, true).setVisible(true);
 
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_itemclientesActionPerformed
 
     private void confirmarcambiocontraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarcambiocontraActionPerformed
         
@@ -262,6 +371,63 @@ public class menu extends javax.swing.JFrame {
         new compras(this, true).setVisible(true);
         
     }//GEN-LAST:event_registrarcomprasActionPerformed
+
+    private void salirdelsistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirdelsistemaActionPerformed
+        
+        int mensaje = JOptionPane.showConfirmDialog(this, "Desea abandonar el sistema?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
+        if (mensaje == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+        
+    }//GEN-LAST:event_salirdelsistemaActionPerformed
+
+    private void infoventas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoventas1ActionPerformed
+        
+        new informes(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_infoventas1ActionPerformed
+
+    private void registrarventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrarventaActionPerformed
+        
+        new ventas(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_registrarventaActionPerformed
+
+    private void itemciudadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemciudadActionPerformed
+        
+        new ciudad(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_itemciudadActionPerformed
+
+    private void itemmedidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemmedidasActionPerformed
+        
+        new medidas(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_itemmedidasActionPerformed
+
+    private void itemproductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemproductosActionPerformed
+        
+        new productos(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_itemproductosActionPerformed
+
+    private void itemproveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemproveedoresActionPerformed
+        
+        new proveedores(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_itemproveedoresActionPerformed
+
+    private void itemtproductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemtproductosActionPerformed
+        
+        new tipo_producto(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_itemtproductosActionPerformed
+
+    private void itemstockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemstockActionPerformed
+        
+        new stock(this, true).setVisible(true);
+        
+    }//GEN-LAST:event_itemstockActionPerformed
 
     // Metodo para cambiar contrasena en el primer inicio de sesion
     private void primera_sesion(){
@@ -294,15 +460,15 @@ public class menu extends javax.swing.JFrame {
         }
         if (acceso.nivel.equals("compra")) {
             menureferenciales.setVisible(true);
-            refcompras.setVisible(true);
-            refventas.setVisible(false);
+            formularios.setVisible(true);
+            formularios.setVisible(false);
 
             menucompras.setVisible(true);
             menuventas.setVisible(false);
 
             menuinformes.setVisible(true);
             infocompras.setVisible(true);
-            infoventas.setVisible(false);
+            infoclientes.setVisible(false);
 
             menupass.setVisible(true);
             menuayuda.setVisible(true);
@@ -310,15 +476,15 @@ public class menu extends javax.swing.JFrame {
         }
         if (acceso.nivel.equals("ventas")) {
             menureferenciales.setVisible(true);
-            refcompras.setVisible(false);
-            refventas.setVisible(true);
+            formularios.setVisible(false);
+            formularios.setVisible(true);
 
             menucompras.setVisible(false);
             menuventas.setVisible(true);
 
             menuinformes.setVisible(true);
             infocompras.setVisible(false);
-            infoventas.setVisible(true);
+            infoclientes.setVisible(true);
 
             menupass.setVisible(true);
             menuayuda.setVisible(true);
@@ -366,15 +532,31 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem confirmarcambiocontra;
     private javax.swing.JLabel etiquetafecha;
     private javax.swing.JLabel etiquetausuario;
+    private javax.swing.JMenu formularios;
+    private javax.swing.JMenuItem infoclientes;
     private javax.swing.JMenuItem infocompras;
-    private javax.swing.JMenuItem infoventas;
+    private javax.swing.JMenuItem infoventas1;
+    private javax.swing.JMenuItem itemciudad;
+    private javax.swing.JMenuItem itemclientes;
+    private javax.swing.JMenuItem itemdeposito;
+    private javax.swing.JMenuItem itemmedidas;
+    private javax.swing.JMenuItem itemproductos;
+    private javax.swing.JMenuItem itemproveedores;
+    private javax.swing.JMenuItem itemstock;
+    private javax.swing.JMenuItem itemtproductos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
+    private javax.swing.JPopupMenu.Separator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
+    private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JMenu menuayuda;
     private javax.swing.JMenu menucompras;
     private javax.swing.JMenu menuinformes;
@@ -382,9 +564,9 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JMenu menureferenciales;
     private javax.swing.JMenu menusalir;
     private javax.swing.JMenu menuventas;
-    private javax.swing.JMenu refcompras;
-    private javax.swing.JMenu refventas;
     private javax.swing.JMenuItem registrarcompras;
+    private javax.swing.JMenuItem registrarventa;
+    private javax.swing.JMenuItem salirdelsistema;
     private javax.swing.JMenuItem solicitardocayuda;
     // End of variables declaration//GEN-END:variables
 }

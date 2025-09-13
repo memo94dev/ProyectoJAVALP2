@@ -22,7 +22,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import prg.VentanaBuscar;
 import prg.conectDB;
 
-public class compras extends javax.swing.JDialog {
+public class ventas extends javax.swing.JDialog {
     
     conectDB con; // Traer la clase de conexion
     ResultSet rs; // Resultados de SQL definidos en conecDB
@@ -31,7 +31,7 @@ public class compras extends javax.swing.JDialog {
     int total = 0;
     DecimalFormat formateador = new DecimalFormat("###,###,###");
     
-    public compras(java.awt.Frame parent, boolean modal) {
+    public ventas(java.awt.Frame parent, boolean modal) {
 
         //super(parent, modal); // Se superpone a otras ventanas u objetos
         initComponents();
@@ -96,7 +96,7 @@ public class compras extends javax.swing.JDialog {
 
         panelNice1.setBackground(new java.awt.Color(153, 153, 153));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Compras", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ventas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
         jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(970, 598));
 
@@ -436,7 +436,7 @@ public class compras extends javax.swing.JDialog {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Proveedor/Depósito"));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Cliente"));
         jPanel5.setOpaque(false);
 
         labelNombre.setText("Proveedor:");
@@ -639,7 +639,7 @@ public class compras extends javax.swing.JDialog {
             rs.next();
             txtfecha.setText(rs.getString("fecha"));
         } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -652,7 +652,7 @@ public class compras extends javax.swing.JDialog {
             rs.next();
             txthora.setText(rs.getString("hora"));
         } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -707,14 +707,35 @@ public class compras extends javax.swing.JDialog {
     private void generar_codigo() {
         
         try {
-            String sql = "SELECT COALESCE (MAX(cod_compra),0)+1 AS cod FROM compra;"; // Creamos la consulta SQL.
+            String sql = "SELECT COALESCE (MAX(cod_venta),0)+1 AS cod FROM venta;"; // Creamos la consulta SQL.
             rs = con.Listar(sql); // Utilizamos el metodo listar.
             rs.next(); // Llamar a los siguientes resultados.
             txtcodigo.setText(rs.getString("cod")); // Enviar el resultado en el campo de codigo de nuestro formulario.
         } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+
+    /* Metodo para validar duplicidad de valores en la BDD */
+    private boolean validar_documento() {
+        
+        try {
+            String doc = txtusuario.getText().trim();
+            rs = con.Listar("SELECT * FROM clientes WHERE ci_ruc = '" + doc + "'");
+            //boolean encontro = rs.next();
+            if (rs.next()) {
+                String nombre = rs.getString("cli_nombre");
+                String apellido = rs.getString("cli_apellido");
+                JOptionPane.showMessageDialog(this, "El documento ingresado '" + doc
+                        + "' ya ha sido registrado para: " + nombre + " " + apellido);
+                return true; // Documento duplicado
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false; // Documento no duplicado
+
     }
 
     // Metodo para guardar nuevo registro en la BDD
@@ -780,7 +801,7 @@ public class compras extends javax.swing.JDialog {
                         con.sentencia.executeUpdate(sql);
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             
@@ -802,7 +823,7 @@ public class compras extends javax.swing.JDialog {
                     con.sentencia = con.conectar().createStatement();
                     con.sentencia.executeUpdate(sql);
                 } catch (SQLException ex) {
-                    Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -868,7 +889,7 @@ public class compras extends javax.swing.JDialog {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -893,7 +914,7 @@ public class compras extends javax.swing.JDialog {
                 return rs.getString("ci_ruc").trim();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
         
@@ -913,29 +934,6 @@ public class compras extends javax.swing.JDialog {
         txtusuario.requestFocus();
         txtusuario.selectAll();
         
-    }
-
-    // Metodo para buscar datos
-    private void buscador() {
-
-        /* try {
-            cursor = (DefaultTableModel) tablacompra.getModel();
-            String buscar = txtbuscar.getText().toUpperCase().trim();
-            String sql = "SELECT * FROM clientes WHERE ci_ruc LIKE '%" + buscar + "%' OR cli_nombre ILIKE '%" + buscar + "%' ORDER BY id_cliente;";
-            rs = con.Listar(sql);
-            String[] fila = new String[6];
-            while (rs.next()) {
-                fila[0] = rs.getString("id_cliente");
-                fila[1] = rs.getString("ci_ruc");
-                fila[2] = rs.getString("cli_nombre");
-                fila[3] = rs.getString("cli_apellido");
-                fila[4] = rs.getString("cli_direccion");
-                fila[5] = rs.getString("cli_telefono");
-                cursor.addRow(fila);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
 
     // Metodo imprimir Reporte
@@ -963,7 +961,7 @@ public class compras extends javax.swing.JDialog {
             ventana.setSize(1000, 680);
             ventana.setLocationRelativeTo(null);
         } catch (JRException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -996,7 +994,7 @@ public class compras extends javax.swing.JDialog {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -1025,7 +1023,7 @@ public class compras extends javax.swing.JDialog {
                 txtcodigo.selectAll();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -1050,7 +1048,7 @@ public class compras extends javax.swing.JDialog {
                 cursor.addRow(fila);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
@@ -1103,7 +1101,48 @@ public class compras extends javax.swing.JDialog {
     }//GEN-LAST:event_txtusuarioActionPerformed
 
     private void txtusuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtusuarioKeyPressed
-   
+        
+        String codigo = txtcodigoproducto.getText().trim();
+        String documento = txtusuario.getText().trim();
+        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (documento.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Complete este campo!");
+                txtusuario.requestFocus();
+                return;
+            }
+            
+            if (operacion == 1) {
+                // Modo guardar: validar si el documento ya existe
+                if (!validar_documento()) {
+                    habilitarCampos();
+                } else {
+                    mostrarErrorDocumento();
+                }
+            } else {
+                // Modo edición
+                String documentoActual = buscar(codigo);
+                if (documentoActual == null) {
+                    JOptionPane.showMessageDialog(this, "El código ingresado no existe");
+                    txtcodigoproducto.requestFocus();
+                    return;
+                }
+                
+                if (documento.equals(documentoActual)) {
+                    // Documento no cambió, no validar
+                    habilitarCampos();
+                } else {
+                    // Documento cambió, validar
+                    if (!validar_documento()) {
+                        habilitarCampos();
+                    } else {
+                        mostrarErrorDocumento();
+                    }
+                }
+            }
+        }
+        
+
     }//GEN-LAST:event_txtusuarioKeyPressed
 
     private void txtproveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtproveedorActionPerformed
@@ -1384,7 +1423,7 @@ public class compras extends javax.swing.JDialog {
                         accion_anular();
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -1409,21 +1448,25 @@ public class compras extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(compras.class
+            java.util.logging.Logger.getLogger(ventas.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
             
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(compras.class
+            java.util.logging.Logger.getLogger(ventas.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
             
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(compras.class
+            java.util.logging.Logger.getLogger(ventas.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
             
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(compras.class
+            java.util.logging.Logger.getLogger(ventas.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -1432,7 +1475,7 @@ public class compras extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                compras dialog = new compras(new javax.swing.JFrame(), true);
+                ventas dialog = new ventas(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
