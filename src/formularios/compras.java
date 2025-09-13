@@ -1208,6 +1208,7 @@ public class compras extends javax.swing.JDialog {
         limpiar_campos();
         limpiar_tabla();
         desa_inicio();
+        total = 0;
         
     }//GEN-LAST:event_btncancelarActionPerformed
 

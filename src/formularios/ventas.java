@@ -560,6 +560,7 @@ public class ventas extends javax.swing.JDialog {
         );
 
         txttotal.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txttotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txttotal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txttotalActionPerformed(evt);
