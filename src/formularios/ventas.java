@@ -1048,11 +1048,22 @@ public class ventas extends javax.swing.JDialog {
                     + "FROM venta v, clientes c WHERE v.id_cliente = c.id_cliente AND v.cod_venta = " + codigo);
             boolean encontro = rs.next();
             if (encontro == true) {
-                txtfactura.setText(rs.getString("nro_factura"));
+
+                // Dividir el numero de factura para mostrarlo en cada jtextfield
+                String factura = rs.getString("factura");
+                String[] partes = factura.split("-");
+                factuno.setText(partes[0]); // "000"
+                factdos.setText(partes[1]); // "000"
+                txtfactura.setText(partes[2]); // "0000001"
+
                 txtcodigocliente.setText(rs.getString("id_cliente"));
                 txtcliente.setText(rs.getString("nombre"));
-                txttotal.setText(rs.getString("total_venta"));
+                
+                int total = Integer.parseInt(rs.getString("total_venta"));
+                txttotal.setText(formateador.format(total));
+
                 cargar_tabla_anular();
+
                 txtcodigo.setEnabled(false);
                 operacion = 2;
                 btngrabar.setEnabled(true);
@@ -1345,7 +1356,7 @@ public class ventas extends javax.swing.JDialog {
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
 
         guardar();
-        btncancelar.doClick();        
+        btncancelar.doClick();
 
     }//GEN-LAST:event_btngrabarActionPerformed
 
