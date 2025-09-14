@@ -896,6 +896,10 @@ public class ventas extends javax.swing.JDialog {
                         Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                String codigoventa = txtcodigo.getText();
+                System.out.println("codigo venta sql: " + codigoventa);
+                String sql = "SELECT * FROM v_factura_venta WHERE cod_venta = " + codigoventa;
+                imprimir(sql);
 
             }
             if (operacion == 2) {
@@ -1341,9 +1345,7 @@ public class ventas extends javax.swing.JDialog {
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
 
         guardar();
-        String sql = "SELECT * FROM v_factura_venta WHERE cod_venta = " + txtcodigo.getText();
-        btncancelar.doClick();
-        imprimir(sql);
+        btncancelar.doClick();        
 
     }//GEN-LAST:event_btngrabarActionPerformed
 

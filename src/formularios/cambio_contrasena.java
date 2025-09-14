@@ -324,14 +324,13 @@ public class cambio_contrasena extends javax.swing.JDialog {
 
     private void btncancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarActionPerformed
 
-        inicio();
-        /*int mensaje = JOptionPane.showConfirmDialog(this, "Deseas salir sin actualizar tu contraseña?",
+        int mensaje = JOptionPane.showConfirmDialog(this, "Deseas salir sin actualizar tu contraseña?",
                 "Atención!", JOptionPane.YES_NO_OPTION);
         if (mensaje == 0) {
             dispose();
         } else {
             inicio();
-        }*/
+        }
 
     }//GEN-LAST:event_btncancelarActionPerformed
 
