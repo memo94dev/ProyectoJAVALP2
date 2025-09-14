@@ -179,6 +179,7 @@ public class ventas extends javax.swing.JDialog {
 
         btnmas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnmas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/suma.png"))); // NOI18N
+        btnmas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnmas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnmasActionPerformed(evt);
@@ -555,6 +556,7 @@ public class ventas extends javax.swing.JDialog {
 
         btnregistrarcliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnregistrarcliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva-cuenta-color.png"))); // NOI18N
+        btnregistrarcliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnregistrarcliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnregistrarclienteActionPerformed(evt);
@@ -1424,24 +1426,6 @@ public class ventas extends javax.swing.JDialog {
 
     private void txtcodigoproductoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoproductoKeyPressed
 
-        /*if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            JTextField[] tfParam = new JTextField[3];
-            tfParam[0] = txtcodigoproducto;
-            tfParam[1] = txtproducto;
-            tfParam[2] = txtprecio;
-            
-            VentanaBuscar buscarproducto = new VentanaBuscar("SELECT cod_producto, p_descrip, precio FROM producto WHERE p_descrip ILIKE ",
-                    new String[]{"Codigo", "Producto", "Precio",}, 3, tfParam);
-            buscarproducto.setTitle("Buscar Producto");
-            buscarproducto.setVisible(true);
-            
-            txtcodigoproducto.setEnabled(false);
-            txtproducto.setEnabled(false);
-            txtprecio.setEnabled(true);
-            txtcantidad.setEnabled(true);
-            txtcantidad.requestFocus();
-        }
-         */
     }//GEN-LAST:event_txtcodigoproductoKeyPressed
 
     private void txttotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txttotalActionPerformed

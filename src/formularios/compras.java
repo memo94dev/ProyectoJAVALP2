@@ -174,7 +174,7 @@ public class compras extends javax.swing.JDialog {
         labelTelefono1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         btnaddproducto.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnaddproducto.setText("+");
+        btnaddproducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/suma.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -219,7 +219,7 @@ public class compras extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnaddproducto, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
+                    .addComponent(btnaddproducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -956,13 +956,17 @@ public class compras extends javax.swing.JDialog {
             rs = con.Listar("SELECT CONCAT (d.cod_deposito, '- ', d.descrip) AS deposito, p.razon_social, c.* FROM compra c, proveedor p, deposito d WHERE c.cod_proveedor = p.cod_proveedor AND c.cod_deposito = d.cod_deposito AND c.cod_compra = " + codigo);
             boolean encontro = rs.next();
             if (encontro == true) {
+                
                 txtfactura.setText(rs.getString("nro_factura"));
                 txtcodigoproveedor.setText(rs.getString("cod_proveedor"));
                 txtproveedor.setText(rs.getString("razon_social"));
                 //combodeposito.addItem(rs.getString("deposito")); // Para agregar valores al combobox
                 combodeposito.setSelectedItem(rs.getString("deposito")); // Para seleccionar un valor del combobox
-                txttotal.setText(rs.getString("total_compra"));
+                
+                int total = Integer.parseInt(rs.getString("total_compra"));
+                txttotal.setText(formateador.format(total));
                 //System.out.println("Deposito: " + rs.getString("deposito"));
+                
                 cargar_tabla_anular();
                 txtcodigo.setEnabled(false);
                 operacion = 2;
