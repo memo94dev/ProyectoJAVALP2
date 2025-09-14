@@ -1383,6 +1383,7 @@ public class ventas extends javax.swing.JDialog {
 
         JOptionPane.showMessageDialog(this, "Pulse un ENTER para seleccionar un producto");
         generar_factura();
+        combodeposito.setEnabled(false);
         btnmas.setEnabled(true);
         btnmas.requestFocus();
         txtcodigocliente.setEnabled(true);

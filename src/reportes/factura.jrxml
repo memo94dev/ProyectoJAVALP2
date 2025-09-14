@@ -16,7 +16,7 @@
 	<subDataset name="PieChartDataset" uuid="8b1b933b-016b-4372-ac33-2220a955103c"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT v.cod_venta, cl.ci_ruc, CONCAT(cl.cli_nombre, ' ', cl.cli_apellido) AS nombre, cl.cli_direccion AS direccion, 
-v.factura, v.fecha, v.hora, v.total_venta,
+v.factura, v.fecha, TO_CHAR(v.hora, 'HH24:MI') AS fhora, v.total_venta,
 dv.det_cantidad AS cantidad, dv.det_precio_unit, dv.det_precio_unit * dv.det_cantidad AS subtotal,
 p.cod_producto, p.p_descrip AS producto
 FROM venta v, clientes cl, det_venta dv, producto p
@@ -31,7 +31,7 @@ ORDER BY v.cod_venta;]]>
 	<field name="direccion" class="java.lang.String"/>
 	<field name="factura" class="java.lang.String"/>
 	<field name="fecha" class="java.sql.Date"/>
-	<field name="hora" class="java.sql.Time"/>
+	<field name="fhora" class="java.lang.String"/>
 	<field name="total_venta" class="java.lang.Integer"/>
 	<field name="cantidad" class="java.lang.Integer"/>
 	<field name="det_precio_unit" class="java.lang.Integer"/>
@@ -331,7 +331,7 @@ ORDER BY v.cod_venta;]]>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{fhora}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement style="Column header" positionType="Float" x="323" y="1" width="250" height="14" forecolor="#FFFFFF" uuid="4c7e67da-6ea5-4954-82a6-a396f60e1bec"/>
