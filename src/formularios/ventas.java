@@ -43,7 +43,7 @@ public class ventas extends javax.swing.JDialog {
         hora();
         txtusuario.setText(acceso.username);
         desa_inicio(); // Metodo de inicio de la pantalla
-        llenar_combo("0");
+        llenar_combo();
         setLocationRelativeTo(null); // Centrar ventana en la pantalla, lo llevo al metodo main
 
     }
@@ -980,10 +980,10 @@ public class ventas extends javax.swing.JDialog {
     }
 
     // Metodo para cargar combobox
-    private void llenar_combo(String orden) {
+    private void llenar_combo() {
 
         try {
-            String sql = "SELECT CONCAT (cod_deposito, '- ', descrip) AS deposito FROM deposito ORDER BY cod_deposito = " + orden + "DESC;";
+            String sql = "SELECT CONCAT (cod_deposito, '- ', descrip) AS deposito FROM deposito ORDER BY cod_deposito ASC;";
             rs = con.Listar(sql);
             if (rs.isBeforeFirst()) {
                 while (rs.next()) {
