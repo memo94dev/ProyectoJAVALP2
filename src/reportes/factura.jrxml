@@ -16,7 +16,7 @@
 	<subDataset name="PieChartDataset" uuid="8b1b933b-016b-4372-ac33-2220a955103c"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT v.cod_venta, cl.ci_ruc, CONCAT(cl.cli_nombre, ' ', cl.cli_apellido) AS nombre, cl.cli_direccion AS direccion, 
-v.factura, v.fecha, TO_CHAR(v.hora, 'HH24:MI') AS fhora, v.total_venta,
+v.factura, v.fecha, TO_CHAR(v.hora, 'HH24:MI:SS') AS fhora, v.total_venta,
 dv.det_cantidad AS cantidad, dv.det_precio_unit, dv.det_precio_unit * dv.det_cantidad AS subtotal,
 p.cod_producto, p.p_descrip AS producto
 FROM venta v, clientes cl, det_venta dv, producto p
