@@ -1,5 +1,6 @@
 package formularios;
 
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -90,6 +91,7 @@ public class ventas extends javax.swing.JDialog {
         labelCiudad = new org.edisoncor.gui.label.LabelMetric();
         factuno = new org.edisoncor.gui.textField.TextFieldRectBackground();
         factdos = new org.edisoncor.gui.textField.TextFieldRectBackground();
+        btnregistrarcliente = new javax.swing.JButton();
         txttotal = new javax.swing.JTextField();
         labelTelefono2 = new org.edisoncor.gui.label.LabelMetric();
         labelApellido1 = new org.edisoncor.gui.label.LabelMetric();
@@ -545,35 +547,50 @@ public class ventas extends javax.swing.JDialog {
             }
         });
 
+        btnregistrarcliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnregistrarcliente.setText("R");
+        btnregistrarcliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnregistrarclienteActionPerformed(evt);
+            }
+        });
+        btnregistrarcliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnregistrarclienteKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtcodigocliente, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(factuno, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(factdos, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(combodeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnregistrarcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                    .addGap(31, 31, 31)
+                                    .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(txtcodigocliente, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(factuno, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(factdos, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGap(29, 29, 29)
+                            .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(combodeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -588,12 +605,16 @@ public class ventas extends javax.swing.JDialog {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(combodeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(factuno, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(factdos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(factuno, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(factdos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnregistrarcliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(21, 21, 21))
         );
 
@@ -642,7 +663,7 @@ public class ventas extends javax.swing.JDialog {
                 .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 177, Short.MAX_VALUE))
                 .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -724,6 +745,8 @@ public class ventas extends javax.swing.JDialog {
         btnanular.setEnabled(true);
         btnSalir.setEnabled(true);
         txttotal.setEnabled(false);
+        
+        btnregistrarcliente.setEnabled(false);
 
         factuno.setEnabled(false);
         factdos.setEnabled(false);
@@ -1128,9 +1151,9 @@ public class ventas extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Cantidad o código de producto inválido.");
         }
     }
-    
+
     // Metodo para limpiar el panel de producto
-    
+
     private void txtcodigoproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoproductoActionPerformed
 
         /* boolean encontrado = buscar();
@@ -1230,7 +1253,7 @@ public class ventas extends javax.swing.JDialog {
 
     private void txtfacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfacturaActionPerformed
 
-       /* String factura = txtfactura.getText().trim();
+        /* String factura = txtfactura.getText().trim();
         if (factura.equals("")) {
             JOptionPane.showMessageDialog(this, "Ingrese un numero de factura!");
             txtfactura.requestFocus();
@@ -1383,6 +1406,7 @@ public class ventas extends javax.swing.JDialog {
         btnmas.setEnabled(true);
         btnmas.requestFocus();
         txtcodigocliente.setEnabled(true);
+        btnregistrarcliente.setEnabled(true);
 
     }//GEN-LAST:event_combodepositoKeyPressed
 
@@ -1398,7 +1422,7 @@ public class ventas extends javax.swing.JDialog {
             buscarproveedor.setTitle("Buscar Cliente");
             buscarproveedor.setVisible(true);
 
-            txtcodigocliente.setEnabled(false);
+            //txtcodigocliente.setEnabled(false);
             //generar_factura();
             btngrabar.setEnabled(true);
             btngrabar.requestFocus();
@@ -1505,6 +1529,18 @@ public class ventas extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_factdosKeyPressed
 
+    private void btnregistrarclienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnregistrarclienteKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnregistrarclienteKeyPressed
+
+    private void btnregistrarclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregistrarclienteActionPerformed
+
+        //new clientes(this, true).setVisible(true);
+        Frame frame = JOptionPane.getFrameForComponent(this);
+        new clientes(frame, true).setVisible(true);
+
+    }//GEN-LAST:event_btnregistrarclienteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1572,6 +1608,7 @@ public class ventas extends javax.swing.JDialog {
     private javax.swing.JButton btncancelar;
     private javax.swing.JButton btngrabar;
     private javax.swing.JButton btnmas;
+    private javax.swing.JButton btnregistrarcliente;
     private javax.swing.JComboBox<String> combodeposito;
     private org.edisoncor.gui.textField.TextFieldRectBackground factdos;
     private org.edisoncor.gui.textField.TextFieldRectBackground factuno;
