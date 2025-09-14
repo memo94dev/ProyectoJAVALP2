@@ -3,12 +3,22 @@ package formularios;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import prg.conectDB;
 
 public class menu extends javax.swing.JFrame {
@@ -244,6 +254,11 @@ public class menu extends javax.swing.JFrame {
 
         infoclientes.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         infoclientes.setText("Informe Ventas");
+        infoclientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                infoclientesActionPerformed(evt);
+            }
+        });
         menuinformes.add(infoclientes);
         menuinformes.add(jSeparator3);
 
@@ -336,7 +351,7 @@ public class menu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void itemdepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemdepositoActionPerformed
 
         new deposito(this, true).setVisible(true);
@@ -428,6 +443,10 @@ public class menu extends javax.swing.JFrame {
         new stock(this, true).setVisible(true);
         
     }//GEN-LAST:event_itemstockActionPerformed
+
+    private void infoclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoclientesActionPerformed
+
+    }//GEN-LAST:event_infoclientesActionPerformed
 
     // Metodo para cambiar contrasena en el primer inicio de sesion
     private void primera_sesion(){

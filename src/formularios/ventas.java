@@ -179,6 +179,11 @@ public class ventas extends javax.swing.JDialog {
 
         btnmas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnmas.setText("+");
+        btnmas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnmasActionPerformed(evt);
+            }
+        });
         btnmas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 btnmasKeyPressed(evt);
@@ -746,7 +751,7 @@ public class ventas extends javax.swing.JDialog {
         btnanular.setEnabled(true);
         btnSalir.setEnabled(true);
         txttotal.setEnabled(false);
-        
+
         btnregistrarcliente.setEnabled(false);
 
         factuno.setEnabled(false);
@@ -999,36 +1004,6 @@ public class ventas extends javax.swing.JDialog {
 
     }
 
-    // Metodo imprimir Reporte
-    private void imprimir() {
-
-        try {
-            String sql = "SELECT * FROM v_reporte_clientes;";
-            rs = con.Listar(sql);
-            Map parameters = new HashMap();
-            parameters.put("", new String(""));
-            JasperReport jr = null;
-
-            // Cargamos el reporte
-            URL url = getClass().getClassLoader().getResource("reportes/reporte_clientes.jasper");
-            jr = (JasperReport) JRLoader.loadObject(url);
-
-            JasperPrint masterPrint = null;
-            JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
-            masterPrint = JasperFillManager.fillReport(jr, parameters, jrRS);
-
-            // Generar ventana para mostrar el reporte
-            JasperViewer ventana = new JasperViewer(masterPrint, false);
-            ventana.setTitle("Vista Previa");
-            ventana.setVisible(true);
-            ventana.setSize(1000, 680);
-            ventana.setLocationRelativeTo(null);
-        } catch (JRException ex) {
-            Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
     // Ver datos
     private void ver_datos() {
 
@@ -1152,7 +1127,7 @@ public class ventas extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Cantidad o código de producto inválido.");
         }
     }
-    
+
     // Metodo imprimir Factura
     private void imprimir(String a) {
 
@@ -1182,29 +1157,8 @@ public class ventas extends javax.swing.JDialog {
 
     }
 
-    // Metodo para limpiar el panel de producto
-
     private void txtcodigoproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoproductoActionPerformed
 
-        /* boolean encontrado = buscar();
-        if (!encontrado) {
-            txtcodigo.requestFocus(); // vuelve el foco al campo código
-            txtcodigo.selectAll();    // selecciona el texto para que el usuario pueda reemplazarlo
-            return;                   // corta la ejecución del resto del método
-        }
-        if ("eliminar".equals(operacion)) {
-            //buscar_deposito();
-            txtnombre.setEnabled(false);
-            txtcodigo.setEnabled(false);
-            btnguardar.setEnabled(true);
-            btnguardar.requestFocus();
-        } else {
-            //buscar_deposito();
-            txtcodigo.setEnabled(false);
-            txtnombre.setEnabled(true);
-            txtnombre.requestFocus();
-        }
-         */
     }//GEN-LAST:event_txtcodigoproductoActionPerformed
 
     private void txtclienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtclienteKeyPressed
@@ -1249,15 +1203,11 @@ public class ventas extends javax.swing.JDialog {
 
     private void combodepositoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodepositoKeyTyped
 
-        combodeposito.setEnabled(false);
+        //combodeposito.setEnabled(false);
 
     }//GEN-LAST:event_combodepositoKeyTyped
 
     private void combodepositoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_combodepositoMouseClicked
-
-        combodeposito.setEnabled(false);
-        txtfactura.setEnabled(true);
-        txtfactura.requestFocus();
 
     }//GEN-LAST:event_combodepositoMouseClicked
 
@@ -1523,22 +1473,7 @@ public class ventas extends javax.swing.JDialog {
     private void btnmasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnmasKeyPressed
 
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            JTextField[] tfParam = new JTextField[4];
-            tfParam[0] = txtcodigoproducto;
-            tfParam[1] = txtproducto;
-            tfParam[3] = txtprecio;
-
-            VentanaBuscar buscarproducto = new VentanaBuscar("SELECT cod_producto, p_descrip, precio, ROUND(precio * 1.25) AS precio FROM producto WHERE p_descrip ILIKE ",
-                    new String[]{"Codigo", "Producto", "Precio de Compra", "Precio de Venta",}, 4, tfParam);
-            buscarproducto.setTitle("Buscar Producto");
-            buscarproducto.setVisible(true);
-
-            txtcodigoproducto.setEnabled(false);
-            txtproducto.setEnabled(false);
-            txtprecio.setEnabled(false);
-            txtcantidad.setEnabled(true);
-            txtcantidad.requestFocus();
-
+            btnmas.doClick();
         }
 
     }//GEN-LAST:event_btnmasKeyPressed
@@ -1570,6 +1505,26 @@ public class ventas extends javax.swing.JDialog {
         new clientes(frame, true).setVisible(true);
 
     }//GEN-LAST:event_btnregistrarclienteActionPerformed
+
+    private void btnmasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmasActionPerformed
+
+        JTextField[] tfParam = new JTextField[4];
+        tfParam[0] = txtcodigoproducto;
+        tfParam[1] = txtproducto;
+        tfParam[3] = txtprecio;
+
+        VentanaBuscar buscarproducto = new VentanaBuscar("SELECT cod_producto, p_descrip, precio, ROUND(precio * 1.25) AS precio FROM producto WHERE p_descrip ILIKE ",
+                new String[]{"Codigo", "Producto", "Precio de Compra", "Precio de Venta",}, 4, tfParam);
+        buscarproducto.setTitle("Buscar Producto");
+        buscarproducto.setVisible(true);
+
+        txtcodigoproducto.setEnabled(false);
+        txtproducto.setEnabled(false);
+        txtprecio.setEnabled(false);
+        txtcantidad.setEnabled(true);
+        txtcantidad.requestFocus();
+
+    }//GEN-LAST:event_btnmasActionPerformed
 
     /**
      * @param args the command line arguments

@@ -292,18 +292,18 @@ ORDER BY v.cod_venta;]]>
 			<frame>
 				<reportElement mode="Opaque" x="2" y="0" width="800" height="16" forecolor="#D0B48E" backcolor="#006699" uuid="10d580c8-7bae-4818-8481-feaedcca383a"/>
 				<textField evaluationTime="Report">
-					<reportElement style="Column header" x="753" y="0" width="40" height="16" forecolor="#FFFFFF" uuid="23e5381a-4d91-4d03-8e1b-db88e0fe092d"/>
-					<textElement verticalAlignment="Middle">
+					<reportElement style="Column header" x="748" y="0" width="50" height="16" forecolor="#FFFFFF" uuid="23e5381a-4d91-4d03-8e1b-db88e0fe092d"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="Column header" x="673" y="0" width="80" height="16" forecolor="#FFFFFF" uuid="e93b5fb4-c710-41bb-ac72-73cda95d225b"/>
+					<reportElement style="Column header" x="614" y="0" width="134" height="16" forecolor="#FFFFFF" uuid="e93b5fb4-c710-41bb-ac72-73cda95d225b"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement style="Column header" positionType="Float" x="4" y="1" width="47" height="14" forecolor="#FFFFFF" uuid="e84ba8d6-752d-44d3-9ec3-b619e5c5872e"/>
@@ -324,10 +324,10 @@ ORDER BY v.cod_venta;]]>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
 					</textElement>
-					<text><![CDATA[hora]]></text>
+					<text><![CDATA[hora:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="173" y="1" width="47" height="14" forecolor="#FFFFFF" uuid="299aa2e4-6580-4ce3-82ff-cf6867c743f0"/>
+					<reportElement style="Detail" positionType="Float" x="174" y="1" width="47" height="14" forecolor="#FFFFFF" uuid="299aa2e4-6580-4ce3-82ff-cf6867c743f0"/>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
 					</textElement>
