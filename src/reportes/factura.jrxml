@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c990993a-24b6-48d9-837f-4a6653c844c2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="PieChartDataset" uuid="8b1b933b-016b-4372-ac33-2220a955103c"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT v.cod_venta, cl.ci_ruc, CONCAT(cl.cli_nombre, ' ', cl.cli_apellido) AS nombre, cl.cli_direccion AS direccion, 
+v.factura, v.fecha, v.hora, v.total_venta,
+dv.det_cantidad AS cantidad, dv.det_precio_unit, dv.det_precio_unit * dv.det_cantidad AS subtotal,
+p.cod_producto, p.p_descrip AS producto
+FROM venta v, clientes cl, det_venta dv, producto p
+WHERE v.id_cliente = cl.id_cliente
+AND v.cod_venta = dv.cod_venta
+AND dv.cod_producto = p.cod_producto
+ORDER BY v.cod_venta;]]>
+	</queryString>
+	<field name="cod_venta" class="java.lang.Integer"/>
+	<field name="ci_ruc" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="factura" class="java.lang.String"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="hora" class="java.sql.Time"/>
+	<field name="total_venta" class="java.lang.Integer"/>
+	<field name="cantidad" class="java.lang.Integer"/>
+	<field name="det_precio_unit" class="java.lang.Integer"/>
+	<field name="subtotal" class="java.lang.Integer"/>
+	<field name="cod_producto" class="java.lang.Integer"/>
+	<field name="producto" class="java.lang.String"/>
+	<group name="ci_ruc">
+		<groupExpression><![CDATA[$F{ci_ruc}]]></groupExpression>
+		<groupHeader>
+			<band height="31">
+				<frame>
+					<reportElement mode="Opaque" x="201" y="7" width="601" height="24" forecolor="#B89F7D" backcolor="#70A9C6" uuid="c23f25b6-5409-49a6-874c-1933f269f14b"/>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="122" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="500" y="66" width="87" height="29" uuid="92f569f9-d196-4a4c-b45b-e1d268dd0242"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Venta:]]></text>
+			</staticText>
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="0" width="822" height="65" forecolor="#006699" backcolor="#006699" uuid="ddeda51f-109b-49c4-8951-9b73cc7907f5"/>
+				<staticText>
+					<reportElement style="Title" x="24" y="0" width="572" height="65" uuid="21780b32-c480-4bd2-82fc-b4439d591e5e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="54" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Proyecto LP2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Title" x="596" y="0" width="223" height="29" uuid="aae56fd0-5ccf-4df1-b2d7-e714bbbe9ea4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="20" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Ruc: 800-488-123]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Title" x="597" y="30" width="223" height="29" uuid="5a0445b9-fc93-4eca-8ae5-84e9eb251871"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="20" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Telf.: (021) 222 333]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement style="SubTitle" x="2" y="65" width="98" height="29" uuid="a77721f1-1621-4ac2-9269-8c0f9e3b450e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Factura:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="0" y="93" width="101" height="29" uuid="ee4400b8-3267-4b19-9e26-924dbb7f3a9d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="101" y="93" width="164" height="28" uuid="7ccbee8e-a59d-4b5f-b003-328d4e6a76cc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="100" y="65" width="164" height="28" uuid="e78f98ae-92fd-4705-8e48-3bd144258c76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{factura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="SubTitle" x="265" y="93" width="71" height="29" uuid="3f028061-e51c-4558-acdb-f7d7d60fdc20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Doc.:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="336" y="93" width="164" height="28" uuid="54178cd3-41b4-433d-badf-f5164096cfc5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ci_ruc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="SubTitle" x="265" y="65" width="71" height="29" uuid="01ef4bac-99a0-402a-9732-3f6e18507f0e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Dir.:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="336" y="66" width="164" height="28" uuid="5376aa7c-ea4e-41f8-9d08-9ceb4aa6f4e3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="587" y="66" width="164" height="28" uuid="c218eeb4-f4fb-4f4b-9237-f84d6f3e7905"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cod_venta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="SubTitle" x="500" y="93" width="87" height="29" uuid="fc8300ea-e220-40fd-b276-5d043dc01631"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="587" y="93" width="164" height="28" uuid="da051318-d1df-4255-be43-848aee9776ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_venta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="SubTitle" x="751" y="92" width="51" height="29" uuid="e6b6e11b-e093-42f8-ba18-15c641995af6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Gs.]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="14" splitType="Stretch">
+			<frame>
+				<reportElement x="227" y="0" width="575" height="14" uuid="cc89badb-1a05-49a8-8355-62f6d0f3679d"/>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="338" y="0" width="110" height="14" forecolor="#000000" uuid="2508974f-6c14-47e1-8db3-2ffdb22e2880"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Precio/Unitario]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="448" y="0" width="125" height="14" forecolor="#000000" uuid="cccdd9d2-c6a1-4dda-88e1-d7495d913920"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Subtotal]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="35" y="0" width="214" height="14" forecolor="#000000" uuid="c395ff11-ff0b-4a3d-90ee-62b2d856b48e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Producto]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="249" y="0" width="79" height="14" forecolor="#000000" uuid="77f439f5-5fbd-4f55-9734-af81399e0a28"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Cantidad]]></text>
+				</staticText>
+			</frame>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="201" y="0" width="61" height="14" forecolor="#000000" uuid="aaddbb88-eba9-49b0-b1aa-814d5d6da64a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Codigo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="227" y="14" width="575" height="1" uuid="9fbb3df4-6102-4181-87f4-265fa3cc8f06"/>
+			</line>
+			<frame>
+				<reportElement x="227" y="0" width="575" height="14" uuid="1934ea1f-0efe-42d7-b57f-4e2d83ef6944"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="338" y="0" width="110" height="14" uuid="1a30fbc3-3302-4f65-b3c0-99e0f44c9196"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{det_precio_unit}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="448" y="0" width="125" height="14" uuid="1f4da385-ed46-4346-99e9-3d941e2f888f"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="35" y="0" width="214" height="14" uuid="3ca18a59-7fde-47d1-a64e-ff582a5b931d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="249" y="0" width="79" height="14" uuid="c3a6abfc-5fa7-42b3-ad5b-ca73b69db50e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="201" y="0" width="61" height="14" uuid="d7796540-b7f4-402f-ad6d-b08dd17bb76c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cod_producto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="44" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="263d1682-3cd3-49ca-9d31-f68e1c2f3b23"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<frame>
+				<reportElement mode="Opaque" x="199" y="4" width="601" height="24" forecolor="#B89F7D" backcolor="#70A9C6" uuid="40747e77-cd2a-4dbc-bde7-4b41ffe96e2f"/>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="363" y="5" width="110" height="14" forecolor="#000000" uuid="cdb17530-af47-47f3-baa4-b21fc7d356ed"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[Total:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="475" y="5" width="125" height="14" uuid="4e71a72c-a48d-4d83-8357-c31ed91f3acf"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_venta}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="2" y="0" width="800" height="16" forecolor="#D0B48E" backcolor="#006699" uuid="10d580c8-7bae-4818-8481-feaedcca383a"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="753" y="0" width="40" height="16" forecolor="#FFFFFF" uuid="23e5381a-4d91-4d03-8e1b-db88e0fe092d"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="673" y="0" width="80" height="16" forecolor="#FFFFFF" uuid="e93b5fb4-c710-41bb-ac72-73cda95d225b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="4" y="1" width="47" height="14" forecolor="#FFFFFF" uuid="e84ba8d6-752d-44d3-9ec3-b619e5c5872e"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[fecha:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="51" y="1" width="60" height="14" forecolor="#FFFFFF" uuid="003111cc-b404-475e-ab4d-d72a216c0557"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="124" y="1" width="47" height="14" forecolor="#FFFFFF" uuid="d7643337-ef97-438f-83eb-c61fd500d1d0"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[hora]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="173" y="1" width="47" height="14" forecolor="#FFFFFF" uuid="299aa2e4-6580-4ce3-82ff-cf6867c743f0"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" positionType="Float" x="323" y="1" width="250" height="14" forecolor="#FFFFFF" uuid="4c7e67da-6ea5-4954-82a6-a396f60e1bec"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
+					</textElement>
+					<text><![CDATA[test@mail.com.py - Av. Mcal. Lopez 1321]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

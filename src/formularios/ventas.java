@@ -177,6 +177,7 @@ public class ventas extends javax.swing.JDialog {
         labelTelefono1.setText("Cantidad:");
         labelTelefono1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
+        btnmas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnmas.setText("+");
         btnmas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -1151,6 +1152,35 @@ public class ventas extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Cantidad o código de producto inválido.");
         }
     }
+    
+    // Metodo imprimir Factura
+    private void imprimir(String a) {
+
+        try {
+            rs = con.Listar(a);
+            Map parameters = new HashMap();
+            parameters.put("", new String(""));
+            JasperReport jr = null;
+
+            // Cargamos el documento
+            URL url = getClass().getClassLoader().getResource("reportes/factura.jasper");
+            jr = (JasperReport) JRLoader.loadObject(url);
+
+            JasperPrint masterPrint = null;
+            JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
+            masterPrint = JasperFillManager.fillReport(jr, parameters, jrRS);
+
+            // Generar ventana para mostrar el documento
+            JasperViewer ventana = new JasperViewer(masterPrint, false);
+            ventana.setTitle("Vista Previa");
+            ventana.setVisible(true);
+            ventana.setSize(1000, 680);
+            ventana.setLocationRelativeTo(null);
+        } catch (JRException ex) {
+            Logger.getLogger(clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     // Metodo para limpiar el panel de producto
 
@@ -1363,7 +1393,9 @@ public class ventas extends javax.swing.JDialog {
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
 
         guardar();
+        String sql = "SELECT * FROM v_factura_venta WHERE cod_venta = " + txtcodigo.getText();
         btncancelar.doClick();
+        imprimir(sql);
 
     }//GEN-LAST:event_btngrabarActionPerformed
 
@@ -1392,9 +1424,7 @@ public class ventas extends javax.swing.JDialog {
 
         int mensaje = JOptionPane.showConfirmDialog(this, "Desea salir?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
         if (mensaje == JOptionPane.YES_OPTION) {
-            //System.exit(WIDTH); // Para cerrar totalmente el sistema. Con codigo 1(confuso)
-            //System.exit(0); // Mejor practica, cierra el programa con codigo o(correcto)
-            dispose(); // Para cerrar ventanas de opciones o formularios sin parar el sistema.
+            dispose();
         }
 
     }//GEN-LAST:event_btnSalirActionPerformed

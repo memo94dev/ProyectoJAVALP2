@@ -173,6 +173,7 @@ public class compras extends javax.swing.JDialog {
         labelTelefono1.setText("Cantidad:");
         labelTelefono1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
+        btnaddproducto.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnaddproducto.setText("+");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
