@@ -294,7 +294,7 @@ ORDER BY v.cod_venta;]]>
 				<textField evaluationTime="Report">
 					<reportElement style="Column header" x="748" y="0" width="50" height="16" forecolor="#FFFFFF" uuid="23e5381a-4d91-4d03-8e1b-db88e0fe092d"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Arial" size="12" isBold="false" pdfFontName="Helvetica"/>
+						<font fontName="Times New Roman" size="12" isBold="false" pdfFontName=""/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
