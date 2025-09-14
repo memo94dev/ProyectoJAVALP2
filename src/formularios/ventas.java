@@ -807,6 +807,8 @@ public class ventas extends javax.swing.JDialog {
         String fecha = txtfecha.getText().toUpperCase().trim();
         String hora = txthora.getText().trim();
         String deposito = (String) combodeposito.getSelectedItem();
+        String faclegal = factuno.getText() + "-" + factdos.getText() + "-" + factura;
+        System.out.println("String de la factura legal: " + faclegal);
 
         int mensaje = JOptionPane.showConfirmDialog(this, "Desea realizar la accion?", "Atención", JOptionPane.YES_NO_OPTION); // Mensaje al presionar el boton salir
         if (mensaje == JOptionPane.YES_OPTION) {
@@ -817,14 +819,15 @@ public class ventas extends javax.swing.JDialog {
                 String monto = txttotal.getText();
                 String montoreal = monto.replace(".", "");
                 con.insertar_datos("venta",
-                        "cod_venta, id_cliente, fecha, total_venta, estado, hora, nro_factura",
+                        "cod_venta, id_cliente, fecha, total_venta, estado, hora, nro_factura, factura",
                         codigoVenta + ", "
                         + codigocliente + ", "
                         + "(SELECT ('" + fecha + "')::date), "
                         + montoreal + ", '"
                         + estado + "', "
                         + "(SELECT ('" + hora + "')::time), "
-                        + factura,
+                        + factura + ", '"
+                        + faclegal + "'",
                         1);
                 // Grabar detalle de venta
                 for (int a = 0; a < tablaventa.getRowCount(); a++) {
@@ -854,7 +857,7 @@ public class ventas extends javax.swing.JDialog {
                             JOptionPane.showMessageDialog(this, "No hay stock de productos en existencia!");
                         } else {
                             String sql = "UPDATE stock SET cantidad = cantidad - " + tablaventa.getValueAt(b, 3)
-                                    + ", cajas = cantidad - " + tablaventa.getValueAt(b, 3) + ") / 12"
+                                    + ", cajas = (cantidad - " + tablaventa.getValueAt(b, 3) + ") / 12"
                                     + " WHERE cod_producto = " + tablaventa.getValueAt(b, 0)
                                     + " AND cod_deposito = "
                                     + "(SELECT SPLIT_PART('" + deposito + "','-',1)::integer)";
@@ -1086,31 +1089,48 @@ public class ventas extends javax.swing.JDialog {
 
     }
 
-    // Metodo para verificar existencia de productos en stock
+    // Metodo para verificar la existencia de un producto en el deposito seleccionado
     private void verificar_existencia() {
         try {
-            //SELECT cantidad FROM stock WHERE cod_deposito = 1 AND cod_producto = 1 AND cantidad >= 11
             String codigoprod = txtcodigoproducto.getText().trim();
-            int cantidad = Integer.parseInt(txtcantidad.getText().trim()); //(SELECT SPLIT_PART('" + depo + "','-',1)::integer)
+            String produc = txtproducto.getText().trim();
+            int cantidad = Integer.parseInt(txtcantidad.getText().trim());
             String depo = combodeposito.getSelectedItem().toString();
-            rs = con.Listar("SELECT * FROM stock WHERE cod_deposito = (SELECT SPLIT_PART('" + depo + "','-',1)::integer) "
-                    + "AND cod_producto = " + codigoprod); //+ " AND cantidad >= " + cantidad);
-            rs.next();
-            int cant = Integer.parseInt(rs.getString("cantidad"));
-            //boolean encontro = rs.next();
-            if (cant < cantidad) {
-                System.out.println("No hay stock suficiente!!!!");
-                JOptionPane.showMessageDialog(this, "Solo dispone de " + cant+ " en stock!");
+
+            String consulta = "SELECT cantidad FROM stock WHERE cod_deposito = (SELECT SPLIT_PART('" + depo + "','-',1)::integer) "
+                    + "AND cod_producto = " + codigoprod;
+
+            rs = con.Listar(consulta);
+
+            if (rs.next()) {
+                int cant = rs.getInt("cantidad");
+                if (cant < cantidad) {
+                    System.out.println("No hay stock suficiente!!!!");
+                    JOptionPane.showMessageDialog(this, "Solo dispone de " + cant + " '" + produc + "' en el deposito '" + depo + "'!!!");
+                    txtcantidad.selectAll();
+                    //btnmas.requestFocus();
+                } else {
+                    cargar_tabla();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontró el producto '" + produc + "' en el depósito seleccionado.");
                 btnmas.requestFocus();
-            }else{
-                cargar_tabla();
+                txtcodigoproducto.setText("");
+                txtproducto.setText("");
+                txtprecio.setText("");
+                txtcantidad.setText("");
+                txtcantidad.setEnabled(false);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ventas.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Error al consultar el stock.");
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Cantidad o código de producto inválido.");
         }
-
     }
-
+    
+    // Metodo para limpiar el panel de producto
+    
     private void txtcodigoproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoproductoActionPerformed
 
         /* boolean encontrado = buscar();
@@ -1210,7 +1230,7 @@ public class ventas extends javax.swing.JDialog {
 
     private void txtfacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfacturaActionPerformed
 
-        String factura = txtfactura.getText().trim();
+       /* String factura = txtfactura.getText().trim();
         if (factura.equals("")) {
             JOptionPane.showMessageDialog(this, "Ingrese un numero de factura!");
             txtfactura.requestFocus();
@@ -1218,7 +1238,7 @@ public class ventas extends javax.swing.JDialog {
             txtfactura.setEnabled(false);
             combodeposito.setEnabled(true);
             combodeposito.requestFocus();
-        }
+        }*/
 
     }//GEN-LAST:event_txtfacturaActionPerformed
 
