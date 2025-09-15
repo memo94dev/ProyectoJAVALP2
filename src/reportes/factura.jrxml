@@ -269,7 +269,7 @@ ORDER BY v.cod_venta;]]>
 				</graphicElement>
 			</line>
 			<frame>
-				<reportElement mode="Opaque" x="199" y="4" width="601" height="24" forecolor="#B89F7D" backcolor="#70A9C6" uuid="40747e77-cd2a-4dbc-bde7-4b41ffe96e2f"/>
+				<reportElement mode="Opaque" x="2" y="4" width="800" height="24" forecolor="#B89F7D" backcolor="#70A9C6" uuid="40747e77-cd2a-4dbc-bde7-4b41ffe96e2f"/>
 				<staticText>
 					<reportElement style="Column header" positionType="Float" x="363" y="5" width="110" height="14" forecolor="#000000" uuid="cdb17530-af47-47f3-baa4-b21fc7d356ed"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -292,14 +292,14 @@ ORDER BY v.cod_venta;]]>
 			<frame>
 				<reportElement mode="Opaque" x="2" y="0" width="800" height="16" forecolor="#D0B48E" backcolor="#006699" uuid="10d580c8-7bae-4818-8481-feaedcca383a"/>
 				<textField evaluationTime="Report">
-					<reportElement style="Column header" x="748" y="0" width="50" height="16" forecolor="#FFFFFF" uuid="23e5381a-4d91-4d03-8e1b-db88e0fe092d"/>
+					<reportElement style="Column header" x="764" y="0" width="34" height="16" forecolor="#FFFFFF" uuid="23e5381a-4d91-4d03-8e1b-db88e0fe092d"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Times New Roman" size="12" isBold="false" pdfFontName=""/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="Column header" x="614" y="0" width="134" height="16" forecolor="#FFFFFF" uuid="e93b5fb4-c710-41bb-ac72-73cda95d225b"/>
+					<reportElement style="Column header" x="630" y="0" width="134" height="16" forecolor="#FFFFFF" uuid="e93b5fb4-c710-41bb-ac72-73cda95d225b"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="Times New Roman" size="12" isBold="false" pdfFontName="Helvetica"/>
 					</textElement>

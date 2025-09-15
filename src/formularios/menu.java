@@ -75,7 +75,6 @@ public class menu extends javax.swing.JFrame {
         itemstock = new javax.swing.JMenuItem();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
         itemtproductos = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         menucompras = new javax.swing.JMenu();
         registrarcompras = new javax.swing.JMenuItem();
         menuventas = new javax.swing.JMenu();
@@ -212,7 +211,6 @@ public class menu extends javax.swing.JFrame {
         formularios.add(itemtproductos);
 
         menureferenciales.add(formularios);
-        menureferenciales.add(jSeparator1);
 
         jMenuBar1.add(menureferenciales);
 
@@ -566,7 +564,6 @@ public class menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
