@@ -36,9 +36,8 @@ public class productos extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
-        llenar_combo("1");
-        llenar_combo_medida("1");
-        //setLocationRelativeTo(null); // Centrar ventana en la pantalla, lo pongo al final, en el metodo main
+        llenar_combo();
+        llenar_combo_medida();
 
     }
 
@@ -436,7 +435,7 @@ public class productos extends javax.swing.JDialog {
 
     }
 
-    /* Metodo para inhabilitar botones y habilitar botones */
+    /* Metodo para inhabilitar o habilitar botones */
     private void desa_botones(int a) {
 
         switch (a) {
@@ -562,7 +561,7 @@ public class productos extends javax.swing.JDialog {
     }
 
     // Metodo para cargar combobox
-    private void llenar_combo(String orden) {
+    private void llenar_combo() {
 
         try {
             String sql = "SELECT CONCAT(cod_tipo_prod, '- ' , t_p_descrip) AS tipo FROM tipo_producto ORDER BY cod_tipo_prod ASC;";
@@ -578,7 +577,7 @@ public class productos extends javax.swing.JDialog {
 
     }
 
-    private void llenar_combo_medida(String orden) {
+    private void llenar_combo_medida() {
 
         try {
             String sql = "SELECT CONCAT(id_u_medida, '- ' , u_descrip) AS medida FROM u_medida ORDER BY id_u_medida ASC;";
@@ -677,7 +676,7 @@ public class productos extends javax.swing.JDialog {
             JasperReport jr = null;
 
             // Cargamos el reporte
-            URL url = getClass().getClassLoader().getResource("reportes/reporte_productos.jasper");
+            URL url = getClass().getClassLoader().getResource("reportes/reporte_producto.jasper");
             jr = (JasperReport) JRLoader.loadObject(url);
 
             JasperPrint masterPrint = null;
@@ -696,35 +695,17 @@ public class productos extends javax.swing.JDialog {
 
     }
 
-    // Ver datos
+    // Ver datos, metodo para cargar datos en los campos al presionar sobre un item de la tabla
     private void ver_datos() {
 
         int fila = tablaproductos.getSelectedRow(); // codigo nombre tipo medida precio 
         System.out.println(fila);
         txtcodigo.setText(tablaproductos.getValueAt(fila, 0).toString());
         txtnombre.setText(tablaproductos.getValueAt(fila, 1).toString());
-        txtprecio.setText(tablaproductos.getValueAt(fila, 4).toString());
         combotipo.setSelectedItem(tablaproductos.getValueAt(fila, 2).toString());
         combomedida.setSelectedItem(tablaproductos.getValueAt(fila, 3).toString());
+        txtprecio.setText(tablaproductos.getValueAt(fila, 4).toString());
 
-        /*String codigo = tablaproductos.getValueAt(fila, 0).toString();
-        //System.out.println("Codigo del cliente: " + codigo);
-
-        try {
-            String sql = "SELECT CONCAT(c.cod_ciudad, '-', c.descrip_ciudad) AS ciudad FROM ciudad c JOIN clientes cl ON cl.cod_ciudad = c.cod_ciudad WHERE cl.id_cliente = "
-                    + codigo;
-            //System.out.println(sql);
-            rs = con.Listar(sql);
-            if (rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    String ciudad = rs.getString("ciudad");
-                    //System.out.println(ciudad);
-                    combotipo.setSelectedItem(rs.getString("ciudad"));
-                }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
 
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
@@ -777,39 +758,6 @@ public class productos extends javax.swing.JDialog {
                 txtprecio.setEnabled(true);
                 txtprecio.requestFocus();
             }
-
-            /*if (operacion == 1) {
-                System.out.println("La operacion es insertar " + operacion);
-                // Modo guardar: validar si el documento ya existe
-                if (!validar_documento()) {
-                    System.out.println("Entra a habilitar campos, retorna false ");
-                    habilitarCampos();
-                } else {
-                    System.out.println("Entra a habilitar campos, retorna true ");
-                    mostrarErrorDocumento();
-                }
-            } else {
-                // Modo edición
-                System.out.println("La operacion es editar " + operacion);
-                String documentoActual = buscar(codigo);
-                if (documentoActual == null) {
-                    JOptionPane.showMessageDialog(this, "El código ingresado no existe");
-                    txtcodigo.requestFocus();
-                    return;
-                }
-
-                if (descripcion.equals(documentoActual)) {
-                    // Documento no cambió, no validar
-                    habilitarCampos();
-                } else {
-                    // Documento cambió, validar
-                    if (!validar_documento()) {
-                        habilitarCampos();
-                    } else {
-                        mostrarErrorDocumento();
-                    }
-                }
-            }*/
         }
 
     }//GEN-LAST:event_txtnombreKeyPressed
@@ -831,31 +779,10 @@ public class productos extends javax.swing.JDialog {
 
     private void txtcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcodigoActionPerformed
 
-        /* boolean encontrado = buscar();
-        if (!encontrado) {
-            txtcodigo.requestFocus(); // vuelve el foco al campo código
-            txtcodigo.selectAll();    // selecciona el texto para que el usuario pueda reemplazarlo
-            return;                   // corta la ejecución del resto del método
-        }
-        if ("eliminar".equals(operacion)) {
-            //buscar_deposito();
-            txtnombre.setEnabled(false);
-            txtcodigo.setEnabled(false);
-            btnguardar.setEnabled(true);
-            btnguardar.requestFocus();
-        } else {
-            //buscar_deposito();
-            txtcodigo.setEnabled(false);
-            txtnombre.setEnabled(true);
-            txtnombre.requestFocus();
-        }
-         */
     }//GEN-LAST:event_txtcodigoActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
 
-        /*operacion = 3;
-        desa_botones(1);*/
         String codigo = txtcodigo.getText();
         if (codigo.equals("")) {
             JOptionPane.showMessageDialog(this, "Debes seleccionar un registro de la grilla para eliminar!");
@@ -922,10 +849,6 @@ public class productos extends javax.swing.JDialog {
     }//GEN-LAST:event_txtbuscarKeyPressed
 
     private void txtnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnombreActionPerformed
-
-        /*txtnombre.setEnabled(false);
-        txtprecio.setEnabled(true);
-        txtprecio.requestFocus();*/
 
     }//GEN-LAST:event_txtnombreActionPerformed
 
@@ -999,11 +922,6 @@ public class productos extends javax.swing.JDialog {
             if (mensaje == JOptionPane.YES_OPTION) {
                 guardar();
                 btncancelar.doClick();
-                /*desa_inicio();
-            limpiar_campos();
-            limpiar_tabla();
-            cargar_tabla();
-            desa_botones(2); todos estos elementos se cambian por el doClick del boton cancelar*/
             }
         }
 
@@ -1022,10 +940,6 @@ public class productos extends javax.swing.JDialog {
     }//GEN-LAST:event_combomedidaKeyTyped
 
     private void combotipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combotipoActionPerformed
-
-        //combomedida.setEnabled(false);
-        //combomedida.setEnabled(true);
-        //combotipo.requestFocus();
 
     }//GEN-LAST:event_combotipoActionPerformed
 
