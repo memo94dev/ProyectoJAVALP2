@@ -211,7 +211,7 @@ ORDER BY v.cod_venta;]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Helvetica"/>
 				</textElement>
-				<text><![CDATA[Codigo]]></text>
+				<text><![CDATA[Código]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -338,7 +338,7 @@ ORDER BY v.cod_venta;]]>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="true" pdfFontName="Helvetica"/>
 					</textElement>
-					<text><![CDATA[test@mail.com.py - Av. Mcal. Lopez 1321]]></text>
+					<text><![CDATA[test@mail.com.py - Av. Mcal. López 1321]]></text>
 				</staticText>
 			</frame>
 		</band>
