@@ -772,17 +772,17 @@ public class stock extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Seleccione un parametro para la consulta");
         }else{
             if (operacion == 1) {
-                sql = "SELECT * FROM v_reporte_productos;";
+                sql = "SELECT * FROM v_stock_productos;";
                 imprimir(sql);
                 inicio();
             }
             if (operacion == 3) {
-                sql = "SELECT * FROM v_reporte_productos WHERE cod_producto = " + codigo;
+                sql = "SELECT * FROM v_stock_productos WHERE cod_producto = " + codigo;
                 imprimir(sql);
                 inicio();
             }
             if (operacion == 2) {
-                sql = "SELECT * FROM v_reporte_productos WHERE cod_deposito = "
+                sql = "SELECT * FROM v_stock_productos WHERE cod_deposito = "
                 + "(SELECT SPLIT_PART('" + combodepo.getSelectedItem() + "','-',1)::integer)";
                 imprimir(sql);
                 inicio();
