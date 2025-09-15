@@ -252,6 +252,7 @@ public class productos extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tablaproductos);
 
         btnlimpiar.setText("Limpiar");
+        btnlimpiar.setToolTipText("Limpiar campo de busqueda");
         btnlimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnlimpiarActionPerformed(evt);

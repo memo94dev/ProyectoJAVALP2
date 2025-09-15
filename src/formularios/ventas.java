@@ -179,6 +179,7 @@ public class ventas extends javax.swing.JDialog {
 
         btnmas.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnmas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/suma.png"))); // NOI18N
+        btnmas.setToolTipText("Agregar productos");
         btnmas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnmas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -458,6 +459,7 @@ public class ventas extends javax.swing.JDialog {
         labelNombre.setText("Cliente:");
         labelNombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
+        txtcodigocliente.setToolTipText("Pulse ENTER para agregar un cliente");
         txtcodigocliente.setDescripcion("Cód.");
         txtcodigocliente.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         txtcodigocliente.addActionListener(new java.awt.event.ActionListener() {
@@ -556,6 +558,7 @@ public class ventas extends javax.swing.JDialog {
 
         btnregistrarcliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnregistrarcliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva-cuenta-color.png"))); // NOI18N
+        btnregistrarcliente.setToolTipText("Agregar nuevo cliente");
         btnregistrarcliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnregistrarcliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
