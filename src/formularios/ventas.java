@@ -296,6 +296,7 @@ public class ventas extends javax.swing.JDialog {
 
         btnSalir.setBackground(new java.awt.Color(0, 102, 255));
         btnSalir.setText("Salir");
+        btnSalir.setToolTipText("Salir del formulario");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
