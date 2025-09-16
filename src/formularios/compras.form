@@ -612,11 +612,11 @@
                                   <Group type="102" attributes="0">
                                       <Component id="labelNombre" min="-2" pref="100" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="txtcodigoproveedor" min="-2" pref="59" max="-2" attributes="0"/>
+                                      <Component id="txtcodigoproveedor" min="-2" pref="54" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="txtproveedor" pref="202" max="32767" attributes="0"/>
+                                      <Component id="txtproveedor" pref="207" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="labelCiudad" min="-2" max="-2" attributes="0"/>
                                           <Component id="labelDireccion" min="-2" max="-2" attributes="0"/>
