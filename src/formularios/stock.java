@@ -684,6 +684,7 @@ public class stock extends javax.swing.JDialog {
 
     private void combodepoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodepoKeyPressed
 
+        combodepo.setEnabled(false);
         btnbuscar.setEnabled(true);
         btnbuscar.requestFocus();
 
@@ -691,6 +692,8 @@ public class stock extends javax.swing.JDialog {
 
     private void combodepoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_combodepoKeyTyped
 
+        
+        
     }//GEN-LAST:event_combodepoKeyTyped
 
     private void checktodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checktodosActionPerformed
