@@ -559,7 +559,7 @@ public class ventas extends javax.swing.JDialog {
 
         btnregistrarcliente.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnregistrarcliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nueva-cuenta-color.png"))); // NOI18N
-        btnregistrarcliente.setToolTipText("Agregar nuevo cliente");
+        btnregistrarcliente.setToolTipText("Registrar nuevo cliente");
         btnregistrarcliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnregistrarcliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
