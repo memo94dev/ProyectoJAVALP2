@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class conectDB {
-    
+
     Connection con; // Variable administrador de base de datos
     Statement state; // Variable para ejecutar sql
     ResultSet resultado; // Variable que recibe los resultados de las sentencias sq
@@ -26,17 +26,17 @@ public class conectDB {
     String bd = "proyecto";
     String user = "postgres";
     String pass = "123456";
-    
+
     // Variables publicas sql
     public Connection conexion = null;
     public Statement sentencia;
     public ResultSet resultados;
-    
-    public Connection conectar(){
+
+    public Connection conectar() {
         try {
             Class.forName("org.postgresql.Driver");
             try {
-                con = DriverManager.getConnection(host+bd,user,pass);
+                con = DriverManager.getConnection(host + bd, user, pass);
             } catch (SQLException ex) {
                 Logger.getLogger(conectDB.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -45,17 +45,18 @@ public class conectDB {
         }
         return con;
     }
-   // Listar Datos
+    // Listar Datos
+
     public ResultSet Listar(String consulta) {
         try {
-            state = con.createStatement(ResultSet.CONCUR_READ_ONLY,ResultSet.TYPE_SCROLL_INSENSITIVE);
+            state = con.createStatement(ResultSet.CONCUR_READ_ONLY, ResultSet.TYPE_SCROLL_INSENSITIVE);
             resultado = state.executeQuery(consulta);
         } catch (SQLException ex) {
             Logger.getLogger(conectDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultado;
     }
-    
+
     // Buscar Datos
     public boolean busqueda(String query) {
         try {
@@ -67,14 +68,14 @@ public class conectDB {
         }
         return false;
     }
-    
+
     // Insertar Datos
-    public void insertar_datos(String tabla, String campos, String valores, int mensaje){
+    public void insertar_datos(String tabla, String campos, String valores, int mensaje) {
         try {
             state = con.createStatement();
-            state.executeUpdate("insert into " +tabla+ "("+campos+ ")"
-                    +" values ("+valores+")");
-            switch(mensaje){
+            state.executeUpdate("insert into " + tabla + "(" + campos + ")"
+                    + " values (" + valores + ")");
+            switch (mensaje) {
                 case 1:
                     JOptionPane.showMessageDialog(null, "Se ha grabado exitosamente", "Atención",
                             JOptionPane.INFORMATION_MESSAGE);
@@ -83,14 +84,14 @@ public class conectDB {
                     break;
             }
         } catch (SQLException ex) {
-            System.out.println("insert into " +tabla+ "("+campos+ ")"
-                    +"values("+valores+")");
+            System.out.println("insert into " + tabla + "(" + campos + ")"
+                    + "values(" + valores + ")");
             JOptionPane.showMessageDialog(null, "Error en la operación", "Atención",
-                            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.WARNING_MESSAGE);
             javax.swing.JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
-    
+
     // Modificar Datos
     public void actualizar_datos(String tabla, String camposAct, String codigo, int mensaje) {
         try {
@@ -117,7 +118,7 @@ public class conectDB {
                     JOptionPane.WARNING_MESSAGE);
         }
     }
-    
+
     // Eliminar Datos
     public void borrar_datos(String tabla, String campoCodigo, String codigo) {
         try {
@@ -129,9 +130,18 @@ public class conectDB {
         } catch (SQLException ex) {
             System.out.println("delete from " + tabla + " where " + campoCodigo
                     + " = " + codigo + ";");
-            javax.swing.JOptionPane.showMessageDialog(null, ex.getMessage());
-            JOptionPane.showMessageDialog(null, "Error en la operación", "Atención",
-                    JOptionPane.WARNING_MESSAGE);
+            if (ex.getMessage().contains("viola la llave foránea")) {
+                JOptionPane.showMessageDialog(null,
+                        "No se puede eliminar el registro porque ya cuenta con referencias en otras tablas! ",
+                        "Restricción de integridad ", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Error en la operación: " + ex.getMessage(), "Atención",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+
+//            javax.swing.JOptionPane.showMessageDialog(null, ex.getMessage());
+//            JOptionPane.showMessageDialog(null, "Error en la operación", "Atención",
+//                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
