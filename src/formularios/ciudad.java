@@ -36,6 +36,7 @@ public class ciudad extends javax.swing.JDialog {
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         setLocationRelativeTo(null); // Centrar ventana en la pantalla
+        setResizable(false);
 
     }
 
@@ -675,7 +676,7 @@ public class ciudad extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
-                dialog.setResizable(false);
+                //dialog.setResizable(false);
 
             }
         });

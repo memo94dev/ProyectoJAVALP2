@@ -34,6 +34,7 @@ public class clientes extends javax.swing.JDialog {
         con.conectar(); // Metodo de conexion de la clase conecDB
 
         setLocationRelativeTo(null);
+        setResizable(false);
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo("0");
@@ -1152,7 +1153,7 @@ public class clientes extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
-                dialog.setResizable(false);
+                //dialog.setResizable(false);
                 //dialog.setLocationRelativeTo(null); // Centrar ventana en la pantalla
 
 

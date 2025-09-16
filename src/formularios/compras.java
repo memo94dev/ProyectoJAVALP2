@@ -44,6 +44,7 @@ public class compras extends javax.swing.JDialog {
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo("0");
         setLocationRelativeTo(null); // Centrar ventana en la pantalla, lo llevo al metodo main
+        setResizable(false);
 
     }
     
@@ -1366,8 +1367,8 @@ public class compras extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
-                dialog.setResizable(false); // Evitar que el usuario cambie el tamaño de la ventana
-                dialog.setLocationRelativeTo(null); // Centrar ventana en la pantalla
+                //dialog.setResizable(false); // Evitar que el usuario cambie el tamaño de la ventana
+                //dialog.setLocationRelativeTo(null); // Centrar ventana en la pantalla
 
             }
         });

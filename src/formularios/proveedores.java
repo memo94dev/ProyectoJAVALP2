@@ -34,6 +34,7 @@ public class proveedores extends javax.swing.JDialog {
         con.conectar(); // Metodo de conexion de la clase conecDB
 
         setLocationRelativeTo(null);
+        setResizable(false);
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         //setLocationRelativeTo(null); // Centrar ventana en la pantalla
@@ -991,7 +992,7 @@ public class proveedores extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
-                dialog.setResizable(false);
+                //dialog.setResizable(false);
                 //dialog.setLocationRelativeTo(null);
 
             }
