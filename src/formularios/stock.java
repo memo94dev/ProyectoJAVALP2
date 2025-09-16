@@ -602,7 +602,7 @@ public class stock extends javax.swing.JDialog {
             JasperReport jr = null;
 
             // Cargamos el reporte
-            URL url = getClass().getClassLoader().getResource("reportes/informe_productos.jasper");
+            URL url = getClass().getClassLoader().getResource("reportes/stock.jasper");
             jr = (JasperReport) JRLoader.loadObject(url);
 
             JasperPrint masterPrint = null;
