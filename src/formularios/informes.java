@@ -32,6 +32,8 @@ public class informes extends javax.swing.JDialog {
     public informes(java.awt.Frame parent, boolean modal) {
         //super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
         con = new conectDB();
         con.conectar();
         inicio();
@@ -563,8 +565,8 @@ public class informes extends javax.swing.JDialog {
                     }
                 });
                 dialog.setVisible(true);
-                dialog.setResizable(false);
-                dialog.setLocationRelativeTo(null);
+//                dialog.setResizable(false);
+//                dialog.setLocationRelativeTo(null);
 
             }
         });

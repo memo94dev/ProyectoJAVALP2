@@ -45,6 +45,7 @@ public class ventas extends javax.swing.JDialog {
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo();
         setLocationRelativeTo(null); // Centrar ventana en la pantalla, lo llevo al metodo main
+        setResizable(false); // Impedir que el usuario cambie de tamaño
 
     }
 

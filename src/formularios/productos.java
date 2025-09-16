@@ -34,6 +34,7 @@ public class productos extends javax.swing.JDialog {
         con.conectar(); // Metodo de conexion de la clase conecDB
 
         setLocationRelativeTo(null);
+        setResizable(false);
         cargar_tabla(); // Metodo para cargar datos de la BDD en la tabla de inicio
         desa_inicio(); // Metodo de inicio de la pantalla
         llenar_combo();
@@ -252,7 +253,7 @@ public class productos extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tablaproductos);
 
         btnlimpiar.setText("Limpiar");
-        btnlimpiar.setToolTipText("Limpiar campo de busqueda");
+        btnlimpiar.setToolTipText("Limpiar campo de búsqueda");
         btnlimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnlimpiarActionPerformed(evt);
