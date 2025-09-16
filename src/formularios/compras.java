@@ -1,6 +1,7 @@
 package formularios;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,7 +64,7 @@ public class compras extends javax.swing.JDialog {
         txtprecio = new org.edisoncor.gui.textField.TextFieldRectBackground();
         txtcantidad = new org.edisoncor.gui.textField.TextFieldRectBackground();
         labelTelefono1 = new org.edisoncor.gui.label.LabelMetric();
-        btnaddproducto = new javax.swing.JButton();
+        btncalculadora = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablacompra = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -174,8 +175,15 @@ public class compras extends javax.swing.JDialog {
         labelTelefono1.setText("Cantidad:");
         labelTelefono1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        btnaddproducto.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btnaddproducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/suma.png"))); // NOI18N
+        btncalculadora.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btncalculadora.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/calculadora.png"))); // NOI18N
+        btncalculadora.setToolTipText("Abrir calculadora del sistema");
+        btncalculadora.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btncalculadora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncalculadoraActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -201,8 +209,8 @@ public class compras extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnaddproducto, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addComponent(btncalculadora, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +228,7 @@ public class compras extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTelefono1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtcantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnaddproducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btncalculadora, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -613,7 +621,7 @@ public class compras extends javax.swing.JDialog {
                             .addComponent(txttotal, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelTelefono2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelCurves1.add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -628,7 +636,7 @@ public class compras extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelNice1, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
+            .addComponent(panelNice1, javax.swing.GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
         );
 
         pack();
@@ -677,7 +685,7 @@ public class compras extends javax.swing.JDialog {
         txtfactura.setEnabled(false);
         txtfecha.setEnabled(false);
         txthora.setEnabled(false);
-        btnaddproducto.setEnabled(false);
+        //btncalculadora.setEnabled(false);
         btnagregar.setEnabled(true);
         btncancelar.setEnabled(false);
         btnanular.setEnabled(true);
@@ -1318,6 +1326,17 @@ public class compras extends javax.swing.JDialog {
         
     }//GEN-LAST:event_txtcodigoKeyPressed
 
+    private void btncalculadoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncalculadoraActionPerformed
+        
+        try {
+            Runtime.getRuntime().exec("calc"); // Llamar a la calculadora del sistema
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Ha ocurrido un error al intentar abrir la calculadora...");
+            Logger.getLogger(compras.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btncalculadoraActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1376,9 +1395,9 @@ public class compras extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.edisoncor.gui.button.ButtonNice btnSalir;
-    private javax.swing.JButton btnaddproducto;
     private javax.swing.JButton btnagregar;
     private javax.swing.JButton btnanular;
+    private javax.swing.JButton btncalculadora;
     private javax.swing.JButton btncancelar;
     private javax.swing.JButton btngrabar;
     private javax.swing.JComboBox<String> combodeposito;
