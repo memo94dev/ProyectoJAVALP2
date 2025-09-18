@@ -1,5 +1,6 @@
 package formularios;
 
+import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -73,6 +74,7 @@ public class productos extends javax.swing.JDialog {
         combotipo = new javax.swing.JComboBox<>();
         labelCiudad1 = new org.edisoncor.gui.label.LabelMetric();
         combomedida = new javax.swing.JComboBox<>();
+        btnmedidas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -326,6 +328,14 @@ public class productos extends javax.swing.JDialog {
             }
         });
 
+        btnmedidas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/balanza_antigua.png"))); // NOI18N
+        btnmedidas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnmedidas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnmedidasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -360,7 +370,9 @@ public class productos extends javax.swing.JDialog {
                                         .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(87, 87, 87))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnmedidas, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(25, 25, 25))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(labelCiudad1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -394,11 +406,13 @@ public class productos extends javax.swing.JDialog {
                             .addComponent(labelApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(labelBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnbuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnlimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnmedidas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1019,6 +1033,13 @@ public class productos extends javax.swing.JDialog {
 
     }//GEN-LAST:event_combomedidaKeyPressed
 
+    private void btnmedidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmedidasActionPerformed
+        
+        Frame frame = JOptionPane.getFrameForComponent(this);
+        new medidas(frame, true).setVisible(true);
+        
+    }//GEN-LAST:event_btnmedidasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1084,6 +1105,7 @@ public class productos extends javax.swing.JDialog {
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnimprimir;
     private javax.swing.JButton btnlimpiar;
+    private javax.swing.JButton btnmedidas;
     private javax.swing.JButton btnmodificar;
     private javax.swing.JComboBox<String> combomedida;
     private javax.swing.JComboBox<String> combotipo;
